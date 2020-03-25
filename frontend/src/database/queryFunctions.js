@@ -1,18 +1,5 @@
 
 
-//app.js esimerkki
-//-----------------------------------------
-//app.js:ssä functioita kutsuttaessa annetaan argumenttina funcktio johon haku palautetaan
-const mysqlLogic = require('./database/cruderepository.js');
-
-//hakee tuotteen jonka id on 1 ja palautaa haun functioon 'displayResult'
-
-
-
-//---------------------------------------
-
-
-
 // Jos searchId > 0 niin, etsii id:n perusteella, muuten palauttaa kaikki.
 const getProduct = function(id, callback) {
 let searchStr = "";
