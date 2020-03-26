@@ -3,6 +3,9 @@ import ShoppingCart from './ShoppingCart'
 import Admin from './Admin'
 import { Route, BrowserRouter, NavLink } from 'react-router-dom'
 import Store from './Store';
+import Login from './components/login/login.component'
+import SignUp from './components/signup/signup.component'
+//import CartListener from './CartListener'
 
 
 // Add Navigation here
@@ -21,7 +24,13 @@ const Navi = () => {
         </ul>
         <ul className="navbar-nav ml-auto">
           <li>
-            <NavLink className="nav-item nav-link" to="/cart">Ostoskori</NavLink>
+            <NavLink className="nav-item nav-link" to="/cart">Ostoskori - </NavLink>
+          </li>
+          <li>
+            <NavLink className="nav-item nav-link" to="/login">Kirjaudu sisään</NavLink>
+          </li>
+          <li>
+            <NavLink className="nav-item nav-link" to="/signup">Rekisteröidy</NavLink>
           </li>
         </ul>
       </nav>
@@ -38,6 +47,8 @@ class App extends Component {
                       <Route exact path="/store" component={Store} />
                       <Route exact path="/admin" component={Admin} />
                       <Route exact path="/cart" component={ShoppingCart} />
+                      <Route exact path="/login" component={Login} />
+                      <Route exact path="/signup" component={SignUp} />
                     </div>
                   </BrowserRouter>
                 </div>
