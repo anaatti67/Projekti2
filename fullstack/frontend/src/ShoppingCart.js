@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 
 const ShoppingCart = (props) => {
   let totalsum = 0
