@@ -1,6 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import config from './database/config.js';
+import getProduct from './database/queryFunctions.js';
+
 
 function App() {
   return (
@@ -18,9 +21,15 @@ function App() {
         >
           Learn React
         </a>
+	{/*<div>{getProduct('1', displayResult)}</div>*/}
       </header>
     </div>
   );
+
+ function displayResult(result) {
+    console.log(result);
+  }
+
 }
 
 export default App;
