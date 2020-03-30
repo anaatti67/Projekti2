@@ -1,4 +1,3 @@
-
 const config = {
     host: 'mydb.tamk.fi',
     user: 'c6jomust',
