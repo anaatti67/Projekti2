@@ -14,11 +14,13 @@ class Store extends Component {
 
 
         this.state = {products: []}
-        this.url = "http://localhost:8080/products/" 
+        this.url = "/store"
     }
     componentDidMount() {
+        console.log(this.url);
         fetch(this.url).then(r => r.json()).then((products) => {
-        this.setState({products})
+            console.log(products);
+        //this.setState({products})
     })
     }
     cartInit() {

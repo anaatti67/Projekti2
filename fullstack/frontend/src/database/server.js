@@ -21,7 +21,7 @@ connection.connect(err => {
     }
 });
 
-app.get('/products',(req, res) => {
+app.get('/store',(req, res) => {
     connection.query(SELECT_ALL_PRODUCTS, (err, results) => {
         if(err) {
             return res.send(err);
