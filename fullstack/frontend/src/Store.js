@@ -20,7 +20,7 @@ class Store extends Component {
         console.log(this.url);
         fetch(this.url).then(r => r.json()).then((products) => {
             console.log(products);
-        //this.setState({products})
+            this.setState();
     })
     }
     cartInit() {

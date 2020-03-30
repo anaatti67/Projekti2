@@ -26,9 +26,7 @@ app.get('/store',(req, res) => {
         if(err) {
             return res.send(err);
         } else {
-           return res.json({
-                data: results
-                })
+           return results;
             }
         });
 }); 
