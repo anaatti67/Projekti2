@@ -5,6 +5,8 @@ const app = express();
 const mysql = require('mysql');
 
 
+
+
 app.use(cors());
 const SELECT_ALL_PRODUCTS = 'SELECT * FROM Products';
 
@@ -26,7 +28,7 @@ app.get('/store',(req, res) => {
         if(err) {
             return res.send(err);
         } else {
-           return results;
+           return res.send(results);
             }
         });
 }); 

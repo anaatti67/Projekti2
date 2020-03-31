@@ -14,13 +14,14 @@ class Store extends Component {
 
 
         this.state = {products: []}
-        this.url = "/store"
+        this.url = '/store'
     }
     componentDidMount() {
         console.log(this.url);
         fetch(this.url).then(r => r.json()).then((products) => {
+     
+            this.setState({products});
             console.log(products);
-            this.setState();
     })
     }
     cartInit() {
@@ -78,14 +79,14 @@ class Store extends Component {
         let items = this.state.products.map((product) => 
             <tr key={product.id}>
                 <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.stock}</td>
+                <td>{product.Name}</td>
+                <td>{product.Price}</td>
+                <td>{product.Stock}</td>
                 <td>
                     <button type="button" className="btn btn-primary" onClick={() => { 
                         let tmp = {id: product.id,
-                                name: product.name, 
-                                price: product.price}
+                                name: product.Name, 
+                                price: product.Price}
                         this.buy(tmp)}}>
                         Lisää ostoskoriin
                     </button>
