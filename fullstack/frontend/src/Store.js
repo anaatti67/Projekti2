@@ -82,8 +82,8 @@ class Store extends Component {
             product.pic = '/img/' + product.id + '.png'
         }
         
-        console.log(this.state.products)
-        console.log(this.state.showCategory)
+        // Product filtering - showCategory default is 'all'
+        // and it can be changed with buttons
         let filteredProducts = this.state.products
         if (this.state.showCategory !== 'all') {
             filteredProducts = filteredProducts.filter((product) => 
