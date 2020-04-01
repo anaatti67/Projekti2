@@ -2,3 +2,11 @@
     background: lightpink;
     cursor: -webkit-grab;
 }
+.filterButton {
+    margin: 0em 0.5em;
+}
+.customContainer {
+    margin: 1em 0em;
+    text-align: center; 
+}
+
