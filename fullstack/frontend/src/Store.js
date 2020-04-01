@@ -10,36 +10,39 @@ class Store extends Component {
 
         this.cart = {shoppingcart: []}
         this.cartInit()
-        
+
 
 
         this.state = {products: []}
-        this.url = "http://localhost:8080/products/" 
+        this.url = '/store'
     }
     componentDidMount() {
+        console.log(this.url);
         fetch(this.url).then(r => r.json()).then((products) => {
-        this.setState({products})
+     
+            this.setState({products});
+            console.log(products);
     })
     }
     cartInit() {
         if ("shoppingCart" in localStorage) {
             let retrievedData = localStorage.getItem("shoppingCart");
             console.log(retrievedData)
-      
+
             if (retrievedData === 'undefined') {
                 localStorage.setItem("shoppingCart", JSON.stringify(this.cart.shoppingcart));
             } else {
                 var dataToArray = JSON.parse(retrievedData);
-            
+
                 if (dataToArray != null) {
                     for (let x = 0; x < dataToArray.length; x++) {
                     this.cart.shoppingcart.push(dataToArray[x])
                     }
                 }
             }
-        } 
+        }
       }
-    buy(product) {    
+    buy(product) {
         let length = this.cart.shoppingcart.length
         console.log(this.cart)
         console.log(length)
@@ -51,7 +54,7 @@ class Store extends Component {
             tmpObj[x].price += product.price
             newItem++;
           }
-        }    
+        }
         if (newItem === 0) {
           product.qty = 1
           tmpObj.push(product)
@@ -72,18 +75,18 @@ class Store extends Component {
         found.qty -= 1
         this.setState({shoppingcart: cart})
     }
-    render() {        
-        let items = this.state.products.map((product) => 
+    render() {
+        let items = this.state.products.map((product) =>
             <tr key={product.id}>
                 <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.stock}</td>
+                <td>{product.Name}</td>
+                <td>{product.Price}</td>
+                <td>{product.Stock}</td>
                 <td>
-                    <button type="button" className="btn btn-primary" onClick={() => { 
+                    <button type="button" className="btn btn-primary" onClick={() => {
                         let tmp = {id: product.id,
-                                name: product.name, 
-                                price: product.price}
+                                name: product.Name, 
+                                price: product.Price}
                         this.buy(tmp)}}>
                         Lisää ostoskoriin
                     </button>
@@ -106,9 +109,9 @@ class Store extends Component {
                     <tbody>
                         {items}
                     </tbody>
-                </table>  
+                </table>
             </div>
-        )  
+        )
     }
 }
 
