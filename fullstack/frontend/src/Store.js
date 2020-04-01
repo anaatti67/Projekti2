@@ -84,9 +84,13 @@ class Store extends Component {
         
         console.log(this.state.products)
         console.log(this.state.showCategory)
-        let filteredProducts = this.state.products.filter((product) => 
-            product.Category !== this.state.showCategory
-        )
+        let filteredProducts = this.state.products
+        if (this.state.showCategory !== 'all') {
+            filteredProducts = filteredProducts.filter((product) => 
+            product.Category === this.state.showCategory
+            )
+        }
+        
 
         // If image not found, loads a 404 image
         let items = filteredProducts.map((product) =>
@@ -118,6 +122,7 @@ class Store extends Component {
                         <Col><Button variant="info" onClick={() => this.setState({showCategory: 'all'})}>Kaikki</Button></Col>
                         <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Tietokoneet'})}>Tietokoneet</Button></Col>
                         <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Toimistotarvikkeet'})}>Toimistotarvikkeet</Button></Col>
+                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Äänentoisto'})}>Äänentoisto</Button></Col>
                     </Row>
                 </Container>
                 <table className="table">
