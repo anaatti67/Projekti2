@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './css/Store.css'
 import ProductModal from './Modal'
+import { Button, Container, Col, Row } from 'react-bootstrap';
 
 class Store extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class Store extends Component {
         this.cart = {shoppingcart: []}
         this.cartInit()
 
-        this.state = {products: [], modal: false}
+        this.state = {products: [], modal: false, showCategory: 'all'}
         this.url = '/store'
     }
     componentDidMount() {
@@ -81,8 +82,14 @@ class Store extends Component {
             product.pic = '/img/' + product.id + '.png'
         }
         
+        console.log(this.state.products)
+        console.log(this.state.showCategory)
+        let filteredProducts = this.state.products.filter((product) => 
+            product.Category !== this.state.showCategory
+        )
+
         // If image not found, loads a 404 image
-        let items = this.state.products.map((product) =>
+        let items = filteredProducts.map((product) =>
             <tr className="productRow" key={product.id} onClick={() => this.test(product)}>
                 <td>{product.id}</td>
                 <td><img height="35px" src={process.env.PUBLIC_URL + product.pic} alt="" 
@@ -105,7 +112,14 @@ class Store extends Component {
         return (
             <div className="container">
                 <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
-                <h5>Tavarat</h5>
+                <h5>Tuotteet</h5>
+                <Container>
+                    <Row xs={2} md={4} lg={6} style={{textAlign: "center"}}>
+                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'all'})}>Kaikki</Button></Col>
+                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Tietokoneet'})}>Tietokoneet</Button></Col>
+                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Toimistotarvikkeet'})}>Toimistotarvikkeet</Button></Col>
+                    </Row>
+                </Container>
                 <table className="table">
                     <thead>
                         <tr>
