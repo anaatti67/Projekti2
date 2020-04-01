@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import './css/Store.css'
+import ProductModal from './Modal'
+import { Button, Container, Col, Row } from 'react-bootstrap';
 
 class Store extends Component {
     constructor(props) {
@@ -11,27 +14,21 @@ class Store extends Component {
         this.cart = {shoppingcart: []}
         this.cartInit()
 
-
-
-        this.state = {products: []}
+        this.state = {products: [], modal: false, showCategory: 'all'}
         this.url = '/store'
     }
     componentDidMount() {
-        console.log(this.url);
         fetch(this.url).then(r => r.json()).then((products) => {
-     
             this.setState({products});
-            console.log(products);
     })
     }
     cartInit() {
         if ("shoppingCart" in localStorage) {
             let retrievedData = localStorage.getItem("shoppingCart");
-            console.log(retrievedData)
-
             if (retrievedData === 'undefined') {
                 localStorage.setItem("shoppingCart", JSON.stringify(this.cart.shoppingcart));
             } else {
+                console.log(retrievedData)
                 var dataToArray = JSON.parse(retrievedData);
 
                 if (dataToArray != null) {
@@ -45,7 +42,7 @@ class Store extends Component {
     buy(product) {
         let length = this.cart.shoppingcart.length
         console.log(this.cart)
-        console.log(length)
+        
         let newItem = 0;
         let tmpObj = this.cart.shoppingcart
         for (let x = 0; x < length; x++) {
@@ -59,11 +56,12 @@ class Store extends Component {
           product.qty = 1
           tmpObj.push(product)
         }
-        this.setState({shoppingcart: tmpObj})
         console.log(tmpObj)
+        this.setState({shoppingcart: tmpObj})
         localStorage.setItem("shoppingCart", JSON.stringify(this.state.shoppingcart));
     }
     add(id) {
+        console.log(id)
         let cart = this.state.shoppingcart
         let found = cart.find(product => product.id === id)
         found.qty += 1
@@ -75,10 +73,33 @@ class Store extends Component {
         found.qty -= 1
         this.setState({shoppingcart: cart})
     }
+    test(product) {
+        product.modal = !product.modal
+        console.log(product.modal)
+    }
     render() {
-        let items = this.state.products.map((product) =>
-            <tr key={product.id}>
+        for (let product of this.state.products) {
+            product.pic = '/img/' + product.id + '.png'
+        }
+        
+        // Product filtering - showCategory default is 'all'
+        // and it can be changed with buttons
+        let filteredProducts = this.state.products
+        if (this.state.showCategory !== 'all') {
+            filteredProducts = filteredProducts.filter((product) => 
+            product.Category === this.state.showCategory
+            )
+        }
+        
+
+        // If image not found, loads a 404 image
+        let items = filteredProducts.map((product) =>
+            <tr className="productRow" key={product.id} onClick={() => this.test(product)}>
                 <td>{product.id}</td>
+                <td><img height="35px" src={process.env.PUBLIC_URL + product.pic} alt="" 
+                        onError={(e)=>{e.target.src=process.env.PUBLIC_URL + './img/404_not_found.svg'}}>
+                    </img>
+                </td>
                 <td>{product.Name}</td>
                 <td>{product.Price}</td>
                 <td>{product.Stock}</td>
@@ -89,17 +110,26 @@ class Store extends Component {
                                 price: product.Price}
                         this.buy(tmp)}}>
                         Lisää ostoskoriin
-                    </button>
+                    </button> <ProductModal show={product.modal} obj={product} buy={this.buy.bind(this)} />
                 </td>
             </tr>)
         return (
             <div className="container">
                 <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
-                <h5>Tavarat</h5>
+                <h5>Tuotteet</h5>
+                <Container>
+                    <Row xs={2} md={4} lg={6} style={{textAlign: "center"}}>
+                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'all'})}>Kaikki</Button></Col>
+                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Tietokoneet'})}>Tietokoneet</Button></Col>
+                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Toimistotarvikkeet'})}>Toimistotarvikkeet</Button></Col>
+                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Äänentoisto'})}>Äänentoisto</Button></Col>
+                    </Row>
+                </Container>
                 <table className="table">
                     <thead>
                         <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Pic</th>
                         <th scope="col">Nimi</th>
                         <th scope="col">Hinta</th>
                         <th scope="col">Varastossa</th>

@@ -70,7 +70,9 @@ class App extends Component {
         if (dataToArray != null) {
           for (let x = 0; x < dataToArray.length; x++) {
             this.state.shoppingcart.push(dataToArray[x])
+            
           }
+          console.log(this.state.shoppingcart)
         }
       }
     } 

@@ -7,11 +7,11 @@ searchStr = 'select * from Products WHERE id=' + connection.escape(id);
   searchStr = 'select * from Products';
 }
 connection.query(searchStr, (err, products) => {
-if(err) {
-throw err;
-}
-    products.forEach((product) => callback(`\nproduct name: ${product.Name} \nproduct price: ${product.Price}\n`));
-})
+  if(err) {
+    throw err;
+  }
+      products.forEach((product) => callback(`\nproduct name: ${product.Name} \nproduct price: ${product.Price}\n`));
+  })
 }
 
 export default getProduct;
