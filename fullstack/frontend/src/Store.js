@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './css/Store.css'
 import ProductModal from './Modal'
-import { Button, Container, Col, Row } from 'react-bootstrap';
+import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+
 
 class Store extends Component {
     constructor(props) {
@@ -73,9 +74,9 @@ class Store extends Component {
         found.qty -= 1
         this.setState({shoppingcart: cart})
     }
-    test(product) {
-        product.modal = !product.modal
-        console.log(product.modal)
+    rowClicked(product) {
+        // product.modal = !product.modal
+        console.log(product)
     }
     render() {
         for (let product of this.state.products) {
@@ -94,7 +95,7 @@ class Store extends Component {
 
         // If image not found, loads a 404 image
         let items = filteredProducts.map((product) =>
-            <tr className="productRow" key={product.id} onClick={() => this.test(product)}>
+            <tr className="productRow" key={product.id} onClick={() => this.rowClicked(product)}>
                 <td>{product.id}</td>
                 <td><img height="35px" src={process.env.PUBLIC_URL + product.pic} alt="" 
                         onError={(e)=>{e.target.src=process.env.PUBLIC_URL + './img/404_not_found.svg'}}>
@@ -112,19 +113,24 @@ class Store extends Component {
                         Lisää ostoskoriin
                     </button> <ProductModal show={product.modal} obj={product} buy={this.buy.bind(this)} />
                 </td>
-            </tr>)
+            </tr>
+        )
+        function test(x) {
+            console.log(x)
+        }
         return (
             <div className="container">
                 <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
                 <h5>Tuotteet</h5>
-                <Container>
-                    <Row xs={2} md={4} lg={6} style={{textAlign: "center"}}>
-                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'all'})}>Kaikki</Button></Col>
-                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Tietokoneet'})}>Tietokoneet</Button></Col>
-                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Toimistotarvikkeet'})}>Toimistotarvikkeet</Button></Col>
-                        <Col><Button variant="info" onClick={() => this.setState({showCategory: 'Äänentoisto'})}>Äänentoisto</Button></Col>
-                    </Row>
-                </Container>
+                    <div className="customContainer">
+                        <h5>Suodata:</h5>                    
+                    <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
+                        <ToggleButton value={1} variant="success" onClick={() => {this.setState({showCategory: 'all'}); test(this)}}>Kaikki</ToggleButton>
+                        <ToggleButton value={2} variant="info" onClick={() => this.setState({showCategory: 'Tietokoneet'})}>Tietokoneet</ToggleButton>
+                        <ToggleButton value={3} variant="info" onClick={() => this.setState({showCategory: 'Toimistotarvikkeet'})}>Toimistotarvikkeet</ToggleButton>
+                        <ToggleButton value={4} variant="info" onClick={() => this.setState({showCategory: 'Äänentoisto'})}>Äänentoisto</ToggleButton>
+                    </ToggleButtonGroup>
+                    </div>
                 <table className="table">
                     <thead>
                         <tr>
