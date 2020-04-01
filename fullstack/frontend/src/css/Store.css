@@ -1,0 +1,4 @@
+.productRow:hover {
+    background: lightpink;
+    cursor: -webkit-grab;
+}

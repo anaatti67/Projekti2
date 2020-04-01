@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './css/Store.css'
+import ProductModal from './Modal'
 
 class Store extends Component {
     constructor(props) {
@@ -11,27 +13,21 @@ class Store extends Component {
         this.cart = {shoppingcart: []}
         this.cartInit()
 
-
-
-        this.state = {products: []}
+        this.state = {products: [], modal: false}
         this.url = '/store'
     }
     componentDidMount() {
-        console.log(this.url);
         fetch(this.url).then(r => r.json()).then((products) => {
-     
             this.setState({products});
-            console.log(products);
     })
     }
     cartInit() {
         if ("shoppingCart" in localStorage) {
             let retrievedData = localStorage.getItem("shoppingCart");
-            console.log(retrievedData)
-
             if (retrievedData === 'undefined') {
                 localStorage.setItem("shoppingCart", JSON.stringify(this.cart.shoppingcart));
             } else {
+                console.log(retrievedData)
                 var dataToArray = JSON.parse(retrievedData);
 
                 if (dataToArray != null) {
@@ -45,7 +41,7 @@ class Store extends Component {
     buy(product) {
         let length = this.cart.shoppingcart.length
         console.log(this.cart)
-        console.log(length)
+        
         let newItem = 0;
         let tmpObj = this.cart.shoppingcart
         for (let x = 0; x < length; x++) {
@@ -59,11 +55,12 @@ class Store extends Component {
           product.qty = 1
           tmpObj.push(product)
         }
-        this.setState({shoppingcart: tmpObj})
         console.log(tmpObj)
+        this.setState({shoppingcart: tmpObj})
         localStorage.setItem("shoppingCart", JSON.stringify(this.state.shoppingcart));
     }
     add(id) {
+        console.log(id)
         let cart = this.state.shoppingcart
         let found = cart.find(product => product.id === id)
         found.qty += 1
@@ -75,10 +72,23 @@ class Store extends Component {
         found.qty -= 1
         this.setState({shoppingcart: cart})
     }
+    test(product) {
+        product.modal = !product.modal
+        console.log(product.modal)
+    }
     render() {
+        for (let product of this.state.products) {
+            product.pic = '/img/' + product.id + '.png'
+        }
+        
+        // If image not found, loads a 404 image
         let items = this.state.products.map((product) =>
-            <tr key={product.id}>
+            <tr className="productRow" key={product.id} onClick={() => this.test(product)}>
                 <td>{product.id}</td>
+                <td><img height="35px" src={process.env.PUBLIC_URL + product.pic} alt="" 
+                        onError={(e)=>{e.target.src=process.env.PUBLIC_URL + './img/404_not_found.svg'}}>
+                    </img>
+                </td>
                 <td>{product.Name}</td>
                 <td>{product.Price}</td>
                 <td>{product.Stock}</td>
@@ -89,7 +99,7 @@ class Store extends Component {
                                 price: product.Price}
                         this.buy(tmp)}}>
                         Lisää ostoskoriin
-                    </button>
+                    </button> <ProductModal show={product.modal} obj={product} buy={this.buy.bind(this)} />
                 </td>
             </tr>)
         return (
@@ -100,6 +110,7 @@ class Store extends Component {
                     <thead>
                         <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Pic</th>
                         <th scope="col">Nimi</th>
                         <th scope="col">Hinta</th>
                         <th scope="col">Varastossa</th>
