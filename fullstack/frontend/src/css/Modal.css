@@ -1,0 +1,20 @@
+.border {
+    border: 1px solid black;
+    padding: 1em 2em;
+}
+.modalImg {
+    float: left; 
+    padding: 5%;
+    height: 200px;
+}
+.price {
+    color: red;
+    font-size: 2em;
+}
+.pad {
+    padding: 2em;
+}
+h4 {
+    text-decoration: underline;
+    padding-bottom: 0.5em;
+}
