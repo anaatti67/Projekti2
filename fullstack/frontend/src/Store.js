@@ -77,6 +77,10 @@ class Store extends Component {
     rowClicked(product) {
         // product.modal = !product.modal
         console.log(product)
+        product.modal = !product.modal
+    }
+    setCategory(categoryFilter) {
+        this.setState({showCategory: categoryFilter})
     }
     render() {
         for (let product of this.state.products) {
@@ -102,8 +106,8 @@ class Store extends Component {
                     </img>
                 </td>
                 <td>{product.Name}</td>
-                <td>{product.Price}</td>
-                <td>{product.Stock}</td>
+                <td>{product.Price} €</td>
+                <td>{product.Stock} kpl</td>
                 <td>
                     <button type="button" className="btn btn-primary" onClick={() => {
                         let tmp = {id: product.id,
@@ -115,23 +119,27 @@ class Store extends Component {
                 </td>
             </tr>
         )
-        function test(x) {
-            console.log(x)
-        }
         return (
             <div className="container">
                 <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
+<<<<<<< Updated upstream
                 <h5>Tuotteet</h5>
+                    <div className="customContainer">                   
+=======
+                
                     <div className="customContainer">
                         <h5>Suodata:</h5>                    
+>>>>>>> Stashed changes
                     <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
-                        <ToggleButton value={1} variant="success" onClick={() => {this.setState({showCategory: 'all'}); test(this)}}>Kaikki</ToggleButton>
-                        <ToggleButton value={2} variant="info" onClick={() => this.setState({showCategory: 'Tietokoneet'})}>Tietokoneet</ToggleButton>
-                        <ToggleButton value={3} variant="info" onClick={() => this.setState({showCategory: 'Toimistotarvikkeet'})}>Toimistotarvikkeet</ToggleButton>
-                        <ToggleButton value={4} variant="info" onClick={() => this.setState({showCategory: 'Äänentoisto'})}>Äänentoisto</ToggleButton>
+                        <ToggleButton value={1} variant="success" onClick={() => this.setCategory('all')}>Kaikki</ToggleButton>
+                        <ToggleButton value={5} variant="info" onClick={() => this.setCategory('Kirjat')}>Kirjat</ToggleButton>
+                        <ToggleButton value={2} variant="info" onClick={() => this.setCategory('Tietokoneet')}>Tietokoneet</ToggleButton>
+                        <ToggleButton value={3} variant="info" onClick={() => this.setCategory('Toimistotarvikkeet')}>Toimistotarvikkeet</ToggleButton>
+                        <ToggleButton value={4} variant="info" onClick={() => this.setCategory('Äänentoisto')}>Äänentoisto</ToggleButton>
                     </ToggleButtonGroup>
                     
                     </div>
+                <h5>Tuotteet</h5>
                 <table className="table">
                     <thead>
                         <tr>
