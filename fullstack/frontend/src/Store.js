@@ -130,6 +130,7 @@ class Store extends Component {
                         <ToggleButton value={3} variant="info" onClick={() => this.setState({showCategory: 'Toimistotarvikkeet'})}>Toimistotarvikkeet</ToggleButton>
                         <ToggleButton value={4} variant="info" onClick={() => this.setState({showCategory: 'Äänentoisto'})}>Äänentoisto</ToggleButton>
                     </ToggleButtonGroup>
+                    
                     </div>
                 <table className="table">
                     <thead>
