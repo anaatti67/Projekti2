@@ -77,6 +77,7 @@ class Store extends Component {
     rowClicked(product) {
         // product.modal = !product.modal
         console.log(product)
+        product.modal = !product.modal
     }
     setFilterCategory(category) {
         this.setState({showCategory: category})
@@ -105,8 +106,8 @@ class Store extends Component {
                     </img>
                 </td>
                 <td>{product.Name}</td>
-                <td>{product.Price}</td>
-                <td>{product.Stock}</td>
+                <td>{product.Price} €</td>
+                <td>{product.Stock} kpl</td>
                 <td>
                     <button type="button" className="btn btn-primary" onClick={() => {
                         let tmp = {id: product.id,
