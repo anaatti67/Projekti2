@@ -6,6 +6,7 @@ import Store from './Store';
 import Login from './components/login/login.component'
 import SignUp from './components/signup/signup.component'
 import LandingPage from './LandingPage'
+import {Navbar, Nav} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import CartListener from './CartListener'
 
@@ -13,29 +14,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // Add Navigation here
 const Navi = () => {
     return (
-      <nav className="navbar navbar-expand-sm bg-light navbar-light">
-        <a className="navbar-brand" href="/#">KTVO</a>
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <NavLink className="nav-item nav-link" to="/store">Kauppa</NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-item nav-link" to="/admin">Admin</NavLink>
-          </li>
+      <Nav className="justify-content-center" >
+      <Navbar  bg="light" expand="md">
+        <Navbar.Brand href='/'>Navbar</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
           
-        </ul>
-        <ul className="navbar-nav ml-auto">
-          <li>
-            <NavLink className="nav-item nav-link" to="/cart">Ostoskori - </NavLink>
-          </li>
-          <li>
+            <NavLink className="nav-item nav-link" to="/store">Kauppa</NavLink>
+          
+            <NavLink className="nav-item nav-link" to="/admin">Admin</NavLink>
+          
+            <NavLink className="nav-item nav-link" to="/cart">Ostoskori</NavLink>
+          
             <NavLink className="nav-item nav-link" to="/login">Kirjaudu sisään</NavLink>
-          </li>
-          <li>
+          
             <NavLink className="nav-item nav-link" to="/signup">Rekisteröidy</NavLink>
-          </li>
-        </ul>
-      </nav>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      </Nav>
       )
   }
 
