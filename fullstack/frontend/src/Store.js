@@ -79,8 +79,8 @@ class Store extends Component {
         console.log(product)
         product.modal = !product.modal
     }
-    setCategory(categoryFilter) {
-        this.setState({showCategory: categoryFilter})
+    setFilterCategory(category) {
+        this.setState({showCategory: category})
     }
     render() {
         for (let product of this.state.products) {
@@ -126,11 +126,11 @@ class Store extends Component {
                 
                     <div className="customContainer">                   
                     <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
-                        <ToggleButton value={1} variant="success" onClick={() => this.setCategory('all')}>Kaikki</ToggleButton>
-                        <ToggleButton value={5} variant="info" onClick={() => this.setCategory('Kirjat')}>Kirjat</ToggleButton>
-                        <ToggleButton value={2} variant="info" onClick={() => this.setCategory('Tietokoneet')}>Tietokoneet</ToggleButton>
-                        <ToggleButton value={3} variant="info" onClick={() => this.setCategory('Toimistotarvikkeet')}>Toimistotarvikkeet</ToggleButton>
-                        <ToggleButton value={4} variant="info" onClick={() => this.setCategory('Äänentoisto')}>Äänentoisto</ToggleButton>
+                        <ToggleButton value={1} variant="success" onClick={() => this.setFilterCategory('all')}>Kaikki</ToggleButton>
+                        <ToggleButton value={2} variant="info" onClick={() => this.setFilterCategory('Kirjat')}>Kirjat</ToggleButton>
+                        <ToggleButton value={3} variant="info" onClick={() => this.setFilterCategory('Tietokoneet')}>Tietokoneet</ToggleButton>
+                        <ToggleButton value={4} variant="info" onClick={() => this.setFilterCategory('Toimistotarvikkeet')}>Toimistotarvikkeet</ToggleButton>
+                        <ToggleButton value={5} variant="info" onClick={() => this.setFilterCategory('Äänentoisto')}>Äänentoisto</ToggleButton>
                     </ToggleButtonGroup>
                     
                     </div>
