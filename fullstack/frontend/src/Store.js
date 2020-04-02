@@ -78,6 +78,9 @@ class Store extends Component {
         // product.modal = !product.modal
         console.log(product)
     }
+    setFilterCategory(category) {
+        this.setState({showCategory: category})
+    }
     render() {
         for (let product of this.state.products) {
             product.pic = '/img/' + product.id + '.png'
@@ -115,9 +118,6 @@ class Store extends Component {
                 </td>
             </tr>
         )
-        function test(x) {
-            console.log(x)
-        }
         return (
             <div className="container">
                 <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
@@ -125,10 +125,11 @@ class Store extends Component {
                     <div className="customContainer">
                         <h5>Suodata:</h5>                    
                     <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
-                        <ToggleButton value={1} variant="success" onClick={() => {this.setState({showCategory: 'all'}); test(this)}}>Kaikki</ToggleButton>
-                        <ToggleButton value={2} variant="info" onClick={() => this.setState({showCategory: 'Tietokoneet'})}>Tietokoneet</ToggleButton>
-                        <ToggleButton value={3} variant="info" onClick={() => this.setState({showCategory: 'Toimistotarvikkeet'})}>Toimistotarvikkeet</ToggleButton>
-                        <ToggleButton value={4} variant="info" onClick={() => this.setState({showCategory: 'Äänentoisto'})}>Äänentoisto</ToggleButton>
+                        <ToggleButton value={1} variant="success" onClick={() => this.setFilterCategory('all')}>Kaikki</ToggleButton>
+                        <ToggleButton value={2} variant="info" onClick={() => this.setFilterCategory('Kirjat')}>Kirjat</ToggleButton>
+                        <ToggleButton value={3} variant="info" onClick={() => this.setFilterCategory('Tietokoneet')}>Tietokoneet</ToggleButton>
+                        <ToggleButton value={4} variant="info" onClick={() => this.setFilterCategory('Toimistotarvikkeet')}>Toimistotarvikkeet</ToggleButton>
+                        <ToggleButton value={5} variant="info" onClick={() => this.setFilterCategory('Äänentoisto')}>Äänentoisto</ToggleButton>
                     </ToggleButtonGroup>
                     
                     </div>
