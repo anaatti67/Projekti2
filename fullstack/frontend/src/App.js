@@ -14,7 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // Add Navigation here
 const Navi = () => {
     return (
-      <Nav className="justify-content-center" >
+      
       <Navbar  bg="light" expand="md">
         <Navbar.Brand href='/'>Navbar</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -33,7 +33,7 @@ const Navi = () => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      </Nav>
+      
       )
   }
 
