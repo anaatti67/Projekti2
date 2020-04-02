@@ -122,14 +122,9 @@ class Store extends Component {
         return (
             <div className="container">
                 <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
-<<<<<<< Updated upstream
-                <h5>Tuotteet</h5>
-                    <div className="customContainer">                   
-=======
+                <h5>Tuotteet</h5>                  
                 
-                    <div className="customContainer">
-                        <h5>Suodata:</h5>                    
->>>>>>> Stashed changes
+                    <div className="customContainer">                   
                     <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
                         <ToggleButton value={1} variant="success" onClick={() => this.setCategory('all')}>Kaikki</ToggleButton>
                         <ToggleButton value={5} variant="info" onClick={() => this.setCategory('Kirjat')}>Kirjat</ToggleButton>
