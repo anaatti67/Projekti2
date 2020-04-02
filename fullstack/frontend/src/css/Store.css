@@ -10,3 +10,25 @@
     text-align: center; 
 }
 
+.productStock {
+    text-align: right;
+}
+.productPrice {
+    text-align: right;
+    color: red;
+    font-weight: bolder;
+}
+.productName {
+    font-weight: 500;
+}
+.cartImg {
+    height: 30px;
+    margin-right: 1em;
+}
+.cartButton {
+    margin-bottom: 1em;
+}
+.productImg {
+    text-align: center;
+    height: 50px;
+}

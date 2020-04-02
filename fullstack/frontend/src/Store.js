@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './css/Store.css'
 import ProductModal from './Modal'
-import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
 
 class Store extends Component {
@@ -101,29 +101,28 @@ class Store extends Component {
         let items = filteredProducts.map((product) =>
             <tr className="productRow" key={product.id} onClick={() => this.rowClicked(product)}>
                 <td>{product.id}</td>
-                <td><img height="35px" src={process.env.PUBLIC_URL + product.pic} alt="" 
+                <td><img className="productImg" src={process.env.PUBLIC_URL + product.pic} alt="" 
                         onError={(e)=>{e.target.src=process.env.PUBLIC_URL + './img/404_not_found.svg'}}>
                     </img>
                 </td>
-                <td>{product.Name}</td>
-                <td>{product.Price} €</td>
-                <td>{product.Stock} kpl</td>
+                <td className="productName">{product.Name}</td>
+                <td className="productPrice">{product.Price},00</td>
+                <td className="productStock">{product.Stock} kpl</td>
                 <td>
-                    <button type="button" className="btn btn-primary" onClick={() => {
+                    <button type="button" className="btn btn-primary cartButton" onClick={() => {
                         let tmp = {id: product.id,
                                 name: product.Name, 
                                 price: product.Price}
                         this.buy(tmp)}}>
-                        Lisää ostoskoriin
-                    </button> <ProductModal show={product.modal} obj={product} buy={this.buy.bind(this)} />
+                        <img src={process.env.PUBLIC_URL + '/img/cart.png'} className="cartImg" alt="" />Lisää ostoskoriin
+                    </button> <br/>
+                    <ProductModal show={product.modal} obj={product} buy={this.buy.bind(this)} />
                 </td>
             </tr>
         )
         return (
             <div className="container">
-                <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
-                <h5>Tuotteet</h5>                  
-                
+                <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>                
                     <div className="customContainer">                   
                     <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
                         <ToggleButton value={1} variant="success" onClick={() => this.setCategory('all')}>Kaikki</ToggleButton>
@@ -135,21 +134,21 @@ class Store extends Component {
                     
                     </div>
                 <h5>Tuotteet</h5>
-                <table className="table">
+                <Table striped bordered hover className="table">
                     <thead>
                         <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Pic</th>
+                        <th scope="col">id</th>
+                        <th scope="col">Kuva</th>
                         <th scope="col">Nimi</th>
-                        <th scope="col">Hinta</th>
-                        <th scope="col">Varastossa</th>
+                        <th scope="col">Hinta (€)</th>
+                        <th scope="col">Varastossa (kpl)</th>
                         <th scope="col">Toiminto</th>
                         </tr>
                     </thead>
                     <tbody>
                         {items}
                     </tbody>
-                </table>
+                </Table>
             </div>
         )
     }

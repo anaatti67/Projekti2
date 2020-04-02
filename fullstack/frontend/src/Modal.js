@@ -57,7 +57,7 @@ export default class ProductModal extends Component {
                         <Col><h5>Jäljellä varastossa: {this.obj.Stock}</h5></Col>
                         <Col>
                             <p className="price">{this.obj.Price} €</p>
-                            <Button onClick={() => this.addToCart(this.obj)}>Lisää ostoskoriin</Button>
+                            <Button variant="info" onClick={() => this.addToCart(this.obj)}>Lisää ostoskoriin</Button>
                         </Col>
                     </Row>
                 </Container>
@@ -74,7 +74,7 @@ export default class ProductModal extends Component {
             
         )
         } else {
-            return <Button onClick={this.toggle}>Tuotetiedot</Button>
+            return <Button  variant="info" onClick={this.toggle}>Tuotetiedot</Button>
         }
         
         
