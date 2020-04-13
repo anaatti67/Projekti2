@@ -1,41 +1,15 @@
 import React, { Component } from 'react';
 import ShoppingCart from './ShoppingCart'
 import Admin from './Admin'
-import { Route, BrowserRouter, NavLink } from 'react-router-dom'
+import { Route, BrowserRouter } from 'react-router-dom'
 import Store from './Store';
 import Login from './components/login/login.component'
 import SignUp from './components/signup/signup.component'
 import LandingPage from './LandingPage'
-import {Navbar, Nav} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Navi } from './Navigation'
 //import CartListener from './CartListener'
 
-
-// Add Navigation here
-const Navi = () => {
-    return (
-      
-      <Navbar  bg="light" expand="md">
-        <Navbar.Brand href='/'>Navbar</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="mr-auto">
-          
-            <NavLink className="nav-item nav-link" to="/store">Kauppa</NavLink>
-          
-            <NavLink className="nav-item nav-link" to="/admin">Admin</NavLink>
-          
-            <NavLink className="nav-item nav-link" to="/cart">Ostoskori</NavLink>
-          
-            <NavLink className="nav-item nav-link" to="/login">Kirjaudu sisään</NavLink>
-          
-            <NavLink className="nav-item nav-link" to="/signup">Rekisteröidy</NavLink>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      
-      )
-  }
 
 class App extends Component {
     render() {
@@ -53,5 +27,8 @@ class App extends Component {
                   </BrowserRouter>
                 </div>
     }
+
+    
+
 }
 export default App

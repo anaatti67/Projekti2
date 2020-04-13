@@ -5,8 +5,10 @@ import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
 
 class Store extends Component {
+
     constructor(props) {
         super(props)
+        console.log(props.location.state)
 
         //this.buy = this.buy.bind(this)
         //this.cartInit = this.cartInit(this)
@@ -15,21 +17,53 @@ class Store extends Component {
         this.cart = {shoppingcart: []}
         this.cartInit()
 
-        this.state = {products: [], modal: false, showCategory: 'all'}
+        this.state = {
+            products: [], 
+            modal: false, 
+            showCategory: 'all',
+            filtered: false,
+            filterString: ''
+        }
         this.url = '/store'
     }
     componentDidMount() {
+        let filter = this.props.location.state.filterString
         fetch(this.url).then(r => r.json()).then((products) => {
-            this.setState({products});
+            // console.log(products)
+            this.setState({products: products, filterString: filter});
+            console.log(this.state)
+            if (filter.length > 1) {
+                this.setState({filtered: true, filterInputValue: filter})
+            } else {
+                this.setState({filterInputValue: 'Suodata...'})
+            }
     })
     }
+    
+    static getDerivedStateFromProps(props, state) {
+        console.log(props.location.state.filterString)
+        let newFilter = props.location.state.filterString
+        if (newFilter !== state.lastRow) {
+          return {
+            filtered: true,
+            filterInputValue: newFilter,
+            filterString: newFilter
+          };
+        } else {
+            this.setState({filterInputValue: 'Suodata...'})
+        }
+    
+        // Return null to indicate no change to state.
+        return null;
+      }
+    
     cartInit() {
         if ("shoppingCart" in localStorage) {
             let retrievedData = localStorage.getItem("shoppingCart");
             if (retrievedData === 'undefined') {
                 localStorage.setItem("shoppingCart", JSON.stringify(this.cart.shoppingcart));
             } else {
-                console.log(retrievedData)
+                // console.log(retrievedData)
                 var dataToArray = JSON.parse(retrievedData);
 
                 if (dataToArray != null) {
@@ -82,6 +116,16 @@ class Store extends Component {
     setFilterCategory(category) {
         this.setState({showCategory: category})
     }
+    searchFilter(filterString) {
+        // this.setState({showCategory: 'all'})
+        if (filterString.length > 1) {
+            this.setState({filtered: true, filterString: filterString})
+
+        } else {
+            this.setState({filtered: false})
+        }
+       
+    }
     render() {
         for (let product of this.state.products) {
             product.pic = '/img/' + product.id + '.png'
@@ -90,12 +134,26 @@ class Store extends Component {
         // Product filtering - showCategory default is 'all'
         // and it can be changed with buttons
         let filteredProducts = this.state.products
+
         if (this.state.showCategory !== 'all') {
             filteredProducts = filteredProducts.filter((product) => 
-            product.Category === this.state.showCategory
+                product.Category === this.state.showCategory
             )
         }
         
+        if (this.state.filtered) {
+            console.log(this.state.filterString)
+            let filter = this.state.filterString.toLowerCase()
+            filteredProducts = filteredProducts.filter((product) => {
+                if (product.Name.toLowerCase().includes(filter)) {
+                    return product
+                } else {
+                    return null
+                }
+            }
+                
+            )
+        }
 
         // If image not found, loads a 404 image
         let items = filteredProducts.map((product) =>
@@ -124,7 +182,8 @@ class Store extends Component {
                 <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
                 <h5>Tuotteet</h5>                  
                 
-                    <div className="customContainer">                   
+                    <div className="customContainer">   
+                    <input placeholder={this.state.filterInputValue} onChange={(event) => this.searchFilter(event.target.value)} />             
                     <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
                         <ToggleButton value={1} variant="success" onClick={() => this.setFilterCategory('all')}>Kaikki</ToggleButton>
                         <ToggleButton value={2} variant="info" onClick={() => this.setFilterCategory('Kirjat')}>Kirjat</ToggleButton>
