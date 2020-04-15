@@ -10,6 +10,7 @@
 .price {
     color: red;
     font-size: 2em;
+    
 }
 .pad {
     padding: 2em;
@@ -18,3 +19,12 @@ h4 {
     text-decoration: underline;
     padding-bottom: 0.5em;
 }
+
+#categoryList {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    display: block;
+    width:15%;
+}
+

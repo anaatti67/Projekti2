@@ -5,33 +5,40 @@ class Admin extends Component {
         super(props)
         this.add = this.add.bind(this)
         this.whenFormChanges = this.whenFormChanges.bind(this)
-        this.item = {name: '', price: '', stock: 1}
+        this.item = {name: '', description: '', price: '', stock: '', category: ''}
     }
     add() {
+        console.log(this.item)
+        this.url = '/admin'
         //let item = {name: 'iMac Pro', price: 4000, stock: 1}
-        let configuration = {
+         let configuration = {
             method: 'post',
             headers: {'content-type': 'application/json'},
             body: JSON.stringify(this.item)
         }
-        fetch('http://localhost:8080/products', configuration).then((httpResponse) => {
-            if(httpResponse.status === 201) {
-                alert('Added!')
-            }
-        })
+         
+        fetch(this.url, configuration).then(r => r.json()).then((products) => {
+            console.log(products);
+        }) 
     }
 
     whenFormChanges(event) {
-        console.log(event.target.name)
-        console.log(event.target.value)
+      /*   console.log(event.target.name)
+        console.log(event.target.value) */
         if (event.target.name === 'name') {
             this.item.name = event.target.value
         } else if (event.target.name === 'price') {
             this.item.price = event.target.value
         } else if (event.target.name === 'stock') {
             this.item.stock = event.target.value
+        } else if (event.target.name === 'category') {
+            this.item.category = event.target.options[event.target.selectedIndex].value
+        } else if (event.target.name === 'description') {
+            this.item.description = event.target.value
+            console.log(this.item.category)
         }
-        console.log(this.item)
+        
+        
         
     }
     render() {
@@ -42,6 +49,20 @@ class Admin extends Component {
                     <div className="form-group">
                         <label htmlFor="name">Product Name</label>
                         <input type="text" onChange={this.whenFormChanges} name="name" className="form-control" id="name" placeholder="iMac Pro"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="description">Description</label>
+                        <input type="text" onChange={this.whenFormChanges} name="description" className="form-control" id="description" placeholder=""/>
+                    </div>
+                    <div className="form-group">
+                    <label id="categoryTitle" htmlFor="category">Category</label>
+                    <select id="categoryList" onChange={this.whenFormChanges} name="category">
+                    <option value = "">Valitse kategoria</option>
+                        <option value = "Kirjat">Kirjat</option>
+                        <option value = "Tietokoneet">Tietokoneet</option>
+                        <option value = "Toimistotarvikkeet">Toimistotarvikkeet</option>
+                        <option value = "Äänentoisto">Äänentoisto</option>
+                    </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="price">Product Price</label>
