@@ -7,7 +7,7 @@ const cors = require("cors")
 
 const app = express()
 
-const db = require("./")
+const db = require("./models/index")
 
 const Role = db.role
 

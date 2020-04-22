@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
   {
     host: config.HOST,
     dialect: config.dialect,
-    operatorsAliases: false,
+    //operatorsAliases: false,
   }
 )
 
@@ -18,7 +18,7 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 db.user = require("../models/user")(sequelize, Sequelize)
-db.role = require("../models/role")(sequelize, Sequelize)
+db.role = require("../models/roles")(sequelize, Sequelize)
 
 //association between users and roles
 db.role.belongsToMany(db.user, {
