@@ -12,9 +12,9 @@ const SELECT_ALL_PRODUCTS = 'SELECT * FROM Products';
 
 const connection = mysql.createConnection({
     host: 'mydb.tamk.fi',
-    user: 'c6jomust',
-    password: 'U6E4ysyN',
-    database: 'dbc6jomust62'
+    user: 'c7anpelt',
+    password: 'Ticojakapu17',
+    database: 'dbc7anpelt1'
 });
 
 connection.connect(err => {

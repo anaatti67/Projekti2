@@ -7,6 +7,10 @@ const cors = require("cors")
 
 const app = express()
 
+const db = require("./")
+
+const Role = db.role
+
 var corsOptions = {
   origin: "http://localhost:8081"
 }
@@ -29,3 +33,20 @@ const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`)
 })
+
+db.sequelize.sync({force: true}).then(() => {
+    console.log('Drop and Resync Db')
+    initial();
+  })
+
+  function initial() {
+    Role.create({
+      id: 1,
+      name: "user"
+    });
+   
+    Role.create({
+      id: 2,
+      name: "admin"
+    });
+  }
