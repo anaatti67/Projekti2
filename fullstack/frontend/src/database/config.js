@@ -3,6 +3,6 @@ const config = {
     user: 'c6jomust',
     password: 'U6E4ysyN',
     database: 'dbc6jomust62'
-   };
+   }
 
-module.exports = config;
+module.exports = config
