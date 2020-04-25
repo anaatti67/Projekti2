@@ -1,3 +1,4 @@
+//config for database access
 module.exports = {
     HOST: "mydb.tamk.fi",
     USER: "c7anpelt",

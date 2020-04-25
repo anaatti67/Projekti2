@@ -9,7 +9,7 @@ module.exports = function(app) {
     )
     next()
   })
-
+//API post
   app.post(
     "/api/auth/signup",
     [

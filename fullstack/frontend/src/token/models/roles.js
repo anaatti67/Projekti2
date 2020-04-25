@@ -1,3 +1,4 @@
+// initializing Sequelize, we don’t need to write CRUD functions
 module.exports = (sequelize, Sequelize) => {
     const Role = sequelize.define("roles", {
       id: {

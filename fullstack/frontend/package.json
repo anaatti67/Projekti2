@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
     "aux": "0.0.6",
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
@@ -16,14 +17,16 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
-    "nodemon": "^2.0.2",
+    "nodemon": "^2.0.3",
     "react": "^16.13.0",
     "react-aux": "^1.1.0",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "sequelize": "^5.21.6"
+    "react-validation": "^3.0.7",
+    "sequelize": "^5.21.6",
+    "validator": "^13.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

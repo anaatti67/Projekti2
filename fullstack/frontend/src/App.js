@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import ShoppingCart from './ShoppingCart'
 import Admin from './Admin'
 import { Route, BrowserRouter, NavLink } from 'react-router-dom'
-import Store from './Store';
-import Login from './components/login/login.component'
-import SignUp from './components/signup/signup.component'
+import Store from './Store'
+import Login from './components/login.component'
+import SignUp from './components/signup.component'
 import LandingPage from './LandingPage'
 import {Navbar, Nav} from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
 //import CartListener from './CartListener'
 
 

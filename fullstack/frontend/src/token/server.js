@@ -7,10 +7,6 @@ const cors = require("cors")
 
 const app = express()
 
-const db = require("./models/index")
-
-const Role = db.role
-
 var corsOptions = {
   origin: "http://localhost:8081"
 }
@@ -23,21 +19,32 @@ app.use(bodyParser.json())
 // parse requests application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
+
+
+
+const db = require("./models/index")
+
+const Role = db.role
+
+db.sequelize.sync()
+
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to immus shop. What do you need" })
 })
+
+
+//routes
+//everything fucks up if you put this back
+/*require('./routes/authRoute')(app);
+require('./routes/userRoute')(app);
+*/
 
 // port that is listened
 const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`)
 })
-
-db.sequelize.sync({force: true}).then(() => {
-    console.log('Drop and Resync Db')
-    initial();
-  })
 
   function initial() {
     Role.create({

@@ -13,6 +13,7 @@ exports.signup = (req, res) => {
   User.create({
     username: req.body.username,
     email: req.body.email,
+    //Hashes the password
     password: bcrypt.hashSync(req.body.password, 8)
   })
     .then(user => {
@@ -65,7 +66,7 @@ exports.signin = (req, res) => {
       }
 
       var token = jwt.sign({ id: user.id }, config.secret, {
-        //Token expires in 1 hour
+        //Token expires in 1 hour. expiresIn is defined in seconds
         expiresIn: 3600
       })
 
