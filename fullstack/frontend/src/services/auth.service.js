@@ -1,7 +1,7 @@
 import axios from "axios"
 
 //Url that the api sues
-const API_URL = "http://localhost:8080/api/auth/"
+const API_URL = "/api/auth/"
 
 class AuthService {
     //Gets username and password from signup page
@@ -25,6 +25,7 @@ class AuthService {
     localStorage.removeItem("user")
   }
   // posts regiteration data with api post to mysql
+        //tähän pysähtyy nyt 25.4.2020 klo 21.32
   register(username, email, password) {
     return axios.post(API_URL + "signup", {
       username,
