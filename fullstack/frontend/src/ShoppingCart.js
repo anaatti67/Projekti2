@@ -29,14 +29,15 @@ const ShoppingCart = (props) => {
   return (
         <div>
           <div className="shoppingCartNavBar">
-           
-           <button className="shoppingCartNavButton"></button>
+           <button className="shoppingCartNavButton productInfo"></button>
            <div className="connectionLine"></div>
-           <button className="shoppingCartNavButton"></button>
+           <button className="shoppingCartNavButton userInfo"></button>
            <div className="connectionLine"></div>
-           <button className="shoppingCartNavButton"></button>
+           <button className="shoppingCartNavButton deliveryInfo"></button>
            <div className="connectionLine"></div>
-           <button className="shoppingCartNavButton"></button>
+           <button className="shoppingCartNavButton paymentInfo"></button>
+           <div className="connectionLine"></div>
+           <button className="shoppingCartNavButton summaryInfo"></button>
           </div>
           <table className="table">
             <thead>

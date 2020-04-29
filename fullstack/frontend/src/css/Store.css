@@ -27,9 +27,33 @@
  border: 1px solid black;
 }
 
+.productInfo {
+    background-size: cover;
+    background-image: url("../img/shoppingcart.png");
+}
+
+.userInfo {
+    background-size: contain;
+    background-image: url("../img/userInfo.png");
+}
+
+.deliveryInfo {
+    background-size: cover;
+    background-image: url("../img/deliveryIcon.png");
+}
+
+.paymentInfo {
+        background-size: cover;
+        background-image: url("../img/paymentInfo.png");
+}
+
+.summaryInfo {
+    background-size: cover;
+    background-image: url("../img/summaryInfo.png");
+}
+
 .shoppingCartNavButton:focus {
     outline: none;
-   
 }
 
 .shoppingCartNavButton:active {
@@ -37,7 +61,7 @@
 }
 
 .shoppingCartNavButton:hover {
-    background-color: azure;
+    filter: invert(0.2);
 }
 
 .connectionLine {
@@ -46,6 +70,5 @@
     background-color: black;
     position: relative;
     margin-top: 20px;
-    
 }
 
