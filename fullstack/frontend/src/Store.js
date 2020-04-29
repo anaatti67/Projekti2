@@ -76,7 +76,7 @@ class Store extends Component {
       }
     buy(product) {
         let length = this.cart.shoppingcart.length
-        console.log(this.cart)
+        //console.log(this.cart)
         
         let newItem = 0;
         let tmpObj = this.cart.shoppingcart
@@ -91,9 +91,10 @@ class Store extends Component {
           product.qty = 1
           tmpObj.push(product)
         }
-        console.log(tmpObj)
+        //console.log(tmpObj)
         this.setState({shoppingcart: tmpObj})
         localStorage.setItem("shoppingCart", JSON.stringify(this.state.shoppingcart));
+        console.log(this.cart.shoppingcart)
     }
     add(id) {
         console.log(id)
