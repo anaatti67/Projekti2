@@ -6,6 +6,7 @@ const ShoppingCart = (props) => {
     totalsum = totalsum + props.data[x].price
   }
   let cart = props.data
+  console.log(cart)
   let tab = cart.map((item) => 
               <tr key={item.id}>
                   <td>{item.name}</td>
@@ -27,6 +28,16 @@ const ShoppingCart = (props) => {
             
   return (
         <div>
+          <div className="shoppingCartNavBar">
+           
+           <button className="shoppingCartNavButton"></button>
+           <div className="connectionLine"></div>
+           <button className="shoppingCartNavButton"></button>
+           <div className="connectionLine"></div>
+           <button className="shoppingCartNavButton"></button>
+           <div className="connectionLine"></div>
+           <button className="shoppingCartNavButton"></button>
+          </div>
           <table className="table">
             <thead>
               <tr>

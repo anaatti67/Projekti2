@@ -10,3 +10,42 @@
     text-align: center; 
 }
 
+.shoppingCartNavBar {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom:10px;
+    /* background-color: burlywood; */
+   
+}
+
+.shoppingCartNavButton {
+ min-width: 40px;
+ min-height: 40px;
+ border-radius: 50%;
+ border: 1px solid black;
+}
+
+.shoppingCartNavButton:focus {
+    outline: none;
+   
+}
+
+.shoppingCartNavButton:active {
+    transform: scale(1.1);
+}
+
+.shoppingCartNavButton:hover {
+    background-color: azure;
+}
+
+.connectionLine {
+    width: inherit;
+    height:2px;
+    background-color: black;
+    position: relative;
+    margin-top: 20px;
+    
+}
+
