@@ -43,7 +43,7 @@ const ShoppingCart = (props) => {
            <div className="connectionLine"></div>
            <button id="summaryInfo" className="shoppingCartNavButton summaryInfo" onClick={(e) => activeTab(e)}></button>
           </div>
-          <div id="productInfoContainer" className="shoppingcartElement">
+          <div id="productInfoContainer" className="shoppingCartElement">
           <table className="table">
             <thead>
               <tr>
@@ -64,6 +64,45 @@ const ShoppingCart = (props) => {
             </tbody>
           </table>
           </div>
+          <div id="userInfoContainer" className="shoppingCartElement display-none">
+          <form>
+            
+              <div className="form-group">
+              <div id="halfForm1">
+                        <label htmlFor="email">Sähköpostiosoite</label>
+                        <input placeholder="example@gmail.com" type="text"/>
+
+                        <label htmlFor="email2">Sähköpostiosoite uudelleen</label>
+                        <input type="text" placeholder="example@gmail.com"/>
+
+                        <label id="passwordLabel" htmlFor="name">Salasana</label>
+                        <input type="text" placeholder="vähintään 8 merkkiä"/>
+
+                        <label  htmlFor="name">Salasana uudelleen</label>
+                        <input id="passwordInput2" type="text" placeholder="vähintään 8 merkkiä"/>
+
+                       
+
+                       
+                    </div>
+                    <div id="halfForm2">
+                    <label htmlFor="name">Etunimi</label>
+                        <input type="text" placeholder="kirjoita etunimesi"/>
+
+                        <label htmlFor="name">Sukunimi</label>
+                        <input type="text" placeholder="kirjoita sukunimesi"/>
+
+                        <label id="phonenumberLabel" htmlFor="name">Puhelinnumero</label>
+                        <input type="text" placeholder="kirjoita puh.numerosi"/>
+                    </div>
+                   
+              </div>
+                    
+                   
+                </form>
+               
+          </div>
+          <button id="userInfoButton" type="button" className="btn btn-primary userInfoButton display-none">Lähetä tiedot</button>
         </div>
         )
 
@@ -105,17 +144,27 @@ function resetActiveTab() {
 }
 
 function setActiveElement(tabName) {
-  let shoppingCartElements = document.querySelectorAll(".shoppingcartElement")
+  let shoppingCartElements = document.querySelectorAll(".shoppingCartElement")
   let emptyCartButton = document.getElementById("emptyCartButton")
+  let userInfoButton = document.getElementById("userInfoButton")
   for (let i = 0; i < shoppingCartElements.length; i++) {
-    if (shoppingCartElements[i].id == "productInfoContainer") {
-      emptyCartButton.classList.remove("display-none")
-    }
+  
     if(shoppingCartElements[i].id !== tabName+"Container") {
       shoppingCartElements[i].classList.add("display-none")
-      emptyCartButton.classList.add("display-none")
-    } else if (shoppingCartElements[i].id == tabName+"Container") {
+      if(shoppingCartElements[i].id === "productInfoContainer") {
+        emptyCartButton.classList.add("display-none")
+      }
+      if(shoppingCartElements[i].id === "userInfoContainer") {
+        userInfoButton.classList.add("display-none")
+      }
+    } if (shoppingCartElements[i].id == tabName+"Container") {
       shoppingCartElements[i].classList.remove("display-none")
+      if(shoppingCartElements[i].id === "productInfoContainer") {
+        emptyCartButton.classList.remove("display-none")
+      }
+      if(shoppingCartElements[i].id === "userInfoContainer") {
+        userInfoButton.classList.remove("display-none")
+      }
     } 
   }
 }

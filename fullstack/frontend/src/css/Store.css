@@ -98,10 +98,68 @@
     filter: invert(0.2);
 }
 
+.shoppingCartElement {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#userInfoContainer {
+display:flex;
+justify-content: center;
+padding: 10px;
+float:left;
+width:100%;
+    
+}
+
+#halfForm1 {
+   margin-right:5px;
+   float:left;
+  
+}
+#halfForm2 {
+    float:right;
+}
+
+#passwordLabel {
+    margin-top:20px;
+}
+
+.userInfoButton {
+    margin-top:-15px;
+    float:right;
+}
+
+#phonenumberLabel {
+    margin-top: 20px;
+}
+
+#userInfoContainer input {
+    margin-top:-8px;
+    outline:none;
+    width:100%;
+    padding-left:10px;
+    display: grid;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
 
 .display-none {
     display: none !important;
 }
 
+
+@media only screen and (max-width: 800px) {
+    #halfForm1, #halfForm2 {
+     
+      float:none;
+    }
+    #passwordInput2 {
+        margin-bottom:20px;
+    }
+    
+  }
 
 
