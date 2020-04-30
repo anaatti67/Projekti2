@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
+
 const ShoppingCart = (props) => {
+
+ 
+  
   let totalsum = 0
   for (let x = 0; x < props.data.length; x++) {
     totalsum = totalsum + props.data[x].price
@@ -39,6 +43,7 @@ const ShoppingCart = (props) => {
            <div className="connectionLine"></div>
            <button id="summaryInfo" className="shoppingCartNavButton summaryInfo" onClick={(e) => activeTab(e)}></button>
           </div>
+          <div id="productInfoContainer" className="shoppingcartElement">
           <table className="table">
             <thead>
               <tr>
@@ -58,6 +63,7 @@ const ShoppingCart = (props) => {
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
         )
 
@@ -67,37 +73,51 @@ const ShoppingCart = (props) => {
 }
 
 function activeTab(e) {
-     resetActive()
+     resetActiveTab()
      let tabName = e.target.id
      let element = document.getElementById(tabName)
-     console.log(e.target)
      if(tabName === "productInfo") {
-       console.log("1")
+      setActiveElement("productInfo")
        element.classList.add("activeTab")
      }
      if(tabName === "userInfo") {
-      console.log("2")
+       setActiveElement("userInfo")
       element.classList.add("activeTab")
     }
     if(tabName === "deliveryInfo") {
-      console.log("3")
+      setActiveElement("deliveryInfo")
       element.classList.add("activeTab")
     }
     if(tabName === "paymentInfo") {
-      console.log("4")
+      setActiveElement("paymentInto")
       element.classList.add("activeTab")
     }
     if(tabName === "summaryInfo") {
-      console.log("5")
+      setActiveElement("summaryInfo")
       element.classList.add("activeTab")
     }
         
 }
 
-function resetActive() {
+function resetActiveTab() {
   let elements = document.querySelectorAll(".activeTab")
   elements[0].classList.remove("activeTab")
-  
+}
+
+function setActiveElement(tabName) {
+  let shoppingCartElements = document.querySelectorAll(".shoppingcartElement")
+  let emptyCartButton = document.getElementById("emptyCartButton")
+  for (let i = 0; i < shoppingCartElements.length; i++) {
+    if (shoppingCartElements[i].id == "productInfoContainer") {
+      emptyCartButton.classList.remove("display-none")
+    }
+    if(shoppingCartElements[i].id !== tabName+"Container") {
+      shoppingCartElements[i].classList.add("display-none")
+      emptyCartButton.classList.add("display-none")
+    } else if (shoppingCartElements[i].id == tabName+"Container") {
+      shoppingCartElements[i].classList.remove("display-none")
+    } 
+  }
 }
 
 class App extends Component {
@@ -164,7 +184,7 @@ class App extends Component {
         <div className="container">
           <h1 className="mt-5">Ostoskori</h1>
           <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} />
-          <button type="button" className="btn btn-primary" onClick={() => {
+          <button id="emptyCartButton" type="button" className="btn btn-primary" onClick={() => {
             localStorage.removeItem("shoppingCart")
             localStorage.removeItem("shoppingCartOverallQuantity")
             this.setState({shoppingcart: []})
