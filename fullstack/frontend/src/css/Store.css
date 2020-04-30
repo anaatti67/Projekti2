@@ -113,6 +113,25 @@ width:100%;
     
 }
 
+.deliveryInfoButton {
+    margin-top:10px;
+    padding:10px;
+    width: 100px;
+    float:right;
+}
+
+#deliveryInfoContainer h3 {
+margin-bottom:20px;
+}
+
+.deliveryOptionsContainer {
+    text-align: center;
+}
+
+.deliveryOption label {
+    margin-right: 20px;
+}
+
 #halfForm1 {
    margin-right:5px;
    float:left;
@@ -121,6 +140,12 @@ width:100%;
 }
 #halfForm2 {
     float:right;
+}
+
+.shoppingCartElement h3 {
+    margin-top:10px;
+    font-size: 20px;
+    text-align: center;
 }
 
 #passwordLabel {

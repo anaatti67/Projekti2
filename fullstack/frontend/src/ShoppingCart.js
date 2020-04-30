@@ -68,6 +68,7 @@ const ShoppingCart = (props) => {
           <form>
             
               <div className="form-group">
+              <h3>Täytä yhteystiedot</h3>
               <div id="halfForm1">
                         <label htmlFor="email">Sähköpostiosoite</label>
                         <input placeholder="example@gmail.com" type="text"/>
@@ -75,40 +76,84 @@ const ShoppingCart = (props) => {
                         <label htmlFor="email2">Sähköpostiosoite uudelleen</label>
                         <input type="text" placeholder="example@gmail.com"/>
 
-                        <label id="passwordLabel" htmlFor="name">Salasana</label>
+                        <label id="passwordLabel" htmlFor="pass">Salasana</label>
                         <input type="text" placeholder="vähintään 8 merkkiä"/>
 
-                        <label  htmlFor="name">Salasana uudelleen</label>
+                        <label  htmlFor="pass2">Salasana uudelleen</label>
                         <input id="passwordInput2" type="text" placeholder="vähintään 8 merkkiä"/>
 
-                       
-
-                       
                     </div>
                     <div id="halfForm2">
-                    <label htmlFor="name">Etunimi</label>
+                    <label htmlFor="fname">Etunimi</label>
                         <input type="text" placeholder="kirjoita etunimesi"/>
 
-                        <label htmlFor="name">Sukunimi</label>
+                        <label htmlFor="lname">Sukunimi</label>
                         <input type="text" placeholder="kirjoita sukunimesi"/>
 
-                        <label id="phonenumberLabel" htmlFor="name">Puhelinnumero</label>
+                        <label id="phonenumberLabel" htmlFor="phone">Puhelinnumero</label>
                         <input type="text" placeholder="kirjoita puh.numerosi"/>
                     </div>
                    
               </div>
-                    
-                   
                 </form>
-               
           </div>
           <button id="userInfoButton" type="button" className="btn btn-primary userInfoButton display-none">Lähetä tiedot</button>
+          
+          <div id="deliveryInfoContainer" className="shoppingCartElement display-none">
+            <h3>Valitse Toimitustapa</h3>
+            <div className="deliveryOptionsContainer">
+              <div className="deliveryOption">
+              <label htmlFor="delivery1">Kuljetus noutopisteesen</label>
+              <input type="checkbox"  name="delivery1" className="deliveryInput" onClick={(e) => checkHandler(e)}/>
+              </div>
+             
+            <div className="deliveryOption">
+            <label htmlFor="delivery2">Kuljetus lähimpään postiin</label>
+            <input type="checkbox" name="delivery2" className="deliveryInput" onClick={(e) => checkHandler(e)}/>
+            </div>
+
+            <div className="deliveryOption">
+            <label htmlFor="delivery3">Kuljetus kotiin</label>
+              <input type="checkbox" name="delivery3" className="deliveryInput" onClick={(e) => checkHandler(e)}/>
+            </div>
+            
+            
+            </div>
+           <button className="btn btn-primary deliveryInfoButton" onClick={() => toPaymentInfoTab()}>Seuraava</button>
+          </div>
         </div>
         )
 
       
 
      
+}
+
+function checkHandler(e) {
+  resetOtherCheckBoxes(e.target);
+}
+
+function toPaymentInfoTab() {
+  let checkboxes = document.querySelectorAll(".deliveryInput")
+  let checkedBoxes = 0;
+  for (let i = 0; i < checkboxes.length; i++) {
+    if(checkboxes[i].checked == true) {
+     checkedBoxes++
+    }
+  }
+  if(checkedBoxes === 0) {
+    alert("Valitse toimitustapa")
+  }
+}
+
+function resetOtherCheckBoxes(selectedCheckBox) {
+  let checkedCheckBoxName = selectedCheckBox.name
+  let checkboxes = document.querySelectorAll(".deliveryInput")
+  for (let i = 0; i < checkboxes.length; i++) {
+  if(checkboxes[i].name !== checkedCheckBoxName) {
+    checkboxes[i].checked = ""
+  }
+  }
 }
 
 function activeTab(e) {
