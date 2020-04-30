@@ -121,12 +121,43 @@ const ShoppingCart = (props) => {
             </div>
            <button className="btn btn-primary deliveryInfoButton" onClick={() => toPaymentInfoTab()}>Seuraava</button>
           </div>
+
+          <div id="paymentInfoContainer" className="shoppingCartElement display-none">
+              <div className="paymentOption optionBank">
+                <h3>Verkkopankki</h3>
+                <div className="bankImages">
+                  <button id="op" className="paymentOptionButton op"  onClick={(e) => selectedPayment(e)}></button>
+                  <button id="nordea" className="paymentOptionButton nordea" onClick={(e) => selectedPayment(e)}></button>
+                  <button id="danskebank" className="paymentOptionButton danskebank" onClick={(e) => selectedPayment(e)}></button>
+                  <button id="spankki" className="paymentOptionButton spankki" onClick={(e) => selectedPayment(e)}></button>
+                  <button id="aktia" className="paymentOptionButton aktia" onClick={(e) => selectedPayment(e)}></button>
+                </div>
+              </div>
+
+              <div className="paymentOption optionCard">
+                <h3>Maksukortti</h3>
+                <div className="cardImages">
+                  <button id="visa" className="paymentOptionButton visa" onClick={(e) => selectedPayment(e)}></button>
+                  <button id="mastercard" className="paymentOptionButton mastercard"onClick={(e) => selectedPayment(e)}></button>
+                  <button id="verifone" className="paymentOptionButton verifone"onClick={(e) => selectedPayment(e)}></button>
+                  <button id="americanExpress" className="paymentOptionButton americanExpress"onClick={(e) => selectedPayment(e)}></button>
+                 
+                </div>
+                <button className="btn btn-primary paymentInfoButton">Seuraava</button>
+              </div>
+          </div>
         </div>
         )
+}
 
-      
-
-     
+function selectedPayment(e) {
+  e.target.classList.add("selectedPaymentMethod")
+  let paymentOptions = document.querySelectorAll(".paymentOptionButton")
+  for (let i = 0; i < paymentOptions.length; i++) {
+  if(paymentOptions[i].id !== e.target.id) {
+    paymentOptions[i].classList.remove("selectedPaymentMethod")
+  }
+  }
 }
 
 function checkHandler(e) {
@@ -173,7 +204,7 @@ function activeTab(e) {
       element.classList.add("activeTab")
     }
     if(tabName === "paymentInfo") {
-      setActiveElement("paymentInto")
+      setActiveElement("paymentInfo")
       element.classList.add("activeTab")
     }
     if(tabName === "summaryInfo") {
@@ -193,7 +224,6 @@ function setActiveElement(tabName) {
   let emptyCartButton = document.getElementById("emptyCartButton")
   let userInfoButton = document.getElementById("userInfoButton")
   for (let i = 0; i < shoppingCartElements.length; i++) {
-  
     if(shoppingCartElements[i].id !== tabName+"Container") {
       shoppingCartElements[i].classList.add("display-none")
       if(shoppingCartElements[i].id === "productInfoContainer") {
