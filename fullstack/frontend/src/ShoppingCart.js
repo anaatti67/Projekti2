@@ -29,15 +29,15 @@ const ShoppingCart = (props) => {
   return (
         <div>
           <div className="shoppingCartNavBar">
-           <button className="shoppingCartNavButton productInfo"></button>
+           <button id="productInfo" className="shoppingCartNavButton productInfo activeTab" onClick={(e) => activeTab(e)}></button>
            <div className="connectionLine"></div>
-           <button className="shoppingCartNavButton userInfo"></button>
+           <button id="userInfo" className="shoppingCartNavButton userInfo" onClick={(e) => activeTab(e)}></button>
            <div className="connectionLine"></div>
-           <button className="shoppingCartNavButton deliveryInfo"></button>
+           <button id="deliveryInfo" className="shoppingCartNavButton deliveryInfo" onClick={(e) => activeTab(e)}></button>
            <div className="connectionLine"></div>
-           <button className="shoppingCartNavButton paymentInfo"></button>
+           <button id="paymentInfo" className="shoppingCartNavButton paymentInfo" onClick={(e) => activeTab(e)}></button>
            <div className="connectionLine"></div>
-           <button className="shoppingCartNavButton summaryInfo"></button>
+           <button id="summaryInfo" className="shoppingCartNavButton summaryInfo" onClick={(e) => activeTab(e)}></button>
           </div>
           <table className="table">
             <thead>
@@ -60,6 +60,44 @@ const ShoppingCart = (props) => {
           </table>
         </div>
         )
+
+      
+
+     
+}
+
+function activeTab(e) {
+     resetActive()
+     let tabName = e.target.id
+     let element = document.getElementById(tabName)
+     console.log(e.target)
+     if(tabName === "productInfo") {
+       console.log("1")
+       element.classList.add("activeTab")
+     }
+     if(tabName === "userInfo") {
+      console.log("2")
+      element.classList.add("activeTab")
+    }
+    if(tabName === "deliveryInfo") {
+      console.log("3")
+      element.classList.add("activeTab")
+    }
+    if(tabName === "paymentInfo") {
+      console.log("4")
+      element.classList.add("activeTab")
+    }
+    if(tabName === "summaryInfo") {
+      console.log("5")
+      element.classList.add("activeTab")
+    }
+        
+}
+
+function resetActive() {
+  let elements = document.querySelectorAll(".activeTab")
+  elements[0].classList.remove("activeTab")
+  
 }
 
 class App extends Component {
