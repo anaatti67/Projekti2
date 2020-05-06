@@ -21,7 +21,9 @@ export class Navi extends Component {
     render() {
         return (
         <Navbar  bg="light" expand="md">
-        <Navbar.Brand href='/'>KTVO</Navbar.Brand>
+        <Navbar.Brand>
+            <NavLink className="nav-item nav-link" to="/">KTVO</NavLink>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">

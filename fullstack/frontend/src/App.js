@@ -64,7 +64,7 @@ class App extends Component {
   }
     render() {
         return <div>
-                  <BrowserRouter>
+                  <BrowserRouter basename='/~c8ityrkk/ktvo/'>
                   <div>
                       <Navi/>              
                       <Route exact path="/" component={LandingPage} />

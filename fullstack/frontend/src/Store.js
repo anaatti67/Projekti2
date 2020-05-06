@@ -5,17 +5,15 @@ import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
 
 class Store extends Component {
-
     constructor(props) {
         super(props)
-        console.log(props.location.state)
 
         //this.buy = this.buy.bind(this)
         //this.cartInit = this.cartInit(this)
-        this.add = this.add.bind(this)
+        // this.add = this.add.bind(this)
 
         this.cart = {shoppingcart: []}
-        this.cartInit()
+
 
         this.state = {
             products: [], 
@@ -24,12 +22,17 @@ class Store extends Component {
             filtered: false,
             filterString: ''
         }
-        this.url = '/store'
+        // this.url = '/store'
+        this.url = 'https://ktvo.herokuapp.com/store'
     }
     componentDidMount() {
+        this.cartInit()
         let filter = this.props.location.state.filterString
+        console.log('component did mount')
         fetch(this.url).then(r => r.json()).then((products) => {
-            // console.log(products)
+            console.log('fetch')
+
+            console.log(products)
             this.setState({products: products, filterString: filter});
             console.log(this.state)
             if (filter.length > 1) {
@@ -41,7 +44,6 @@ class Store extends Component {
     }
     
     static getDerivedStateFromProps(props, state) {
-        console.log(props.location.state.filterString)
         let newFilter = props.location.state.filterString
         if (newFilter !== state.lastRow) {
           return {
@@ -60,10 +62,10 @@ class Store extends Component {
     cartInit() {
         if ("shoppingCart" in localStorage) {
             let retrievedData = localStorage.getItem("shoppingCart");
+            console.log(retrievedData)
             if (retrievedData === 'undefined') {
                 localStorage.setItem("shoppingCart", JSON.stringify(this.cart.shoppingcart));
             } else {
-                // console.log(retrievedData)
                 var dataToArray = JSON.parse(retrievedData);
 
                 if (dataToArray != null) {
@@ -76,38 +78,28 @@ class Store extends Component {
       }
     buy(product) {
         let length = this.cart.shoppingcart.length
-        //console.log(this.cart)
         
-        let newItem = 0;
+        let newItem = false;
         let tmpObj = this.cart.shoppingcart
+
+        console.log(tmpObj);
         for (let x = 0; x < length; x++) {
           if (tmpObj[x].id === product.id) {
             tmpObj[x].qty++
             tmpObj[x].price += product.price
-            newItem++;
+            newItem = true;
           }
         }
-        if (newItem === 0) {
+        if (!newItem || tmpObj.length === 0) {
+          console.log('is a new item')
           product.qty = 1
           tmpObj.push(product)
         }
         //console.log(tmpObj)
         this.setState({shoppingcart: tmpObj})
-        localStorage.setItem("shoppingCart", JSON.stringify(this.state.shoppingcart));
+        localStorage.setItem("shoppingCart", JSON.stringify(tmpObj));
+        console.log(localStorage.getItem("shoppingCart"))
         console.log(this.cart.shoppingcart)
-    }
-    add(id) {
-        console.log(id)
-        let cart = this.state.shoppingcart
-        let found = cart.find(product => product.id === id)
-        found.qty += 1
-        this.setState({shoppingcart: cart})
-      }
-    remove(id) {
-        let cart = this.state.shoppingcart
-        let found = cart.find(product => product.id === id)
-        found.qty -= 1
-        this.setState({shoppingcart: cart})
     }
     rowClicked(product) {
         // product.modal = !product.modal
@@ -143,7 +135,6 @@ class Store extends Component {
         }
         
         if (this.state.filtered) {
-            console.log(this.state.filterString)
             let filter = this.state.filterString.toLowerCase()
             filteredProducts = filteredProducts.filter((product) => {
                 if (product.Name.toLowerCase().includes(filter)) {
@@ -161,7 +152,7 @@ class Store extends Component {
             <tr className="productRow" key={product.id} onClick={() => this.rowClicked(product)}>
                 <td>{product.id}</td>
                 <td><img height="35px" src={process.env.PUBLIC_URL + product.pic} alt="" 
-                        onError={(e)=>{e.target.src=process.env.PUBLIC_URL + './img/404_not_found.svg'}}>
+                        onError={(e)=>{e.target.src=process.env.PUBLIC_URL + '/img/404_not_found.svg'}}>
                     </img>
                 </td>
                 <td>{product.Name}</td>
