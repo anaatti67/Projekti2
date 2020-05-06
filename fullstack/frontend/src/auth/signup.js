@@ -4,7 +4,7 @@ import fire from './config/fire';
 class SignIn extends Component {
   constructor(props) {
     super(props);
-    this.login = this.login.bind(this);
+    // this.login = this.login.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.signup = this.signup.bind(this);
     this.state = {
@@ -29,12 +29,12 @@ class SignIn extends Component {
     return (
        <div className="col-md-6">
        <form>
-      <div class="form-group">
+      <div className="form-group">
        <label for="exampleInputEmail1">Email address</label>
        <input value={this.state.email} onChange={this.handleChange} type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
-       <div class="form-group">
+       <div className="form-group">
       <label for="exampleInputPassword1">Password</label>
       <input value={this.state.password} onChange={this.handleChange} type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
       </div>

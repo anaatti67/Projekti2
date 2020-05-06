@@ -10,3 +10,332 @@
     text-align: center; 
 }
 
+.productStock {
+    text-align: right;
+}
+.productPrice {
+    text-align: right;
+    color: red;
+    font-weight: bolder;
+}
+.productName {
+    font-weight: 500;
+}
+.cartImg {
+    height: 30px;
+    margin-right: 1em;
+}
+.cartButton {
+    margin-bottom: 1em;
+}
+.productImg {
+    text-align: center;
+    height: 50px;
+}
+.shoppingCartNavBar {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom:10px;
+}
+
+
+.shoppingCartNavButton {
+ min-width: 40px;
+ min-height: 40px;
+ border-radius: 50%;
+ border: 1px solid black;
+}
+
+.productInfo {
+    background-size: cover;
+    background-image: url("../img/shoppingcart.png");
+}
+
+.userInfo {
+    background-size: contain;
+    background-image: url("../img/userInfo.png");
+}
+
+.deliveryInfo {
+    background-size: cover;
+    background-image: url("../img/deliveryIcon.png");
+}
+
+.paymentInfo {
+        background-size: cover;
+        background-image: url("../img/paymentInfo.png");
+}
+
+.summaryInfo {
+    background-size: cover;
+    background-image: url("../img/summaryInfo.png");
+}
+
+.shoppingCartNavButton:focus {
+    outline: none;
+}
+
+
+
+.shoppingCartNavButton:hover {
+    filter: invert(0.2);
+}
+
+.connectionLine {
+    width: inherit;
+    height:2px;
+    background-color: black;
+    position: relative;
+    margin-top: 20px;
+}
+
+.activeTab {
+    border: 2px solid rgb(0, 0, 0);
+    transform: scale(1.3);
+    z-index: 3;
+    filter: invert(0.2);
+}
+
+.shoppingCartElement {
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+#userInfoContainer {
+display:flex;
+justify-content: center;
+padding: 10px;
+float:left;
+width:100%;
+    
+}
+
+
+.deliveryInfoButton {
+    margin-top:10px;
+    padding:10px;
+    width: 100px;
+    float:right;
+}
+
+#deliveryInfoContainer h3 {
+margin-bottom:20px;
+}
+
+.deliveryOptionsContainer {
+    text-align: center;
+}
+
+.deliveryOption label {
+    margin-right: 20px;
+}
+
+#halfForm1 {
+   margin-right:5px;
+   float:left;
+   margin-right:50px;
+  
+}
+#halfForm2 {
+    float:right;
+}
+
+.shoppingCartElement h3 {
+    margin-top:10px;
+    font-size: 20px;
+    text-align: center;
+}
+
+#passwordLabel {
+    margin-top:20px;
+}
+
+.userInfoButton {
+    margin-top:-15px;
+    float:right;
+}
+
+#phonenumberLabel {
+    margin-top: 20px;
+}
+
+#userInfoContainer input {
+    margin-top:-8px;
+    outline:none;
+    width:100%;
+    padding-left:10px;
+    display: grid;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+#paymentInfoContainer {
+    width:100%;
+    height:200px;
+    display: flex;
+    justify-content: center;
+   
+}
+
+.paymentOption {
+    width: 80%;
+    border-radius: 10px;
+}
+
+.bankImages, .cardImages {
+    padding-top:40px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+
+
+.paymentOptionButton {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+        
+}
+
+.paymentOptionButton:focus {
+    outline:none;
+}
+
+.optionBank {
+    border-right: 1px solid black;
+    margin-right:1px;
+}
+
+.optionCard {
+    border-left: 0.5px solid black;
+    margin-left:1px;
+}
+
+
+.op {
+    background-size: contain;
+    background-position: center;
+    background-size:30px;
+    background-repeat: no-repeat;
+    width: 60px;
+    border-radius:5px;
+    background-image: url("../img/opLogo.png");
+}
+
+.aktia {
+    background-size: contain;
+    background-position: center;
+    background-size:50px;
+    background-repeat: no-repeat;
+    width: 60px;
+    border-radius:5px;
+    background-image: url("../img/aktiaLogo.png");
+}
+
+.nordea {
+    background-size: contain;
+    background-position: center;
+    background-size:50px;
+    background-repeat: no-repeat;
+    width: 60px;
+    border-radius:5px;
+    background-image: url("../img/nordeaLogo.png");
+}
+
+.spankki {
+    background-size: contain;
+    background-position: center;
+    background-size:50px;
+    background-repeat: no-repeat;
+    width: 60px;
+    border-radius:5px;
+    background-image: url("../img/spankkiLogo.png");
+}
+
+.danskebank {
+    background-size: cover;
+    background-position: center;
+    background-size:50px;
+    background-repeat: no-repeat;
+    width: 60px;
+    border-radius:5px;
+    background-image: url("../img/danskeBankLogo.png");
+}
+
+.verifone {
+    background-size: cover;
+    background-position: center;
+    background-size:50px;
+    background-repeat: no-repeat;
+    width: 60px;
+    border-radius:5px;
+    background-image: url("../img/verifoneLogo.png");
+}
+
+.visa {
+    background-size: cover;
+    background-position: center;
+    background-size:60px;
+    background-repeat: no-repeat;
+    width: 60px;
+    border-radius:5px;
+    background-image: url("../img/visaLogo.png");
+}
+
+.mastercard {
+    background-size: cover;
+    background-position: center;
+    background-size:50px;
+    background-repeat: no-repeat;
+    width: 60px;
+    border-radius:5px;
+    background-image: url("../img/mastercardLogo.png");
+}
+
+.americanExpress {
+    background-size: cover;
+    background-position: center;
+    background-size:70px;
+    background-repeat: no-repeat;
+    width: 60px;
+    border-radius:5px;
+    background-image: url("../img/americanExpressLogo.png");
+}
+
+.paymentInfoButton {
+    float:right;
+    margin-top:85px;
+
+}
+
+
+.selectedPaymentMethod {
+    border-bottom: 5px solid rgb(3, 82, 146);
+    transform: translateY(20px);
+    transition: all 0.5s;
+   
+}
+
+
+.display-none {
+    display: none !important;
+}
+
+
+@media only screen and (max-width: 800px) {
+    #halfForm1, #halfForm2 {
+     
+      float:none;
+    }
+    #passwordInput2 {
+        margin-bottom:20px;
+    }
+    
+  }
+
+
