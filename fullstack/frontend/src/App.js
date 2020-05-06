@@ -9,6 +9,7 @@ import fire from 'firebase'
 import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
+import fire from './auth/config/fire'
 //import CartListener from './CartListener'
 
 
@@ -16,7 +17,7 @@ class App extends Component {
     constructor(props) {
       super(props)
       this.state = {
-        user: false,
+        loggedIn: false
       }
     }
 
@@ -24,20 +25,55 @@ class App extends Component {
       this.authListener()
     }
 
+    signOut() {
+      console.log('singout')
+      fire.auth().signOut().then(function() {
+        // Sign-out successful.
+        console.log('sign out succesful')
+        this.setState({loggedIn:false})
+      }).catch(function(error) {
+        // An error happened.
+        console.log('sign out error: ' + error)
+  
+      });
+    }
+
     authListener() {
       fire.auth().onAuthStateChanged((user) => {
         console.log(user)
         if (user) {
-          this.setState({user})
-          //localStorage.setItem('user', user.id)
+          this.setState({ loggedIn: true, user: user })
+          if (user.isAdmin) {
+            this.setState({ admin: true })
+          } else {
+            this.setState({ admin: false })
+          }
+          var reference = fire.database().ref('users/' + user.uid);
+
+          reference.on('value', function(snapshot) {
+            const tmpObj = snapshot.val()
+            console.log(tmpObj);
+            console.log(tmpObj.username)
+            if (tmpObj.admin) {
+              console.log('Olen admin')
+            } else {
+              console.log('En ole admin')
+            }
+          });
+
+          console.log(this.state)
         } else {
-          this.setState({user: null})
-          //localStorage.removeItem('user')
+          this.setState({ loggedIn: false, user: null })
         }
       })
     }
     render() {
-        return <div>
+        return (<div>
+                  
+                  
+                  <button onClick={() => this.signOut()}>Signout</button>
+                  {this.state.loggedIn ? (<p>{this.state.user.email}</p>) : (<p>''</p>)}
+                  <p> Boolean: {this.state.loggedIn.toString()} </p>
                   <BrowserRouter basename='/~c8ityrkk/ktvo/'>
                   <div>
                       <Navi/>              
@@ -50,7 +86,7 @@ class App extends Component {
                     </div>
                   </BrowserRouter>
                 </div>
-    }
+        )}
 
     
 

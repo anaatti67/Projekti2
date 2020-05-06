@@ -168,7 +168,7 @@ function toPaymentInfoTab() {
   let checkboxes = document.querySelectorAll(".deliveryInput")
   let checkedBoxes = 0;
   for (let i = 0; i < checkboxes.length; i++) {
-    if(checkboxes[i].checked == true) {
+    if(checkboxes[i].checked === true) {
      checkedBoxes++
     }
   }
@@ -232,7 +232,7 @@ function setActiveElement(tabName) {
       if(shoppingCartElements[i].id === "userInfoContainer") {
         userInfoButton.classList.add("display-none")
       }
-    } if (shoppingCartElements[i].id == tabName+"Container") {
+    } if (shoppingCartElements[i].id === tabName+"Container") {
       shoppingCartElements[i].classList.remove("display-none")
       if(shoppingCartElements[i].id === "productInfoContainer") {
         emptyCartButton.classList.remove("display-none")

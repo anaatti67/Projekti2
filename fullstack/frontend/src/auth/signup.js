@@ -20,8 +20,12 @@ class SignIn extends Component {
   signup(e){
     e.preventDefault();
     fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
-    }).then((u)=>{console.log(u)})
-    .catch((error) => {
+      console.log(u)
+      fire.database().ref('users/' + u.user.uid).set({
+        username: 'Antti on lurjus',  
+        address: this.state.address
+      })
+    }).catch((error) => {
         console.log(error);
       })
   }
