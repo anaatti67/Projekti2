@@ -5,6 +5,7 @@ import { Route, BrowserRouter } from 'react-router-dom'
 import Store from './Store';
 import Login from './auth/login'
 import SignUp from './auth/signup'
+import fire from 'firebase'
 import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
