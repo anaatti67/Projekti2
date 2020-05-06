@@ -14,6 +14,7 @@ class Store extends Component {
 
         this.cart = {shoppingcart: []}
 
+        this.testi = 'testi'
 
         this.state = {
             products: [], 
@@ -26,9 +27,15 @@ class Store extends Component {
         this.url = 'https://ktvo.herokuapp.com/store'
     }
     componentDidMount() {
+        console.log('component did mount')
+
+        if ('testi' in sessionStorage) {
+            this.testi = 'Toimii'
+        }
+
         this.cartInit()
         let filter = this.props.location.state.filterString
-        console.log('component did mount')
+        
         fetch(this.url).then(r => r.json()).then((products) => {
             console.log('fetch')
 
@@ -171,6 +178,8 @@ class Store extends Component {
         )
         return (
             <div className="container">
+                <p>{this.testi}</p>
+                <button onClick={() => sessionStorage.clear()}>Nappi</button>
                 <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
                 <h5>Tuotteet</h5>                  
                 
