@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap'
 import { NavLink, Link } from 'react-router-dom'
 import './css/Navi.css'
+import { CartListener } from './cartlistener/cartlistener'
 
 export class Navi extends Component {
 
     constructor(props) {
         super(props)
+        this.handleCartQtyChanges = props.handleCartQtyChanges
         this.state = {  }
         this.changeSearchValue = this.changeSearchValue.bind(this)
     }
@@ -39,6 +41,7 @@ export class Navi extends Component {
             <NavLink className="nav-item nav-link" to="/cart">Ostoskori</NavLink>
 
           </Nav>
+          <CartListener handleCartQtyChanges={this.handleCartQtyChanges.bind(this)} />
           <Form inline onSubmit={e => { e.preventDefault(); }}>
             <FormControl type="text" placeholder="Hae" className="mr-sm-2" 
                 onChange={this.changeSearchValue} />
