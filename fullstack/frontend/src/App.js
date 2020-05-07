@@ -10,6 +10,7 @@ import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
 
+//import CartListener from './CartListener'
 
 
 class App extends Component {
