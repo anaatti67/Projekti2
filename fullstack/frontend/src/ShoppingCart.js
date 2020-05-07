@@ -196,6 +196,9 @@ function toNextTab(tabName) {
   if(tabName === "productInfo") {
     console.log("Checking cart")
     console.log(currentShoppingCart)
+    if(currentShoppingCart.items.length === 0) {
+      alert("Ostoskori on tyhjä")
+    }
   }
   
 }
@@ -307,8 +310,8 @@ class App extends Component {
   remove(id) {
     let cart = this.state.shoppingcart
     let found = cart.find(product => product.id === id)
-    console.log(found.name)
-    this.removeEmpty(found.id, cart)
+    //console.log(found.name)
+    this.removeEmpty(cart,found.name)
     if (found.qty >= 1) {
      
       found.qty -= 1
@@ -323,17 +326,19 @@ class App extends Component {
     this.setState({shoppingcart: cart})
   }
 
-  removeEmpty(id, cart) {
-    let element  = document.getElementById(id)
-    for (let i = 0; i < cart.length; i++) {
-     if(cart[i].id === id) {
-       let currentQty = cart[i].qty-1
-       if(currentQty === 0) {
-        element.remove()
-       }
+  removeEmpty(cart,name) {
+   for (let i = 0; i < cart.length; i++) {
+     if(cart[i].name === name && cart[i].qty-1 === 0) {
+        let id = cart.indexOf(cart[i])
+        cart.splice(id,1)
      }
-      
-    }
+    
+     
+   }
+   
+   
+  
+ 
   }
 
   updateCartOverallQuantity(amount) {
