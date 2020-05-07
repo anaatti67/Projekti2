@@ -309,9 +309,11 @@ class App extends Component {
           <h1 className="mt-5">Ostoskori</h1>
           <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} />
           <button id="emptyCartButton" type="button" className="btn btn-primary" onClick={() => {
-            localStorage.removeItem("shoppingCart")
-            localStorage.removeItem("shoppingCartOverallQuantity")
-            this.setState({shoppingcart: []})
+            if(window.confirm('Really clear the shopping cart?')) {
+              localStorage.removeItem("shoppingCart")
+              localStorage.removeItem("shoppingCartOverallQuantity")
+              this.setState({shoppingcart: []})
+            }
             }}>Tyhjennä ostoskori</button>
         </div>
       </div>
