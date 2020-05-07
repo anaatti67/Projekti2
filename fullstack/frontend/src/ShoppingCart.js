@@ -274,13 +274,27 @@ function setActiveElement(tabName) {
   }
 }
 
+// HERE STARTS THE SHOPPING CART
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.add = this.add.bind(this)
     this.remove = this.remove.bind(this)
-    this.state = {shoppingcart: []}
+    this.state = {shoppingcart: [], cartQty: props.cartQty}
     this.cartInit()
+  }
+  static getDerivedStateFromProps(props, state) {
+    console.log(props)
+    console.log(state)
+    if (props.cartQty !== state.cartQty) {
+      return {
+        cartQty: props.cartQty,
+        shoppingcart: props.cart
+      }
+    } else {
+      return null
+    }
   }
   cartInit() {
     if ("shoppingCart" in localStorage) {
@@ -332,13 +346,7 @@ class App extends Component {
         let id = cart.indexOf(cart[i])
         cart.splice(id,1)
      }
-    
-     
    }
-   
-   
-  
- 
   }
 
   updateCartOverallQuantity(amount) {
