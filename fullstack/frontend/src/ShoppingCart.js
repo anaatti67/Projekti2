@@ -2,19 +2,23 @@ import React, { Component } from 'react';
 
 
 const ShoppingCart = (props) => {
-
- 
   
-  let totalsum = 0
-  for (let x = 0; x < props.data.length; x++) {
-    totalsum = totalsum + props.data[x].price
+  let totalSum = 0
+  var totalSumString
+  //console.log(props)
+  
+  for (let i = 0; i < props.data.length; i++) {
+    totalSum += (props.data[i].price * props.data[i].qty)
+    totalSumString = "kokonaishinta: " + totalSum + " €"
+    
   }
-  let cart = props.data
-  console.log(cart)
+ let cart = props.data
+  //console.log(cart)
+  setCart(cart, totalSum)
   let tab = cart.map((item) => 
-              <tr key={item.id}>
+              <tr key={item.id} id={item.id}>
                   <td>{item.name}</td>
-                  <td>{item.price}</td>
+                  <td>{item.price} €</td>
                   <td>{item.qty}</td>
                   <td>
                     
@@ -48,7 +52,7 @@ const ShoppingCart = (props) => {
             <thead>
               <tr>
                 <th>Nimi</th>
-                <th>Yhteensä</th>
+                <th>Yksikköhinta</th>
                 <th>Määrä</th>
                 <th>Toiminto</th>
               </tr>
@@ -57,7 +61,7 @@ const ShoppingCart = (props) => {
               {tab}
               <tr>
                 <td></td>
-                <td>{totalsum}</td>
+                <td>{totalSumString}</td>
                 <td></td>
                 <td></td>
               </tr>
@@ -119,7 +123,7 @@ const ShoppingCart = (props) => {
             
             
             </div>
-           <button className="btn btn-primary deliveryInfoButton" onClick={() => toPaymentInfoTab()}>Seuraava</button>
+           <button className="btn btn-primary deliveryInfoButton" onClick={() => toNextTab("deliveryTab")}>Seuraava</button>
           </div>
 
           <div id="paymentInfoContainer" className="shoppingCartElement display-none">
@@ -150,6 +154,16 @@ const ShoppingCart = (props) => {
         )
 }
 
+
+var currentShoppingCart
+function setCart(shoppingcart, totalSum) {
+currentShoppingCart = {
+ items: shoppingcart,
+ totalPrice: totalSum
+}
+
+}
+
 function selectedPayment(e) {
   e.target.classList.add("selectedPaymentMethod")
   let paymentOptions = document.querySelectorAll(".paymentOptionButton")
@@ -164,17 +178,29 @@ function checkHandler(e) {
   resetOtherCheckBoxes(e.target);
 }
 
-function toPaymentInfoTab() {
-  let checkboxes = document.querySelectorAll(".deliveryInput")
-  let checkedBoxes = 0;
-  for (let i = 0; i < checkboxes.length; i++) {
-    if(checkboxes[i].checked === true) {
-     checkedBoxes++
+function toNextTab(tabName) {
+
+  if(tabName === "deliveryTab") {
+    let checkboxes = document.querySelectorAll(".deliveryInput")
+    let checkedBoxes = 0;
+    for (let i = 0; i < checkboxes.length; i++) {
+      if(checkboxes[i].checked === true) {
+       checkedBoxes++
+      }
+    }
+    if(checkedBoxes === 0) {
+      alert("Valitse toimitustapa")
     }
   }
-  if(checkedBoxes === 0) {
-    alert("Valitse toimitustapa")
+
+  if(tabName === "productInfo") {
+    console.log("Checking cart")
+    console.log(currentShoppingCart)
+    if(currentShoppingCart.items.length === 0) {
+      alert("Ostoskori on tyhjä")
+    }
   }
+  
 }
 
 function resetOtherCheckBoxes(selectedCheckBox) {
@@ -221,13 +247,15 @@ function resetActiveTab() {
 
 function setActiveElement(tabName) {
   let shoppingCartElements = document.querySelectorAll(".shoppingCartElement")
-  let emptyCartButton = document.getElementById("emptyCartButton")
+  let emptyCartButtons = document.querySelectorAll(".emptyCartButtons")
   let userInfoButton = document.getElementById("userInfoButton")
   for (let i = 0; i < shoppingCartElements.length; i++) {
     if(shoppingCartElements[i].id !== tabName+"Container") {
       shoppingCartElements[i].classList.add("display-none")
       if(shoppingCartElements[i].id === "productInfoContainer") {
-        emptyCartButton.classList.add("display-none")
+        for (let i = 0; i < emptyCartButtons.length; i++) {
+          emptyCartButtons[i].classList.add("display-none")
+        }
       }
       if(shoppingCartElements[i].id === "userInfoContainer") {
         userInfoButton.classList.add("display-none")
@@ -235,7 +263,9 @@ function setActiveElement(tabName) {
     } if (shoppingCartElements[i].id === tabName+"Container") {
       shoppingCartElements[i].classList.remove("display-none")
       if(shoppingCartElements[i].id === "productInfoContainer") {
-        emptyCartButton.classList.remove("display-none")
+        for (let i = 0; i < emptyCartButtons.length; i++) {
+          emptyCartButtons[i].classList.remove("display-none")
+        }
       }
       if(shoppingCartElements[i].id === "userInfoContainer") {
         userInfoButton.classList.remove("display-none")
@@ -260,13 +290,12 @@ class App extends Component {
         localStorage.setItem("shoppingCart", JSON.stringify(this.state.shoppingcart));
       } else {
         var dataToArray = JSON.parse(retrievedData);
-    
         if (dataToArray != null) {
           for (let x = 0; x < dataToArray.length; x++) {
             this.state.shoppingcart.push(dataToArray[x])
             
           }
-          console.log(this.state.shoppingcart)
+          //console.log(this.state.shoppingcart)
         }
       }
     } 
@@ -281,16 +310,41 @@ class App extends Component {
   remove(id) {
     let cart = this.state.shoppingcart
     let found = cart.find(product => product.id === id)
-    if (found.qty > 0) {
+    //console.log(found.name)
+    this.removeEmpty(cart,found.name)
+    if (found.qty >= 1) {
+     
       found.qty -= 1
+     if(found.qty === 0) {
+       //console.log(found.id)
+    
+     }
+      //console.log(found.qty)
       this.updateCartOverallQuantity(-1)
+      
     }
     this.setState({shoppingcart: cart})
   }
+
+  removeEmpty(cart,name) {
+   for (let i = 0; i < cart.length; i++) {
+     if(cart[i].name === name && cart[i].qty-1 === 0) {
+        let id = cart.indexOf(cart[i])
+        cart.splice(id,1)
+     }
+    
+     
+   }
+   
+   
+  
+ 
+  }
+
   updateCartOverallQuantity(amount) {
     if ("shoppingCartOverallQuantity" in localStorage) {
       let retrievedData = localStorage.getItem("shoppingCartOverallQuantity");
-      console.log(retrievedData)
+      //console.log(retrievedData)
       if (retrievedData === null) {
         localStorage.setItem("shoppingCartOverallQuantity", JSON.stringify(0));
       } else {
@@ -315,6 +369,7 @@ class App extends Component {
               this.setState({shoppingcart: []})
             }
             }}>Tyhjennä ostoskori</button>
+            <button className="btn btn-primary emptyCartButtons nextButton" onClick={() => toNextTab("productInfo")}>Seuraava</button>
         </div>
       </div>
     )
