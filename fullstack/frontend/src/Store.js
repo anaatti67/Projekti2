@@ -2,37 +2,26 @@ import React, { Component } from 'react';
 import './css/Store.css'
 import ProductModal from './Modal'
 import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 
 
 class Store extends Component {
     constructor(props) {
         super(props)
-
-        //this.buy = this.buy.bind(this)
-        //this.cartInit = this.cartInit(this)
-        // this.add = this.add.bind(this)
-
         this.cart = {shoppingcart: []}
-
-        this.testi = 'testi'
 
         this.state = {
             products: [], 
             modal: false, 
             showCategory: 'all',
             filtered: false,
-            filterString: ''
+            filterString: '',
+            productsHaveLoaded: false
         }
-        // this.url = '/store'
         this.url = 'https://ktvo.herokuapp.com/store'
     }
     componentDidMount() {
-        console.log('component did mount')
-
-        if ('testi' in sessionStorage) {
-            this.testi = 'Toimii'
-        }
-
         this.cartInit()
         let filter = this.props.location.state.filterString
         
@@ -40,14 +29,14 @@ class Store extends Component {
             console.log('fetch')
 
             console.log(products)
-            this.setState({products: products, filterString: filter});
+            this.setState({ products: products, filterString: filter, productsHaveLoaded: true });
             console.log(this.state)
             if (filter.length > 1) {
                 this.setState({filtered: true, filterInputValue: filter})
             } else {
                 this.setState({filterInputValue: 'Suodata...'})
             }
-    })
+        })
     }
     
     static getDerivedStateFromProps(props, state) {
@@ -61,7 +50,6 @@ class Store extends Component {
         } else {
             this.setState({filterInputValue: 'Suodata...'})
         }
-    
         // Return null to indicate no change to state.
         return null;
       }
@@ -109,7 +97,6 @@ class Store extends Component {
         console.log(this.cart.shoppingcart)
     }
     rowClicked(product) {
-        // product.modal = !product.modal
         console.log(product)
         product.modal = !product.modal
     }
@@ -134,13 +121,11 @@ class Store extends Component {
         // Product filtering - showCategory default is 'all'
         // and it can be changed with buttons
         let filteredProducts = this.state.products
-
         if (this.state.showCategory !== 'all') {
             filteredProducts = filteredProducts.filter((product) => 
                 product.Category === this.state.showCategory
             )
         }
-        
         if (this.state.filtered) {
             let filter = this.state.filterString.toLowerCase()
             filteredProducts = filteredProducts.filter((product) => {
@@ -149,9 +134,7 @@ class Store extends Component {
                 } else {
                     return null
                 }
-            }
-                
-            )
+            })
         }
 
         // If image not found, loads a 404 image
@@ -178,12 +161,9 @@ class Store extends Component {
         )
         return (
             <div className="container">
-                <p>{this.testi}</p>
-                <button onClick={() => sessionStorage.clear()}>Nappi</button>
-                <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>
-                <h5>Tuotteet</h5>                  
                 
-                    <div className="customContainer">   
+                <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>                
+                <div className="customContainer">   
                     <input placeholder={this.state.filterInputValue} onChange={(event) => this.searchFilter(event.target.value)} />             
                     <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
                         <ToggleButton value={1} variant="success" onClick={() => this.setFilterCategory('all')}>Kaikki</ToggleButton>
@@ -192,9 +172,9 @@ class Store extends Component {
                         <ToggleButton value={4} variant="info" onClick={() => this.setFilterCategory('Toimistotarvikkeet')}>Toimistotarvikkeet</ToggleButton>
                         <ToggleButton value={5} variant="info" onClick={() => this.setFilterCategory('Äänentoisto')}>Äänentoisto</ToggleButton>
                     </ToggleButtonGroup>
-                    
-                    </div>
+                </div>
                 <h5>Tuotteet</h5>
+                {this.state.productsHaveLoaded ? 
                 <table className="table">
                     <thead>
                         <tr>
@@ -210,6 +190,15 @@ class Store extends Component {
                         {items}
                     </tbody>
                 </table>
+                :
+                <Loader
+                    type="Grid"
+                    color="#00BFFF"
+                    height={100}
+                    width={100}
+                    style={{textAlign: 'center'}}
+                />
+                }
             </div>
         )
     }
