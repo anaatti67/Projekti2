@@ -40,6 +40,10 @@
     margin-bottom:10px;
 }
 
+.nextButton {
+    float:right;
+}
+
 
 .shoppingCartNavButton {
  min-width: 40px;

@@ -9,7 +9,7 @@ import fire from 'firebase'
 import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
-import fire from './auth/config/fire'
+//import fire from './auth/config/fire'
 //import CartListener from './CartListener'
 
 

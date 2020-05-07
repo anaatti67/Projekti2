@@ -5,16 +5,18 @@ const ShoppingCart = (props) => {
 
  
   
-  let totalsum = 0
+  let totalsum = ""
+  let sumString =  "Kokonaishinta: "
   for (let x = 0; x < props.data.length; x++) {
-    totalsum = totalsum + props.data[x].price
+    totalsum = sumString + (totalsum + props.data[x].price) * props.data[x].qty + " €"
+    
   }
   let cart = props.data
   console.log(cart)
   let tab = cart.map((item) => 
               <tr key={item.id}>
                   <td>{item.name}</td>
-                  <td>{item.price}</td>
+                  <td>{item.price} €</td>
                   <td>{item.qty}</td>
                   <td>
                     
@@ -48,7 +50,7 @@ const ShoppingCart = (props) => {
             <thead>
               <tr>
                 <th>Nimi</th>
-                <th>Yhteensä</th>
+                <th>Yksikköhinta</th>
                 <th>Määrä</th>
                 <th>Toiminto</th>
               </tr>
@@ -119,7 +121,7 @@ const ShoppingCart = (props) => {
             
             
             </div>
-           <button className="btn btn-primary deliveryInfoButton" onClick={() => toPaymentInfoTab()}>Seuraava</button>
+           <button className="btn btn-primary deliveryInfoButton" onClick={() => toNextTab("deliveryTab")}>Seuraava</button>
           </div>
 
           <div id="paymentInfoContainer" className="shoppingCartElement display-none">
@@ -164,17 +166,20 @@ function checkHandler(e) {
   resetOtherCheckBoxes(e.target);
 }
 
-function toPaymentInfoTab() {
-  let checkboxes = document.querySelectorAll(".deliveryInput")
-  let checkedBoxes = 0;
-  for (let i = 0; i < checkboxes.length; i++) {
-    if(checkboxes[i].checked === true) {
-     checkedBoxes++
+function toNextTab(tabName) {
+  if(tabName === "deliveryTab") {
+    let checkboxes = document.querySelectorAll(".deliveryInput")
+    let checkedBoxes = 0;
+    for (let i = 0; i < checkboxes.length; i++) {
+      if(checkboxes[i].checked === true) {
+       checkedBoxes++
+      }
+    }
+    if(checkedBoxes === 0) {
+      alert("Valitse toimitustapa")
     }
   }
-  if(checkedBoxes === 0) {
-    alert("Valitse toimitustapa")
-  }
+  
 }
 
 function resetOtherCheckBoxes(selectedCheckBox) {
@@ -221,13 +226,15 @@ function resetActiveTab() {
 
 function setActiveElement(tabName) {
   let shoppingCartElements = document.querySelectorAll(".shoppingCartElement")
-  let emptyCartButton = document.getElementById("emptyCartButton")
+  let emptyCartButtons = document.querySelectorAll(".emptyCartButtons")
   let userInfoButton = document.getElementById("userInfoButton")
   for (let i = 0; i < shoppingCartElements.length; i++) {
     if(shoppingCartElements[i].id !== tabName+"Container") {
       shoppingCartElements[i].classList.add("display-none")
       if(shoppingCartElements[i].id === "productInfoContainer") {
-        emptyCartButton.classList.add("display-none")
+        for (let i = 0; i < emptyCartButtons.length; i++) {
+          emptyCartButtons[i].classList.add("display-none")
+        }
       }
       if(shoppingCartElements[i].id === "userInfoContainer") {
         userInfoButton.classList.add("display-none")
@@ -235,7 +242,9 @@ function setActiveElement(tabName) {
     } if (shoppingCartElements[i].id === tabName+"Container") {
       shoppingCartElements[i].classList.remove("display-none")
       if(shoppingCartElements[i].id === "productInfoContainer") {
-        emptyCartButton.classList.remove("display-none")
+        for (let i = 0; i < emptyCartButtons.length; i++) {
+          emptyCartButtons[i].classList.remove("display-none")
+        }
       }
       if(shoppingCartElements[i].id === "userInfoContainer") {
         userInfoButton.classList.remove("display-none")
@@ -308,11 +317,12 @@ class App extends Component {
         <div className="container">
           <h1 className="mt-5">Ostoskori</h1>
           <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} />
-          <button id="emptyCartButton" type="button" className="btn btn-primary" onClick={() => {
+          <button id="emptyCartButton" type="button" className="btn btn-primary emptyCartButtons" onClick={() => {
             localStorage.removeItem("shoppingCart")
             localStorage.removeItem("shoppingCartOverallQuantity")
             this.setState({shoppingcart: []})
             }}>Tyhjennä ostoskori</button>
+            <button className="btn btn-primary emptyCartButtons nextButton" onClick={() => toNextTab("shoppingCart")}>Seuraava</button>
         </div>
       </div>
     )
