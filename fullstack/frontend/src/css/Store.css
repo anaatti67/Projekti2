@@ -1,3 +1,8 @@
+#summaryInfoContainer h4 {
+    text-decoration: none;
+    font-size: 20px;
+}
+
 .productRow:hover {
     background: lightpink;
     cursor: -webkit-grab;
@@ -40,6 +45,10 @@
     margin-bottom:10px;
 }
 
+.nextButton {
+    float:right;
+}
+
 
 .shoppingCartNavButton {
  min-width: 40px;
@@ -79,6 +88,19 @@
 
 
 
+.informativeTextElement {
+    margin-top:-20px;
+    font-size: 15px;
+}
+
+
+.totalHTML {
+    width: 100%;
+    text-align: right;
+    padding-right: 30px;
+}
+
+
 .shoppingCartNavButton:hover {
     filter: invert(0.2);
 }
@@ -112,6 +134,26 @@ float:left;
 width:100%;
     
 }
+
+
+
+
+.summaryInformativeTitle {
+    margin-bottom:50px;
+}
+
+
+.itemSummaryContainer {
+    border: 1px solid black;
+    border-radius:20px;
+    width: inherit;
+   
+    background-color: rgba(39, 39, 38, 0.096);
+    margin:20px;
+    padding-left:20px;
+}
+
+
 
 
 .deliveryInfoButton {

@@ -17,7 +17,14 @@ class App extends Component {
     constructor(props) {
       super(props)
       this.state = {
-        loggedIn: false
+        cartQty: 0, cart: [], loggedIn: false
+      }
+      this.handleCartQtyChanges = this.handleCartQtyChanges.bind(this)
+    }
+    handleCartQtyChanges(qty, cart) {
+      console.log(qty)
+      if (this.state.cartQty !== qty) {
+        this.setState({cartQty: qty, cart: cart})
       }
     }
 
@@ -40,7 +47,7 @@ class App extends Component {
 
     authListener() {
       fire.auth().onAuthStateChanged((user) => {
-        console.log(user)
+        //console.log(user)
         if (user) {
           this.setState({ loggedIn: true, user: user })
           if (user.isAdmin) {
@@ -69,18 +76,17 @@ class App extends Component {
     }
     render() {
         return (<div>
-                  
-                  
                   <button onClick={() => this.signOut()}>Signout</button>
                   {this.state.loggedIn ? (<p>{this.state.user.email}</p>) : (<p>''</p>)}
                   <p> Boolean: {this.state.loggedIn.toString()} </p>
                   <BrowserRouter basename='/~c8ityrkk/ktvo/'>
                   <div>
-                      <Navi/>              
+                      <Navi handleCartQtyChanges={this.handleCartQtyChanges} />
                       <Route exact path="/" component={LandingPage} />
                       <Route exact path="/store" component={Store} />
                       <Route exact path="/admin" component={Admin} />
-                      <Route exact path="/cart" component={ShoppingCart} />
+                      <Route exact path="/cart" render={ (props) => <ShoppingCart {...props} 
+                          cartQty={this.state.cartQty} cart={this.state.cart} /> } />
                       <Route exact path="/login" component={Login} />
                       <Route exact path="/signup" component={SignUp} />
                     </div>
