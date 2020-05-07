@@ -150,17 +150,35 @@ const ShoppingCart = (props) => {
                 <button className="btn btn-primary paymentInfoButton">Seuraava</button>
               </div>
           </div>
+
+          <div id="summaryInfoContainer" className="shoppingCartElement display-none">
+              <div className="itemSummaryContainer">
+                <h3 className="summaryInformativeTitle">Vahvista tilauksen tiedot</h3>
+                <div id="itemSummaryContainer">
+
+                </div>
+              </div>
+          </div>
         </div>
         )
 }
 
 
-var currentShoppingCart
+var currentShoppingCartChoices
 function setCart(shoppingcart, totalSum) {
-currentShoppingCart = {
+  currentShoppingCartChoices = {
  items: shoppingcart,
- totalPrice: totalSum
+ totalPrice: totalSum,
+ userInfo: {
+   s_post: "",
+   f_name: "",
+   s_name: "",
+   p_nro: ""
+ },
+ delivery_method: "",
+ payment_method: ""
 }
+
 
 }
 
@@ -179,7 +197,6 @@ function checkHandler(e) {
 }
 
 function toNextTab(tabName) {
-
   if(tabName === "deliveryTab") {
     let checkboxes = document.querySelectorAll(".deliveryInput")
     let checkedBoxes = 0;
@@ -194,14 +211,16 @@ function toNextTab(tabName) {
   }
 
   if(tabName === "productInfo") {
-    console.log("Checking cart")
-    console.log(currentShoppingCart)
-    if(currentShoppingCart.items.length === 0) {
+    console.log("Checking cart choices..")
+    console.log(currentShoppingCartChoices)
+    if(currentShoppingCartChoices.items.length === 0) {
       alert("Ostoskori on tyhjä")
     }
   }
   
 }
+
+
 
 function resetOtherCheckBoxes(selectedCheckBox) {
   let checkedCheckBoxName = selectedCheckBox.name
@@ -236,8 +255,46 @@ function activeTab(e) {
     if(tabName === "summaryInfo") {
       setActiveElement("summaryInfo")
       element.classList.add("activeTab")
+      setItemSummary()
     }
         
+}
+
+function setItemSummary() {
+  let element = document.getElementById("itemSummaryContainer")
+  element.innerHTML = ""
+ for (let i = 0; i < currentShoppingCartChoices.items.length; i++) {
+   setItemInfo(currentShoppingCartChoices.items[i], element)
+ }
+  setTotalPrice(currentShoppingCartChoices,element)
+}
+
+function setItemInfo(item, element) {
+  setTitle(item, element)
+  setUnitPrice(item, element)
+ 
+}
+
+function setTotalPrice(items,element) {
+  let totalHTML = document.createElement("h2")
+  totalHTML.classList.add("totalHTML")
+  totalHTML.innerHTML = "Yhteensä: " + items.totalPrice + "€"
+  element.appendChild(totalHTML)
+}
+
+function setUnitPrice(item, element) {
+  let unitPrice = document.createElement("p")
+  unitPrice.classList.add("informativeTextElement")
+  unitPrice.innerHTML = "Yksikköhinta: " + item.price + " €"
+  element.appendChild(unitPrice)
+  
+}
+
+function setTitle(item, element) {
+  let title = document.createElement("h4")
+  title.classList.add("itemSummaryTitle")
+  title.innerHTML = item.qty + "x " + item.name
+  element.appendChild(title)
 }
 
 function resetActiveTab() {
@@ -332,13 +389,7 @@ class App extends Component {
         let id = cart.indexOf(cart[i])
         cart.splice(id,1)
      }
-    
-     
    }
-   
-   
-  
- 
   }
 
   updateCartOverallQuantity(amount) {
