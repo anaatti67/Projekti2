@@ -69,12 +69,18 @@
 }
 
 .disabled {
-    pointer-events: none;
-}
+     pointer-events: none; 
+ }
 
 .deliveryInfo {
     background-size: cover;
     background-image: url("../img/deliveryIcon.png");
+}
+
+.transActionEndButton {
+    margin-top:-50px;
+    margin-right:10px;
+    float:right;
 }
 
 .paymentInfo {
@@ -153,6 +159,10 @@ width:100%;
    
     background-color: rgba(39, 39, 38, 0.096);
     margin:20px;
+    padding-left:20px;
+}
+
+.userInfoSummaryContainer {
     padding-left:20px;
 }
 
