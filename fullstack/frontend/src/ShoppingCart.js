@@ -39,15 +39,15 @@ const ShoppingCart = (props) => {
   return (
         <div>
           <div className="shoppingCartNavBar">
-           <button id="productInfo" className="shoppingCartNavButton productInfo activeTab" onClick={(e) => activeTab(e)}></button>
+           <button id="productInfo" className="shoppingCartNavButton productInfo activeTab disabled" onClick={() => activeTab("productInfo")}></button>
            <div className="connectionLine"></div>
-           <button id="userInfo" className="shoppingCartNavButton userInfo" onClick={(e) => activeTab(e)}></button>
+           <button id="userInfo" className="shoppingCartNavButton userInfo disabled" onClick={() => activeTab("userInfo")}></button>
            <div className="connectionLine"></div>
-           <button id="deliveryInfo" className="shoppingCartNavButton deliveryInfo" onClick={(e) => activeTab(e)}></button>
+           <button id="deliveryInfo" className="shoppingCartNavButton deliveryInfo disabled" onClick={() => activeTab("deliveryInfo")}></button>
            <div className="connectionLine"></div>
-           <button id="paymentInfo" className="shoppingCartNavButton paymentInfo" onClick={(e) => activeTab(e)}></button>
+           <button id="paymentInfo" className="shoppingCartNavButton paymentInfo disabled" onClick={() => activeTab("paymentInfo")}></button>
            <div className="connectionLine"></div>
-           <button id="summaryInfo" className="shoppingCartNavButton summaryInfo" onClick={(e) => activeTab(e)}></button>
+           <button id="summaryInfo" className="shoppingCartNavButton summaryInfo disabled" onClick={() => activeTab("summaryInfo")}></button>
           </div>
           <div id="productInfoContainer" className="shoppingCartElement">
           <table className="table">
@@ -77,27 +77,27 @@ const ShoppingCart = (props) => {
               <h3>Täytä yhteystiedot</h3>
               <div id="halfForm1">
                         <label htmlFor="email">Sähköpostiosoite</label>
-                        <input placeholder="example@gmail.com" type="text"/>
+                        <input id="email1" className="formInput" placeholder="example@gmail.com" type="text"/>
 
                         <label htmlFor="email2">Sähköpostiosoite uudelleen</label>
-                        <input type="text" placeholder="example@gmail.com"/>
+                        <input id="email2" className="formInput" type="text" placeholder="example@gmail.com"/>
 
                     </div>
                     <div id="halfForm2">
                     <label htmlFor="fname">Etunimi</label>
-                        <input type="text" placeholder="kirjoita etunimesi"/>
+                        <input id="fname" className="formInput" type="text" placeholder="kirjoita etunimesi"/>
 
                         <label htmlFor="lname">Sukunimi</label>
-                        <input type="text" placeholder="kirjoita sukunimesi"/>
+                        <input id="sname" className="formInput" type="text" placeholder="kirjoita sukunimesi"/>
 
                         <label id="phonenumberLabel" htmlFor="phone">Puhelinnumero</label>
-                        <input type="text" placeholder="kirjoita puh.numerosi"/>
+                        <input id="phone" className="formInput" type="text" placeholder="kirjoita puh.numerosi"/>
                     </div>
                    
               </div>
                 </form>
           </div>
-          <button id="userInfoButton" type="button" className="btn btn-primary userInfoButton display-none">Lähetä tiedot</button>
+          <button id="userInfoButton" type="button" className="btn btn-primary userInfoButton display-none" onClick={() => toNextTab("userInfo")}>Seuraava</button>
           
           <div id="deliveryInfoContainer" className="shoppingCartElement display-none">
             <h3>Valitse Toimitustapa</h3>
@@ -193,6 +193,11 @@ function checkHandler(e) {
 }
 
 function toNextTab(tabName) {
+  if(tabName === "userInfo") {
+    //hae käyttäjän tiedot ja esitäytä
+    checkForm()
+  }
+
   if(tabName === "deliveryTab") {
     let checkboxes = document.querySelectorAll(".deliveryInput")
     let checkedBoxes = 0;
@@ -207,13 +212,44 @@ function toNextTab(tabName) {
   }
 
   if(tabName === "productInfo") {
-    console.log("Checking cart choices..")
+    console.log("Checking current Shoppingcart choices..")
     console.log(currentShoppingCartChoices)
     if(currentShoppingCartChoices.items.length === 0) {
       alert("Ostoskori on tyhjä")
+    } else {
+     activeTab("userInfo")
     }
   }
   
+}
+
+function checkForm() {
+  let inputs = document.querySelectorAll(".formInput")
+  console.log(inputs)
+  let accepted = false
+
+  for (let i = 0; i < inputs.length; i++) {
+  if(inputs[i].value === "") {
+    alert("Täytä kaikki kentät")
+    return
+  }
+  let email1 = document.getElementById("email1")
+  let email2 = document.getElementById("email2")
+  if(email1.value !== email2.value) {
+    alert("Sähköpostiosoitteet eivät täsmää")
+    return
+  }
+  let phoneField = document.getElementById("phone")
+  if(isNaN(phoneField.value)) {
+    alert("Phonenumber is invalid")
+    return
+  }
+ }
+ accepted = true
+ if(accepted) {
+   //siirry seuraavaan välilehteen
+   console.log("formi on ok")
+ }
 }
 
 
@@ -228,9 +264,8 @@ function resetOtherCheckBoxes(selectedCheckBox) {
   }
 }
 
-function activeTab(e) {
+function activeTab(tabName) {
      resetActiveTab()
-     let tabName = e.target.id
      let element = document.getElementById(tabName)
      if(tabName === "productInfo") {
       setActiveElement("productInfo")
@@ -238,7 +273,8 @@ function activeTab(e) {
      }
      if(tabName === "userInfo") {
        setActiveElement("userInfo")
-      element.classList.add("activeTab")
+       removeDisabled("productInfo")
+       element.classList.add("activeTab")
     }
     if(tabName === "deliveryInfo") {
       setActiveElement("deliveryInfo")
@@ -254,6 +290,11 @@ function activeTab(e) {
       setItemSummary()
     }
         
+}
+
+function removeDisabled(id) {
+let navButton = document.getElementById(id)
+navButton.classList.remove("disabled")
 }
 
 function setItemSummary() {
@@ -299,9 +340,12 @@ function resetActiveTab() {
 }
 
 function setActiveElement(tabName) {
+  let navButton = document.getElementById(tabName)
+  navButton.classList.remove("disabled")
   let shoppingCartElements = document.querySelectorAll(".shoppingCartElement")
   let emptyCartButtons = document.querySelectorAll(".emptyCartButtons")
   let userInfoButton = document.getElementById("userInfoButton")
+
   for (let i = 0; i < shoppingCartElements.length; i++) {
     if(shoppingCartElements[i].id !== tabName+"Container") {
       shoppingCartElements[i].classList.add("display-none")
