@@ -31,7 +31,8 @@ class Login extends Component {
     fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
       console.log(u)
       fire.database().ref('users/' + u.user.uid).set({
-        username: 'Antti on lurjus'
+        username: 'Antti on lurjus',
+        admin: true
       })
     }).catch((error) => {
         console.log(error);
@@ -53,7 +54,6 @@ class Login extends Component {
       <input value={this.state.password} onChange={this.handleChange} type="password" name="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
       </div>
       <button type="submit" onClick={this.login} className="btn btn-primary">Login</button>
-      <button onClick={this.signup} style={{marginLeft: '25px'}} className="btn btn-success">Signup</button>
  </form>
  
  </div>
