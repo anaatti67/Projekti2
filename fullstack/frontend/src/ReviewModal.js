@@ -18,7 +18,6 @@ const Stars = (props) => {
             stars.push(<span key={x}>{blank}</span>)
         }
     }
-
     return (
         <div>{stars}</div>
     )
@@ -28,11 +27,17 @@ export default class ReviewModal extends Component {
     constructor(props) {
         super(props)
         this.state = { show: false, reviews: [], loggedIn: false, 
-            user: { username: 'default' } }
+            user: { username: 'default' }, canAddReview: false }
         this.toggle = this.toggle.bind(this)
         this.whenFormChanges = this.whenFormChanges.bind(this)
         this.obj = props.obj
-        this.newReview = { ProductId: this.obj.id, CustomerId: '', CustomerName: '', ReviewTitle: '', ReviewTxt: '', Rating: 5  }
+        this.newReview = { 
+            ProductId: this.obj.id, 
+            CustomerId: '', 
+            CustomerName: '', 
+            ReviewTitle: '', 
+            ReviewTxt: '', 
+            Rating: 5  }
     }
     toggle() {
         if ("user" in localStorage) {
@@ -49,7 +54,7 @@ export default class ReviewModal extends Component {
                 ReviewTxt: '', 
                 Rating: 5  }
 
-            this.setState({loggedIn: true, user: retrievedData})
+            this.setState({ loggedIn: true, user: retrievedData })
         } 
         this.setState({ show: !this.state.show })
         if (!this.state.show) {
@@ -85,10 +90,13 @@ export default class ReviewModal extends Component {
         fetch('https://ktvo.herokuapp.com/addReview/', configuration)
             .then(r => r.json()).then((response) => {
                 console.log(response)
+                let tmpReviews = this.state.reviews
+                tmpReviews.push(this.newReview)
+                this.setState({reviews: tmpReviews})
             })
     }
     render() {
-        let reviews = <tr><td colSpan="5">Ei vielä arvosteluita</td></tr>
+        let reviews = <Container><Row><Col>Ei vielä arvosteluita</Col></Row></Container>
         if (this.state.reviews.length > 0) {
             reviews = this.state.reviews.map((review) => 
             <Container key={review.ReviewId} style={{background: 'darkslategrey', color: 'white', margin: '3em 0em', padding: '1em', borderRadius: '25px'}}>
@@ -115,7 +123,6 @@ export default class ReviewModal extends Component {
                         <h3>Lisää arvostelu</h3>
                         <form>
                             <div className="form-group">
-                                
                                 <p>Käyttäjänimi: {this.state.user.username}</p>
                             </div>
                             <div className="form-group">
