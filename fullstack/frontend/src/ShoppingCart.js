@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './css/Footer.css'
 
 const ShoppingCart = (props) => {
   
@@ -607,7 +607,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div className="container">
+        <div className="container cartbody">
           <h1 className="mt-5">Ostoskori</h1>
           <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} />
           <button id="emptyCartButton" type="button" className="btn btn-primary emptyCartButtons" onClick={() => {
