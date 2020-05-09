@@ -9,6 +9,7 @@ import fire from 'firebase'
 import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
+import { Footer } from './Footer'
 
 class App extends Component {
     constructor(props) {
@@ -20,6 +21,7 @@ class App extends Component {
       this.authListener = this.authListener.bind(this)
     }
     handleCartQtyChanges(qty, cart) {
+      //console.log(qty)
       if (this.state.cartQty !== qty) {
         this.setState({cartQty: qty, cart: cart})
       }
@@ -34,12 +36,12 @@ class App extends Component {
       console.log('signout')
       fire.auth().signOut().then(function() {
         // Sign-out successful.
+        localStorage.removeItem('admin')
         console.log('sign out succesful')
         this.setState({loggedIn:false})
       }).catch(function(error) {
         // An error happened.
         console.log('sign out error: ' + error)
-  
       });
     }
 
@@ -66,18 +68,21 @@ class App extends Component {
             if (tmpObj.admin) {
               console.log('Olen admin')
               this.setState({ admin: true })
+              localStorage.setItem('admin', tmpObj.admin = true)
             } else {
+              localStorage.setItem('admin', tmpObj.admin = false)
               console.log('En ole admin')
               this.setState({ admin: false })
             }
           });
 
-          console.log(this.state)
+          //console.log(this.state)
         } else {
           this.setState({ loggedIn: false, user: null, admin: false })
         }
       })
     }
+
     render() {
         return (<div>
                   <BrowserRouter basename='/~c8ityrkk/ktvo/'>
@@ -92,6 +97,7 @@ class App extends Component {
                           cartQty={this.state.cartQty} cart={this.state.cart} /> } />
                       <Route exact path="/login" component={Login} />
                       <Route exact path="/signup" component={SignUp} />
+                      <Footer/>
                     </div>
                   </BrowserRouter>
                 </div>

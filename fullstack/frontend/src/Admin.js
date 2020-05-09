@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ModifyProductModal from './ModifyModal';
+import './css/Footer.css'
 
 class Admin extends Component {
     constructor(props) {
@@ -8,6 +9,7 @@ class Admin extends Component {
         this.whenFormChanges = this.whenFormChanges.bind(this)
         this.state = { showProductAdd: false, showProductModify: false, products: [], addInfo: '' }
         this.item = { name: '', description: '', price: '', stock: '', category: ''}
+        
     }
     componentDidMount() {
         fetch('https://ktvo.herokuapp.com/store').then(r => r.json()).then((products) => {
@@ -127,7 +129,7 @@ class Admin extends Component {
             </tr>
         )
         return (
-            <div className="container">
+            <div className="container adminbody">
                 <h1 className="mt-5">Admin</h1>
                 { this.state.showProductAdd ? 
                 <div>
@@ -190,7 +192,7 @@ class Admin extends Component {
                         </tbody>
                     </table>
                 </div> 
-                : <div><button type="button" className="btn btn-primary" onClick={() => this.setState({showProductModify: true})}>Muokkaa tuotteita</button></div>}
+                : <div><button id="" type="button" className="btn btn-primary" onClick={() => this.setState({showProductModify: true})}>Muokkaa tuotteita</button></div>}
             </div>
         )
     }

@@ -4,6 +4,7 @@ import { NavLink, Link } from 'react-router-dom'
 import './css/Navi.css'
 import { CartListener } from './cartlistener/cartlistener'
 
+
 export class Navi extends Component {
 
     constructor(props) {
@@ -12,6 +13,7 @@ export class Navi extends Component {
         this.handleCartQtyChanges = props.handleCartQtyChanges
         this.state = { loggedIn: props.loggedIn, admin: props.admin }
         this.changeSearchValue = this.changeSearchValue.bind(this)
+        console.log(this.state)
     }
     static getDerivedStateFromProps(props, state) {
         if (props.loggedIn !== state.loggedIn || props.admin !== state.admin ) {
@@ -35,10 +37,25 @@ export class Navi extends Component {
     }
     componentDidMount() {
         this.setState({ searchString: '' })
+        console.log(localStorage.getItem('admin'))
+        
     }
     changeSearchValue(event) {
         this.setState({ searchString: event.target.value })
     }
+    
+    /*checkAdmin() {
+        //if(localStorage.getItem('admin') === 'true'){
+        if(this.props.loggedIn === true){
+        console.log("bööö")
+        this.setState({loggedIn: <NavLink className="nav-item nav-link" to="/admin" refresh = "true" >Admin (Muokkaa sisältöä) </NavLink>})
+        console.log(this.state)
+         
+        } else {
+            console.log('not wörkin')
+        }
+    }
+    */
 
     render() {
         return (
@@ -55,10 +72,9 @@ export class Navi extends Component {
                 state: {
                     filterString: ''
                 }}}>Kauppa</NavLink>
-          
+
             {this.state.admin ? <NavLink className="nav-item nav-link" to="/admin">Admin</NavLink> : ''}
-            
-          
+
             <NavLink className="nav-item nav-link" to="/cart">Ostoskori</NavLink>
 
           </Nav>
