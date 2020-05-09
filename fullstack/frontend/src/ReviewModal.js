@@ -102,7 +102,7 @@ export default class ReviewModal extends Component {
                 let tmpReviews = this.state.reviews
                 this.newReview.ReviewId = 0
                 tmpReviews.push(this.newReview)
-                this.setState({reviews: tmpReviews})
+                this.setState({reviews: tmpReviews, canAddReview: false})
             })
     }
     deleteReview(reviewId) {
