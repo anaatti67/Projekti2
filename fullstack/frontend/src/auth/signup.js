@@ -7,15 +7,16 @@ class SignIn extends Component {
     // this.login = this.login.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.signup = this.signup.bind(this);
-    this.validationInfo = '';
+    this.validate = this.validate.bind(this);
     this.state = {
+      validationInfo: '',
       email: '',
       password: '',
       confirmpassword: '',
       firstname: '',
       lastname: '',
       street: '',
-      postal: null,
+      postal: 0,
       city: '',
       phone: ''
     };
@@ -24,20 +25,21 @@ class SignIn extends Component {
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  test() {
-    console.log(this.state)
-    if (this.state.password === this.state.confirmpassword) {
+  validate(e) {
+    if (this.state.password === this.state.confirmpassword && this.state.password.length > 5) {
         console.log('ok')
+        this.signup(e)
     } else {
         console.log('nope')
+        this.setState({validationInfo: 'Salasanat eivät täsmää tai ovat liian lyhyitä'})
     }
   }
   signup(e){
-    if (this.state.password === this.state.confirmpassword) {
-       e.preventDefault();
+      e.preventDefault();
       fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((u)=>{
         console.log(u)
         fire.database().ref('users/' + u.user.uid).set({
+          email: this.state.email,
           firstname: this.state.firstname,
           lastname: this.state.lastname,  
           street: this.state.street,
@@ -48,9 +50,6 @@ class SignIn extends Component {
       }).catch((error) => {
           console.log(error);
       })
-    } else {
-      this.validationInfo = 'Salasanat eivät täsmää'
-    }
    
   }
   render() {
@@ -84,38 +83,38 @@ class SignIn extends Component {
           </div>
           <div className="form-group">
             <label htmlFor="lastinput">Sukunimi</label>
-            <input value={this.state.password} onChange={this.handleChange} 
+            <input value={this.state.lastname} onChange={this.handleChange} 
               type="text" name="lastname" className="form-control" 
               id="lastinput" placeholder="Sukunimi" />
           </div>
           <div className="form-group">
             <label htmlFor="streetinput">Katuosoite</label>
-            <input value={this.state.password} onChange={this.handleChange} 
+            <input value={this.state.street} onChange={this.handleChange} 
               type="text" name="street" className="form-control" 
               id="streetinput" placeholder="Katuosoite" />
           </div>
           <div className="form-group">
             <label htmlFor="postal">Postinumero</label>
-            <input value={this.state.password} onChange={this.handleChange} 
+            <input value={this.state.postal} onChange={this.handleChange} 
               type="number" name="postal" className="form-control" 
               id="postal" placeholder="Postinumero" />
           </div>
           <div className="form-group">
             <label htmlFor="city">Kaupunki</label>
-            <input value={this.state.password} onChange={this.handleChange} 
+            <input value={this.state.city} onChange={this.handleChange} 
               type="text" name="city" className="form-control" 
               id="city" placeholder="Kaupunki" />
           </div>
           <div className="form-group">
             <label htmlFor="phone">Puhelinnumero</label>
-            <input value={this.state.password} onChange={this.handleChange} 
-              type="text" name="phone" className="form-control" 
+            <input value={this.state.phone} onChange={this.handleChange} 
+              type="tel" name="phone" className="form-control" 
               id="phone" placeholder="Puhelinnumero" />
           </div>
-        <p>{this.validationInfo}</p>
-        <button onClick={() => console.log('click')} className="btn btn-success">Signup</button>
+        <p>{this.state.validationInfo}</p>
+        
         </form>
- 
+        <button onClick={this.validate} className="btn btn-success">Signup</button>
       </div>
     );
   }

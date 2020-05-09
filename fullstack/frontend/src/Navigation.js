@@ -9,19 +9,32 @@ export class Navi extends Component {
 
     constructor(props) {
         super(props)
+        this.signout = props.signout
         this.handleCartQtyChanges = props.handleCartQtyChanges
-        this.state = {loggedIn: props.loggedIn}
+        this.state = { loggedIn: props.loggedIn, admin: props.admin }
         this.changeSearchValue = this.changeSearchValue.bind(this)
         console.log(this.state)
     }
-
     static getDerivedStateFromProps(props, state) {
-        if (props.loggedIn !== state.loggedIn) {
-            return {
-                 loggedIn: props.loggedIn
-              }
-        }console.log(state.loggedIn)
-      }
+        if (props.loggedIn !== state.loggedIn || props.admin !== state.admin ) {
+            let localstoragedata = JSON.parse(localStorage.getItem("user"))
+            console.log(props.admin)
+            console.log(state.admin)
+            if (localstoragedata !== null && localstoragedata.admin) {
+                console.log('vaihto1')
+                return {
+                    loggedIn: props.loggedIn, admin: true
+                }
+            } else {
+                console.log('vaihto2s')
+                return {
+                    loggedIn: props.loggedIn, admin: false
+                }
+            }
+            
+        }
+        return null
+    }
     componentDidMount() {
         this.setState({ searchString: '' })
         console.log(localStorage.getItem('admin'))
@@ -60,7 +73,7 @@ export class Navi extends Component {
                     filterString: ''
                 }}}>Kauppa</NavLink>
 
-            {this.state.loggedIn ? (<NavLink className="nav-item nav-link" to="/admin" refresh = "true" >Admin (Muokkaa sisältöä) </NavLink>) : ''}
+            {this.state.admin ? <NavLink className="nav-item nav-link" to="/admin">Admin</NavLink> : ''}
 
             <NavLink className="nav-item nav-link" to="/cart">Ostoskori</NavLink>
 
@@ -78,8 +91,15 @@ export class Navi extends Component {
                     <Button variant="outline-success" type="submit">Haku</Button>
                 </Link>
             <Nav className="flex-column">
-              <NavLink className="nav-item nav-link signinregister" to="/login">Kirjaudu sisään</NavLink>
-              <NavLink className="nav-item nav-link signinregister" to="/signup">Rekisteröidy</NavLink>
+            {this.state.loggedIn ? 
+                    <Button onClick={() => this.signout()}>Kirjaudu ulos</Button>
+                :
+                <div>
+                    <NavLink className="nav-item nav-link signinregister" to="/login">Kirjaudu sisään</NavLink>
+                    <NavLink className="nav-item nav-link signinregister" to="/signup">Rekisteröidy</NavLink>
+                </div>
+            }
+              
             </Nav>
           </Form>
         </Navbar.Collapse>
