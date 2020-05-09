@@ -81,6 +81,12 @@ const ShoppingCart = (props) => {
                         <label htmlFor="email2">Sähköpostiosoite uudelleen</label>
                         <input id="email2" className="formInput" type="text" placeholder="example@gmail.com"/>
 
+                        <label htmlFor="address">Katuosoite</label>
+                        <input id="address" className="formInput" type="text" placeholder="Esimerkkikatu 4"/>
+
+                        <label htmlFor="postaddress">Postiosoite</label>
+                        <input id="postaddress" className="formInput" type="text" placeholder="12345"/>
+
                     </div>
                     <div id="halfForm2">
                     <label htmlFor="fname">Etunimi</label>
@@ -189,7 +195,9 @@ function setShoppingCartChoices(shoppingcart, totalSum) {
    s_post: "",
    f_name: "",
    s_name: "",
-   p_nro: ""
+   p_nro: "",
+   post_address: "",
+   address: ""
  },
  delivery_method: "",
  payment_method: ""
@@ -230,7 +238,6 @@ function toNextTab(tabName) {
     if(checkedBoxes === 0) {
       alert("Valitse toimitustapa")
     } else {
-     
       activeTab("paymentInfo")
     }
   }
@@ -251,7 +258,7 @@ function toNextTab(tabName) {
       for (let i = 0; i < selectedPayment.length; i++) {
         console.log(selectedPayment[i])
         currentShoppingCartChoices.payment_method = selectedPayment[i].name
-        console.log(currentShoppingCartChoices)
+   
       }
       activeTab("summaryInfo")
     } else {
@@ -290,14 +297,18 @@ function checkForm() {
   }
  }
 
- accepted = true
+  accepted = true
   if(accepted) {
   let fnameField = document.getElementById("fname")
   let snameField = document.getElementById("sname")
+  let addressField = document.getElementById("address")
+  let postAddressField = document.getElementById("postaddress")
   currentShoppingCartChoices.userInfo.s_post = email1.value
   currentShoppingCartChoices.userInfo.f_name = fnameField.value
   currentShoppingCartChoices.userInfo.s_name = snameField.value
   currentShoppingCartChoices.userInfo.p_nro = phoneField.value
+  currentShoppingCartChoices.userInfo.address = addressField.value
+  currentShoppingCartChoices.userInfo.post_address = postAddressField.value
   console.log(currentShoppingCartChoices)
   activeTab("deliveryInfo")
 }
@@ -370,16 +381,35 @@ function setItemSummary() {
 function setUserInfo(choices, element) {
  setFname(choices, element)
  setsName(choices, element)
+ setAddress(choices,element)
+ setPostAddress(choices,element)
  setEmail(choices, element)
  setDelivery(choices, element)
- setPayment(choices, element) 
+ setPayment(choices, element)
+ 
 
+}
+
+function setPostAddress(choices,element) {
+  let postAddress = document.createElement("p")
+  postAddress.classList.add("informativeTextElement")
+  postAddress.innerHTML = "<b>" + "Postiosoite: " + "</b>" + choices.userInfo.post_address
+  console.log(postAddress)
+  element.appendChild(postAddress)
+}
+
+function setAddress(choices,element) {
+  let address = document.createElement("p")
+  address.classList.add("informativeTextElement")
+  address.innerHTML = "<b>" + "Katuosoite: " + "</b>" + choices.userInfo.address
+  console.log(address)
+  element.appendChild(address)
 }
 
 function setPayment(choices, element) {
   let payment = document.createElement("p")
   payment.classList.add("informativeTextElement")
-  payment.innerHTML ="<b>" + "Maksutapa: " + "</b>" + choices.payment_method
+  payment.innerHTML = "<b>" + "Maksutapa: " + "</b>" + choices.payment_method
   element.appendChild(payment)
 }
 
