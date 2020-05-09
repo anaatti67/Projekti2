@@ -22,7 +22,6 @@ class App extends Component {
       this.handleCartQtyChanges = this.handleCartQtyChanges.bind(this)
     }
     handleCartQtyChanges(qty, cart) {
-      console.log(qty)
       if (this.state.cartQty !== qty) {
         this.setState({cartQty: qty, cart: cart})
       }
@@ -33,7 +32,8 @@ class App extends Component {
     }
 
     signOut() {
-      console.log('singout')
+      localStorage.clear()
+      console.log('signout')
       fire.auth().signOut().then(function() {
         // Sign-out successful.
         console.log('sign out succesful')
@@ -50,6 +50,7 @@ class App extends Component {
         //console.log(user)
         if (user) {
           this.setState({ loggedIn: true, user: user })
+
           if (user.isAdmin) {
             this.setState({ admin: true })
           } else {
@@ -59,6 +60,7 @@ class App extends Component {
 
           reference.on('value', function(snapshot) {
             const tmpObj = snapshot.val()
+            localStorage.setItem("user", JSON.stringify(tmpObj))
             console.log(tmpObj);
             console.log(tmpObj.username)
             if (tmpObj.admin) {

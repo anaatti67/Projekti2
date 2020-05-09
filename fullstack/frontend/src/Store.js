@@ -4,7 +4,7 @@ import ProductModal from './Modal'
 import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner'
-
+import ReviewModal from './ReviewModal'
 
 class Store extends Component {
     constructor(props) {
@@ -26,11 +26,7 @@ class Store extends Component {
         let filter = this.props.location.state.filterString
         
         fetch(this.url).then(r => r.json()).then((products) => {
-            console.log('fetch')
-
-            console.log(products)
             this.setState({ products: products, filterString: filter, productsHaveLoaded: true });
-            console.log(this.state)
             if (filter.length > 1) {
                 this.setState({filtered: true, filterInputValue: filter})
             } else {
@@ -57,7 +53,6 @@ class Store extends Component {
     cartInit() {
         if ("shoppingCart" in localStorage) {
             let retrievedData = localStorage.getItem("shoppingCart");
-            console.log(retrievedData)
             if (retrievedData === 'undefined') {
                 localStorage.setItem("shoppingCart", JSON.stringify(this.cart.shoppingcart));
             } else {
@@ -136,6 +131,13 @@ class Store extends Component {
                 }
             })
         }
+        /* TESTING RATINGS
+        for (let product of filteredProducts) {
+            if (product.Rating === null) {
+                product.Rating = 0;
+            }
+        }
+        */
 
         // If image not found, loads a 404 image
         let items = filteredProducts.map((product) =>
@@ -148,6 +150,7 @@ class Store extends Component {
                 <td>{product.Name}</td>
                 <td>{product.Price} €</td>
                 <td>{product.Stock} kpl</td>
+                <td><ReviewModal obj={product} /></td>
                 <td>
                     <button type="button" className="btn btn-primary" onClick={() => {
                         let tmp = {id: product.id,
@@ -183,6 +186,7 @@ class Store extends Component {
                         <th scope="col">Nimi</th>
                         <th scope="col">Hinta</th>
                         <th scope="col">Varastossa</th>
+                        <th scope="col">Arvostelu</th>
                         <th scope="col">Toiminto</th>
                         </tr>
                     </thead>
