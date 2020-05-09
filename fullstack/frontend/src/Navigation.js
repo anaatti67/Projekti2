@@ -13,20 +13,15 @@ export class Navi extends Component {
         this.handleCartQtyChanges = props.handleCartQtyChanges
         this.state = { loggedIn: props.loggedIn, admin: props.admin }
         this.changeSearchValue = this.changeSearchValue.bind(this)
-        console.log(this.state)
     }
     static getDerivedStateFromProps(props, state) {
         if (props.loggedIn !== state.loggedIn || props.admin !== state.admin ) {
             let localstoragedata = JSON.parse(localStorage.getItem("user"))
-            console.log(props.admin)
-            console.log(state.admin)
             if (localstoragedata !== null && localstoragedata.admin) {
-                console.log('vaihto1')
                 return {
                     loggedIn: props.loggedIn, admin: true
                 }
             } else {
-                console.log('vaihto2s')
                 return {
                     loggedIn: props.loggedIn, admin: false
                 }
@@ -36,26 +31,11 @@ export class Navi extends Component {
         return null
     }
     componentDidMount() {
-        this.setState({ searchString: '' })
-        console.log(localStorage.getItem('admin'))
-        
+        this.setState({ searchString: '' }) 
     }
     changeSearchValue(event) {
         this.setState({ searchString: event.target.value })
     }
-    
-    /*checkAdmin() {
-        //if(localStorage.getItem('admin') === 'true'){
-        if(this.props.loggedIn === true){
-        console.log("bööö")
-        this.setState({loggedIn: <NavLink className="nav-item nav-link" to="/admin" refresh = "true" >Admin (Muokkaa sisältöä) </NavLink>})
-        console.log(this.state)
-         
-        } else {
-            console.log('not wörkin')
-        }
-    }
-    */
 
     render() {
         return (
