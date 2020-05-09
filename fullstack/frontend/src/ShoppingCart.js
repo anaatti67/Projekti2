@@ -476,6 +476,14 @@ function setActiveElement(tabName) {
   }
 }
 
+function disableShoppingcartNavBar() {
+  let elements = document.querySelectorAll(".shoppingCartNavButton")
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.add("disabled")
+    
+  }
+}
+
 // HERE STARTS THE SHOPPING CART
 
 class App extends Component {
@@ -577,6 +585,7 @@ class App extends Component {
               localStorage.removeItem("shoppingCart")
               localStorage.removeItem("shoppingCartOverallQuantity")
               this.setState({shoppingcart: []})
+              disableShoppingcartNavBar()
             }
             }}>Tyhjennä ostoskori</button>
             <button className="btn btn-primary emptyCartButtons nextButton" onClick={() => toNextTab("productInfo")}>Seuraava</button>
