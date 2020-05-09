@@ -61,7 +61,6 @@ class App extends Component {
             const tmpObj = snapshot.val()
             localStorage.setItem("user", JSON.stringify(tmpObj))
             console.log(tmpObj);
-            console.log(tmpObj.username)
             if (tmpObj.admin) {
               console.log('Olen admin')
             } else {
