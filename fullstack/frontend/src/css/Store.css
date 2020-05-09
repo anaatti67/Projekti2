@@ -1,5 +1,5 @@
 .productRow:hover {
-    background: lightpink;
+    background: lightcyan;
     cursor: -webkit-grab;
 }
 .filterButton {
