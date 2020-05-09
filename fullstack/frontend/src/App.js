@@ -11,16 +11,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
 import { Footer } from './Footer'
 
-//import CartListener from './CartListener'
-
-
 class App extends Component {
     constructor(props) {
       super(props)
       this.state = {
-        cartQty: 0, cart: [], loggedIn: false
+        cartQty: 0, cart: [], loggedIn: false, admin: false
       }
       this.handleCartQtyChanges = this.handleCartQtyChanges.bind(this)
+      this.authListener = this.authListener.bind(this)
     }
     handleCartQtyChanges(qty, cart) {
       //console.log(qty)
@@ -53,43 +51,45 @@ class App extends Component {
         if (user) {
           this.setState({ loggedIn: true, user: user })
 
-          if (user.isAdmin) {
+          /*
+          if (user.admin) {
             this.setState({ admin: true })
           } else {
             this.setState({ admin: false })
           }
+          */
+
           var reference = fire.database().ref('users/' + user.uid);
 
-          reference.on('value', function(snapshot) {
+          reference.on('value', (snapshot) => {
             const tmpObj = snapshot.val()
             localStorage.setItem("user", JSON.stringify(tmpObj))
             console.log(tmpObj);
-            console.log(tmpObj.username)
             if (tmpObj.admin) {
               console.log('Olen admin')
+              this.setState({ admin: true })
               localStorage.setItem('admin', tmpObj.admin = true)
             } else {
               localStorage.setItem('admin', tmpObj.admin = false)
               console.log('En ole admin')
+              this.setState({ admin: false })
             }
           });
 
           //console.log(this.state)
         } else {
-          this.setState({ loggedIn: false, user: null })
+          this.setState({ loggedIn: false, user: null, admin: false })
         }
       })
     }
 
     render() {
         return (<div>
-                  <button onClick={() => this.signOut()}>Signout</button>
-                  {this.state.loggedIn ? (<p>{this.state.user.email}</p>) : (<p>''</p>)}
-                  <p> Boolean: {this.state.loggedIn.toString()} </p>
                   <BrowserRouter basename='/~c8ityrkk/ktvo/'>
                   <div>
                       <Navi handleCartQtyChanges={this.handleCartQtyChanges} 
-                      loggedIn={this.state.loggedIn}/>
+                          loggedIn={this.state.loggedIn} admin={this.state.admin}
+                          signout={this.signOut.bind(this)}/>
                       <Route exact path="/" component={LandingPage} />
                       <Route exact path="/store" component={Store} />
                       <Route exact path="/admin" component={Admin} />
