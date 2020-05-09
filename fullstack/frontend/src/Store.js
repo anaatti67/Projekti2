@@ -5,12 +5,13 @@ import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner'
 import ReviewModal from './ReviewModal'
+import e404 from './img/productLogos/404/404.svg'
 
 class Store extends Component {
     constructor(props) {
         super(props)
         this.cart = {shoppingcart: []}
-
+        this.listOfImages = []
         this.state = {
             products: [], 
             modal: false, 
@@ -21,7 +22,14 @@ class Store extends Component {
         }
         this.url = 'https://ktvo.herokuapp.com/store'
     }
+    importAll(r) {
+        return r.keys().map(r);
+    }
+    readFiles() {
+        this.listOfImages = this.importAll(require.context('./img/productLogos/', false, /\.(png|jpe?g|svg)$/));
+    }
     componentDidMount() {
+        this.readFiles()
         this.cartInit()
         let filter = this.props.location.state.filterString
         
@@ -131,21 +139,14 @@ class Store extends Component {
                 }
             })
         }
-        /* TESTING RATINGS
-        for (let product of filteredProducts) {
-            if (product.Rating === null) {
-                product.Rating = 0;
-            }
-        }
-        */
 
         // If image not found, loads a 404 image
         let items = filteredProducts.map((product) =>
             <tr className="productRow" key={product.id} onClick={() => this.rowClicked(product)}>
                 <td>{product.id}</td>
-                <td><img height="35px" src={process.env.PUBLIC_URL + product.pic} alt="" 
-                        onError={(e)=>{e.target.src=process.env.PUBLIC_URL + '/img/404_not_found.svg'}}>
-                    </img>
+                <td>
+                    {this.listOfImages[product.id - 1] === undefined ? <img alt='' src={e404} width="50px" />
+                        : <img alt='' src={this.listOfImages[product.id - 1]} width="50px" /> }
                 </td>
                 <td>{product.Name}</td>
                 <td>{product.Price} €</td>
@@ -164,8 +165,7 @@ class Store extends Component {
         )
         return (
             <div className="container">
-                
-                <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>                
+                <h1 className="mt-5">Käytettyjen tavaroiden verkkokauppa opiskelijoille</h1>                
                 <div className="customContainer">   
                     <input placeholder={this.state.filterInputValue} onChange={(event) => this.searchFilter(event.target.value)} />             
                     <ToggleButtonGroup type="radio" name="options" defaultValue={1}>

@@ -111,6 +111,98 @@ app.use('/update',(req, res) => {
     }
 }); 
 
+// Database creating and testing
+app.use('/getReview/:id',(req, res) => {
+		let id = req.params.id
+        let sqlStatement = `SELECT * FROM Reviews WHERE ProductId = ` + mysql.escape(id);
+        console.log(sqlStatement);
+        connection.query(sqlStatement, (err, results) => {
+            if(err) {
+                return res.send(err);
+            } else {
+                return res.send(results);
+            }
+        }); 
+}); 
+
+// Database creating and testing
+app.use('/addReview',(req, res) => {
+		console.log(req.body)
+		let pId = req.body.ProductId
+		let cId = req.body.CustomerId
+		let cName = req.body.CustomerName
+		let rTitle = req.body.ReviewTitle
+		let rTxt = req.body.ReviewTxt
+		let rating = req.body.Rating
+        let sqlStatement = `INSERT INTO Reviews 
+			(ProductId, CustomerId, CustomerName, ReviewTitle, ReviewTxt, Rating)
+			VALUES (` +
+				pId + ",'" + 
+				cId  + "','" + 
+				cName + "','" +
+				rTitle + "','" +
+				rTxt + "'," + rating + 
+			`);`;
+        console.log(sqlStatement);
+        connection.query(sqlStatement, (err, results) => {
+            if(err) {
+                return res.send(err);
+            } else {
+                return res.send(results);
+            }
+        }); 
+});
+
+// Fetch Average
+app.use('/getAverage/:id',(req, res) => {
+		let id = req.params.id
+        let sqlStatement = `SELECT AVG(Rating) AS Average
+			FROM Reviews WHERE ProductId = ` + mysql.escape(id);
+        console.log(sqlStatement);	
+        connection.query(sqlStatement, (err, results) => {
+            if(err) {
+                return res.send(err);
+            } else {
+                return res.send(results);
+            }
+        }); 
+}); 
+
+// Get all reviews
+app.use('/getAllReviews',(req, res) => {
+		let id = req.params.id
+        let sqlStatement = `SELECT * FROM Reviews`;
+        console.log(sqlStatement);
+        connection.query(sqlStatement, (err, results) => {
+            if(err) {
+                return res.send(err);
+            } else {
+                return res.send(results);
+            }
+        }); 
+}); 
+
+// Deletes a review
+app.use('/deleteReview',(req, res) => {
+    let productId = req.body.id
+    if(productId !== undefined) {
+        let sqlStatement = 'DELETE FROM Reviews WHERE ReviewId = ' + mysql.escape(productId);
+        console.log(sqlStatement);
+        connection.query(sqlStatement, (err, results) => {
+            if(err) {
+                return res.send(err);
+            } else {
+                results.message = "Deleted product with id: " + productId
+                results.insertId = productId
+                return res.send(results);
+            }
+        }); 
+    } else {
+        console.log("Delete failed")
+        return null
+    }
+});
+
 app.listen(process.env.PORT, () => {
     console.log('Server running on port 8080');
 });
