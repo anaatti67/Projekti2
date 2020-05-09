@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import fire from './config/fire';
-
+import '../css/Footer.css'
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +42,7 @@ class Login extends Component {
 
   render() {
     return (
-       <div className="col-md-6">
+       <div className="col-md-6 loginbody">
        <form>
       <div className="form-group">
        <label htmlFor="exampleInputEmail1">Email address</label>

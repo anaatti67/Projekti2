@@ -15,6 +15,13 @@
 .pad {
     padding: 2em;
 }
+.center {
+    text-align: center;
+}
+.overflow {
+    height: 100%;
+    overflow-y: auto;
+}
 h4 {
     text-decoration: underline;
     padding-bottom: 0.5em;
@@ -28,3 +35,10 @@ h4 {
     width:15%;
 }
 
+.fakelink {
+    color: blue;
+}
+.fakelink:hover {
+    color: darkblue;
+    text-decoration: underline;
+}

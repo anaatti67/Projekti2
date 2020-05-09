@@ -9,6 +9,7 @@ import fire from 'firebase'
 import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
+import { Footer } from './Footer'
 
 //import CartListener from './CartListener'
 
@@ -33,7 +34,8 @@ class App extends Component {
     }
 
     signOut() {
-      console.log('singout')
+      localStorage.clear()
+      console.log('signout')
       fire.auth().signOut().then(function() {
         // Sign-out successful.
         localStorage.removeItem('admin')
@@ -50,6 +52,7 @@ class App extends Component {
         //console.log(user)
         if (user) {
           this.setState({ loggedIn: true, user: user })
+
           if (user.isAdmin) {
             this.setState({ admin: true })
           } else {
@@ -59,6 +62,7 @@ class App extends Component {
 
           reference.on('value', function(snapshot) {
             const tmpObj = snapshot.val()
+            localStorage.setItem("user", JSON.stringify(tmpObj))
             console.log(tmpObj);
             console.log(tmpObj.username)
             if (tmpObj.admin) {
@@ -93,6 +97,7 @@ class App extends Component {
                           cartQty={this.state.cartQty} cart={this.state.cart} /> } />
                       <Route exact path="/login" component={Login} />
                       <Route exact path="/signup" component={SignUp} />
+                      <Footer/>
                     </div>
                   </BrowserRouter>
                 </div>

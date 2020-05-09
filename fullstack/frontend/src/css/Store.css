@@ -4,7 +4,7 @@
 }
 
 .productRow:hover {
-    background: lightpink;
+    background: lightcyan;
     cursor: -webkit-grab;
 }
 .filterButton {
@@ -65,11 +65,22 @@
 .userInfo {
     background-size: contain;
     background-image: url("../img/userInfo.png");
+  
 }
+
+.disabled {
+    pointer-events: none;
+ }
 
 .deliveryInfo {
     background-size: cover;
     background-image: url("../img/deliveryIcon.png");
+}
+
+.transActionEndButton {
+    margin-top:-50px;
+    margin-right:10px;
+    float:right;
 }
 
 .paymentInfo {
@@ -136,8 +147,6 @@ width:100%;
 }
 
 
-
-
 .summaryInformativeTitle {
     margin-bottom:50px;
 }
@@ -153,8 +162,9 @@ width:100%;
     padding-left:20px;
 }
 
-
-
+.userInfoSummaryContainer {
+    padding-left:20px;
+}
 
 .deliveryInfoButton {
     margin-top:10px;
@@ -200,9 +210,7 @@ margin-bottom:20px;
     float:right;
 }
 
-#phonenumberLabel {
-    margin-top: 20px;
-}
+
 
 #userInfoContainer input {
     margin-top:-8px;
