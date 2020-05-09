@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-
+import './css/Footer.css'
 
 const ShoppingCart = (props) => {
   
+  
+
   let totalSum = 0
   var totalSumString
   //console.log(props)
@@ -13,8 +15,7 @@ const ShoppingCart = (props) => {
     
   }
  let cart = props.data
-  //console.log(cart)
-  setCart(cart, totalSum)
+  setShoppingCartChoices(cart, totalSum)
   let tab = cart.map((item) => 
               <tr key={item.id} id={item.id}>
                   <td>{item.name}</td>
@@ -37,15 +38,15 @@ const ShoppingCart = (props) => {
   return (
         <div>
           <div className="shoppingCartNavBar">
-           <button id="productInfo" className="shoppingCartNavButton productInfo activeTab" onClick={(e) => activeTab(e)}></button>
+           <button id="productInfo" className="shoppingCartNavButton productInfo activeTab disabled" onClick={() => activeTab("productInfo")}></button>
            <div className="connectionLine"></div>
-           <button id="userInfo" className="shoppingCartNavButton userInfo" onClick={(e) => activeTab(e)}></button>
+           <button id="userInfo" className="shoppingCartNavButton userInfo disabled" onClick={() => activeTab("userInfo")}></button>
            <div className="connectionLine"></div>
-           <button id="deliveryInfo" className="shoppingCartNavButton deliveryInfo" onClick={(e) => activeTab(e)}></button>
+           <button id="deliveryInfo" className="shoppingCartNavButton deliveryInfo disabled" onClick={() => activeTab("deliveryInfo")}></button>
            <div className="connectionLine"></div>
-           <button id="paymentInfo" className="shoppingCartNavButton paymentInfo" onClick={(e) => activeTab(e)}></button>
+           <button id="paymentInfo" className="shoppingCartNavButton paymentInfo disabled" onClick={() => activeTab("paymentInfo")}></button>
            <div className="connectionLine"></div>
-           <button id="summaryInfo" className="shoppingCartNavButton summaryInfo" onClick={(e) => activeTab(e)}></button>
+           <button id="summaryInfo" className="shoppingCartNavButton summaryInfo disabled" onClick={() => activeTab("summaryInfo")}></button>
           </div>
           <div id="productInfoContainer" className="shoppingCartElement">
           <table className="table">
@@ -75,50 +76,50 @@ const ShoppingCart = (props) => {
               <h3>Täytä yhteystiedot</h3>
               <div id="halfForm1">
                         <label htmlFor="email">Sähköpostiosoite</label>
-                        <input placeholder="example@gmail.com" type="text"/>
+                        <input id="email1" className="formInput" placeholder="example@gmail.com" type="text"/>
 
                         <label htmlFor="email2">Sähköpostiosoite uudelleen</label>
-                        <input type="text" placeholder="example@gmail.com"/>
+                        <input id="email2" className="formInput" type="text" placeholder="example@gmail.com"/>
 
-                        <label id="passwordLabel" htmlFor="pass">Salasana</label>
-                        <input type="text" placeholder="vähintään 8 merkkiä"/>
+                        <label htmlFor="address">Katuosoite</label>
+                        <input id="address" className="formInput" type="text" placeholder="Esimerkkikatu 4"/>
 
-                        <label  htmlFor="pass2">Salasana uudelleen</label>
-                        <input id="passwordInput2" type="text" placeholder="vähintään 8 merkkiä"/>
+                        <label htmlFor="postaddress">Postiosoite</label>
+                        <input id="postaddress" className="formInput" type="text" placeholder="12345"/>
 
                     </div>
                     <div id="halfForm2">
                     <label htmlFor="fname">Etunimi</label>
-                        <input type="text" placeholder="kirjoita etunimesi"/>
+                        <input id="fname" className="formInput" type="text" placeholder="kirjoita etunimesi"/>
 
                         <label htmlFor="lname">Sukunimi</label>
-                        <input type="text" placeholder="kirjoita sukunimesi"/>
+                        <input id="sname" className="formInput" type="text" placeholder="kirjoita sukunimesi"/>
 
                         <label id="phonenumberLabel" htmlFor="phone">Puhelinnumero</label>
-                        <input type="text" placeholder="kirjoita puh.numerosi"/>
+                        <input id="phone" className="formInput" type="text" placeholder="kirjoita puh.numerosi"/>
                     </div>
                    
               </div>
                 </form>
           </div>
-          <button id="userInfoButton" type="button" className="btn btn-primary userInfoButton display-none">Lähetä tiedot</button>
+          <button id="userInfoButton" type="button" className="btn btn-primary userInfoButton display-none" onClick={() => toNextTab("userInfo")}>Seuraava</button>
           
           <div id="deliveryInfoContainer" className="shoppingCartElement display-none">
             <h3>Valitse Toimitustapa</h3>
             <div className="deliveryOptionsContainer">
               <div className="deliveryOption">
               <label htmlFor="delivery1">Kuljetus noutopisteesen</label>
-              <input type="checkbox"  name="delivery1" className="deliveryInput" onClick={(e) => checkHandler(e)}/>
+              <input type="checkbox"  name="Kuljetus noutopisteesen" className="deliveryInput" onClick={(e) => checkHandler(e)}/>
               </div>
              
             <div className="deliveryOption">
             <label htmlFor="delivery2">Kuljetus lähimpään postiin</label>
-            <input type="checkbox" name="delivery2" className="deliveryInput" onClick={(e) => checkHandler(e)}/>
+            <input type="checkbox" name="Kuljetus lähimpään postiin" className="deliveryInput" onClick={(e) => checkHandler(e)}/>
             </div>
 
             <div className="deliveryOption">
             <label htmlFor="delivery3">Kuljetus kotiin</label>
-              <input type="checkbox" name="delivery3" className="deliveryInput" onClick={(e) => checkHandler(e)}/>
+              <input type="checkbox" name="Kuljetus kotiin" className="deliveryInput" onClick={(e) => checkHandler(e)}/>
             </div>
             
             
@@ -130,37 +131,78 @@ const ShoppingCart = (props) => {
               <div className="paymentOption optionBank">
                 <h3>Verkkopankki</h3>
                 <div className="bankImages">
-                  <button id="op" className="paymentOptionButton op"  onClick={(e) => selectedPayment(e)}></button>
-                  <button id="nordea" className="paymentOptionButton nordea" onClick={(e) => selectedPayment(e)}></button>
-                  <button id="danskebank" className="paymentOptionButton danskebank" onClick={(e) => selectedPayment(e)}></button>
-                  <button id="spankki" className="paymentOptionButton spankki" onClick={(e) => selectedPayment(e)}></button>
-                  <button id="aktia" className="paymentOptionButton aktia" onClick={(e) => selectedPayment(e)}></button>
+                  <button id="op" name="OP pohjola" className="paymentOptionButton op"  onClick={(e) => selectedPayment(e)}></button>
+                  <button id="nordea" name="Nordea" className="paymentOptionButton nordea" onClick={(e) => selectedPayment(e)}></button>
+                  <button id="danskebank" name="Danske Bank" className="paymentOptionButton danskebank" onClick={(e) => selectedPayment(e)}></button>
+                  <button id="spankki" name="S-Pankki" className="paymentOptionButton spankki" onClick={(e) => selectedPayment(e)}></button>
+                  <button id="aktia" name="Aktia" className="paymentOptionButton aktia" onClick={(e) => selectedPayment(e)}></button>
                 </div>
               </div>
 
               <div className="paymentOption optionCard">
                 <h3>Maksukortti</h3>
                 <div className="cardImages">
-                  <button id="visa" className="paymentOptionButton visa" onClick={(e) => selectedPayment(e)}></button>
-                  <button id="mastercard" className="paymentOptionButton mastercard"onClick={(e) => selectedPayment(e)}></button>
-                  <button id="verifone" className="paymentOptionButton verifone"onClick={(e) => selectedPayment(e)}></button>
-                  <button id="americanExpress" className="paymentOptionButton americanExpress"onClick={(e) => selectedPayment(e)}></button>
+                  <button id="visa" name="Visa" className="paymentOptionButton visa" onClick={(e) => selectedPayment(e)}></button>
+                  <button id="mastercard" name="Master Card" className="paymentOptionButton mastercard"onClick={(e) => selectedPayment(e)}></button>
+                  <button id="verifone" name="Verifone" className="paymentOptionButton verifone"onClick={(e) => selectedPayment(e)}></button>
+                  <button id="americanExpress" name="American Express" className="paymentOptionButton americanExpress"onClick={(e) => selectedPayment(e)}></button>
                  
                 </div>
-                <button className="btn btn-primary paymentInfoButton">Seuraava</button>
+                <button className="btn btn-primary paymentInfoButton" onClick={() => toNextTab("paymentInfo")}>Seuraava</button>
               </div>
           </div>
+
+          <div id="summaryInfoContainer" className="shoppingCartElement display-none">
+              <div className="itemSummaryContainer">
+                <h3 className="summaryInformativeTitle">Vahvista tilauksen tiedot</h3>
+                <div id="itemSummaryContainer">
+                </div>
+              </div>
+              <div className="userInfoSummaryContainer">
+              <h3 className="summaryInformativeTitle">Vahvista tilaajan tiedot</h3>
+              <div id="userSummaryContainer">
+             
+                </div>
+                <button className="btn btn-primary transActionEndButton" onClick={() => endTransaction()}>Siirry maksamaan</button>
+                </div>
+          </div>
+          <div id="tilausvahvistus" className="display-none">Testi</div>
         </div>
         )
 }
 
-
-var currentShoppingCart
-function setCart(shoppingcart, totalSum) {
-currentShoppingCart = {
- items: shoppingcart,
- totalPrice: totalSum
+function endTransaction() {
+  sendEmail()
 }
+
+function sendEmail() {
+  console.log("Email sent")
+  var link = "mailto:" + currentShoppingCartChoices.userInfo.s_post
+  + "?cc=''" // CC
+  + "&subject=" + escape("Tilausvahvistus (opiskelijoiden verkkokauppa)") //otsikko
+  + "&body=" + escape(document.getElementById('tilausvahvistus').innerHTML) //viesti
+;
+
+window.location.href = link;
+}
+
+var currentShoppingCartChoices
+function setShoppingCartChoices(shoppingcart, totalSum) {
+  currentShoppingCartChoices = {
+ items: shoppingcart,
+ totalPrice: totalSum,
+ userInfo: {
+   s_post: "",
+   f_name: "",
+   s_name: "",
+   p_nro: "",
+   post_address: "",
+   address: ""
+ },
+ delivery_method: "",
+ payment_method: ""
+}
+
 
 }
 
@@ -179,28 +221,105 @@ function checkHandler(e) {
 }
 
 function toNextTab(tabName) {
+  if(tabName === "userInfo") {
+    //hae käyttäjän tiedot ja esitäytä jos löytyy
+    checkForm()
+  }
 
   if(tabName === "deliveryTab") {
     let checkboxes = document.querySelectorAll(".deliveryInput")
     let checkedBoxes = 0;
     for (let i = 0; i < checkboxes.length; i++) {
       if(checkboxes[i].checked === true) {
+        currentShoppingCartChoices.delivery_method = checkboxes[i].name
        checkedBoxes++
       }
     }
     if(checkedBoxes === 0) {
       alert("Valitse toimitustapa")
+    } else {
+      activeTab("paymentInfo")
     }
   }
 
   if(tabName === "productInfo") {
-    console.log("Checking cart")
-    console.log(currentShoppingCart)
-    if(currentShoppingCart.items.length === 0) {
+    console.log("Checking current Shoppingcart choices..")
+
+    if(currentShoppingCartChoices.items.length === 0) {
       alert("Ostoskori on tyhjä")
+    } else {
+     activeTab("userInfo")
     }
   }
-  
+
+  if(tabName === "paymentInfo") {
+    let selectedPayment = document.querySelectorAll(".selectedPaymentMethod")
+    if(selectedPayment.length > 0) {
+      for (let i = 0; i < selectedPayment.length; i++) {
+        console.log(selectedPayment[i])
+        currentShoppingCartChoices.payment_method = selectedPayment[i].name
+   
+      }
+      activeTab("summaryInfo")
+    } else {
+      alert("Select payment method")
+    }
+  }
+}
+
+function checkForm() {
+  let inputs = document.querySelectorAll(".formInput")
+  let accepted = false
+  let email1 = document.getElementById("email1")
+  let email2 = document.getElementById("email2")
+
+  console.log(inputs)
+  for (let i = 0; i < inputs.length; i++) {
+  if(inputs[i].value === "") {
+    alert("Täytä kaikki kentät")
+    return
+  }
+ 
+  if(email1.value !== email2.value) {
+    alert("Sähköpostiosoitteet eivät täsmää")
+    return
+  }
+
+  let validEmail = validateEmail(email1.value)
+  if(!validEmail) {
+    alert("insert valid email address")
+    return
+  }
+  var phoneField = document.getElementById("phone")
+  if(isNaN(phoneField.value)) {
+    alert("Phonenumber is invalid")
+    return
+  }
+ }
+
+  accepted = true
+  if(accepted) {
+  let fnameField = document.getElementById("fname")
+  let snameField = document.getElementById("sname")
+  let addressField = document.getElementById("address")
+  let postAddressField = document.getElementById("postaddress")
+  currentShoppingCartChoices.userInfo.s_post = email1.value
+  currentShoppingCartChoices.userInfo.f_name = fnameField.value
+  currentShoppingCartChoices.userInfo.s_name = snameField.value
+  currentShoppingCartChoices.userInfo.p_nro = phoneField.value
+  currentShoppingCartChoices.userInfo.address = addressField.value
+  currentShoppingCartChoices.userInfo.post_address = postAddressField.value
+  console.log(currentShoppingCartChoices)
+  activeTab("deliveryInfo")
+}
+}
+
+function validateEmail(email) {
+  if( /(.+)@(.+){2,}\.(.+){2,}/.test(email) ){
+  return true
+  } else {
+   return false
+  }
 }
 
 function resetOtherCheckBoxes(selectedCheckBox) {
@@ -213,9 +332,8 @@ function resetOtherCheckBoxes(selectedCheckBox) {
   }
 }
 
-function activeTab(e) {
+function activeTab(tabName) {
      resetActiveTab()
-     let tabName = e.target.id
      let element = document.getElementById(tabName)
      if(tabName === "productInfo") {
       setActiveElement("productInfo")
@@ -223,7 +341,8 @@ function activeTab(e) {
      }
      if(tabName === "userInfo") {
        setActiveElement("userInfo")
-      element.classList.add("activeTab")
+       removeDisabled("productInfo")
+       element.classList.add("activeTab")
     }
     if(tabName === "deliveryInfo") {
       setActiveElement("deliveryInfo")
@@ -236,8 +355,118 @@ function activeTab(e) {
     if(tabName === "summaryInfo") {
       setActiveElement("summaryInfo")
       element.classList.add("activeTab")
+      
+      setItemSummary()
     }
         
+}
+
+function removeDisabled(id) {
+let navButton = document.getElementById(id)
+navButton.classList.remove("disabled")
+}
+
+function setItemSummary() {
+  let element = document.getElementById("itemSummaryContainer")
+  let element2 = document.getElementById("userSummaryContainer")
+  element.innerHTML = ""
+  element2.innerHTML = ""
+ for (let i = 0; i < currentShoppingCartChoices.items.length; i++) {
+   setItemInfo(currentShoppingCartChoices.items[i], element)
+ }
+  setTotalPrice(currentShoppingCartChoices,element)
+  setUserInfo(currentShoppingCartChoices, element2)
+}
+
+function setUserInfo(choices, element) {
+ setFname(choices, element)
+ setsName(choices, element)
+ setAddress(choices,element)
+ setPostAddress(choices,element)
+ setEmail(choices, element)
+ setDelivery(choices, element)
+ setPayment(choices, element)
+ 
+
+}
+
+function setPostAddress(choices,element) {
+  let postAddress = document.createElement("p")
+  postAddress.classList.add("informativeTextElement")
+  postAddress.innerHTML = "<b>" + "Postiosoite: " + "</b>" + choices.userInfo.post_address
+  console.log(postAddress)
+  element.appendChild(postAddress)
+}
+
+function setAddress(choices,element) {
+  let address = document.createElement("p")
+  address.classList.add("informativeTextElement")
+  address.innerHTML = "<b>" + "Katuosoite: " + "</b>" + choices.userInfo.address
+  console.log(address)
+  element.appendChild(address)
+}
+
+function setPayment(choices, element) {
+  let payment = document.createElement("p")
+  payment.classList.add("informativeTextElement")
+  payment.innerHTML = "<b>" + "Maksutapa: " + "</b>" + choices.payment_method
+  element.appendChild(payment)
+}
+
+function setDelivery(choices, element) {
+  let delivery = document.createElement("p")
+  delivery.classList.add("informativeTextElement")
+  delivery.innerHTML = "<b>" + "Toimitus: " + "</b>"  + choices.delivery_method
+  element.appendChild(delivery)
+}
+
+function setEmail(choices, element) {
+  let email = document.createElement("p")
+  email.classList.add("informativeTextElement")
+  email.innerHTML = "<b>" + "S-posti: " + "</b>" + choices.userInfo.s_post
+  element.appendChild(email)
+}
+
+function setsName(choices, element) {
+  let sname = document.createElement("p")
+  sname.classList.add("informativeTextElement")
+  sname.innerHTML = "<b>" + "Sukunimi: " + "</b>" + choices.userInfo.s_name
+  element.appendChild(sname)
+}
+
+function setFname(choices, element) {
+  let fname = document.createElement("p")
+  fname.classList.add("informativeTextElement")
+  fname.innerHTML = "<b>" + "Etunimi: " + "</b>" + choices.userInfo.f_name
+  element.appendChild(fname)
+}
+
+function setItemInfo(item, element) {
+  setItemTitle(item, element)
+  setUnitPrice(item, element)
+ 
+}
+
+function setTotalPrice(items,element) {
+  let totalHTML = document.createElement("h2")
+  totalHTML.classList.add("totalHTML")
+  totalHTML.innerHTML = "Yhteensä: " + items.totalPrice + "€"
+  element.appendChild(totalHTML)
+}
+
+function setUnitPrice(item, element) {
+  let unitPrice = document.createElement("p")
+  unitPrice.classList.add("informativeTextElement")
+  unitPrice.innerHTML = "Yksikköhinta: " + item.price + " €"
+  element.appendChild(unitPrice)
+  
+}
+
+function setItemTitle(item, element) {
+  let title = document.createElement("h4")
+  title.classList.add("itemSummaryTitle")
+  title.innerHTML = item.qty + "x " + item.name
+  element.appendChild(title)
 }
 
 function resetActiveTab() {
@@ -246,9 +475,12 @@ function resetActiveTab() {
 }
 
 function setActiveElement(tabName) {
+  let navButton = document.getElementById(tabName)
+  navButton.classList.remove("disabled")
   let shoppingCartElements = document.querySelectorAll(".shoppingCartElement")
   let emptyCartButtons = document.querySelectorAll(".emptyCartButtons")
   let userInfoButton = document.getElementById("userInfoButton")
+
   for (let i = 0; i < shoppingCartElements.length; i++) {
     if(shoppingCartElements[i].id !== tabName+"Container") {
       shoppingCartElements[i].classList.add("display-none")
@@ -271,6 +503,14 @@ function setActiveElement(tabName) {
         userInfoButton.classList.remove("display-none")
       }
     } 
+  }
+}
+
+function disableShoppingcartNavBar() {
+  let elements = document.querySelectorAll(".shoppingCartNavButton")
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].classList.add("disabled")
+    
   }
 }
 
@@ -367,14 +607,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div className="container">
+        <div className="container cartbody">
           <h1 className="mt-5">Ostoskori</h1>
           <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} />
-          <button id="emptyCartButton" type="button" className="btn btn-primary" onClick={() => {
+          <button id="emptyCartButton" type="button" className="btn btn-primary emptyCartButtons" onClick={() => {
             if(window.confirm('Really clear the shopping cart?')) {
               localStorage.removeItem("shoppingCart")
               localStorage.removeItem("shoppingCartOverallQuantity")
               this.setState({shoppingcart: []})
+              disableShoppingcartNavBar()
             }
             }}>Tyhjennä ostoskori</button>
             <button className="btn btn-primary emptyCartButtons nextButton" onClick={() => toNextTab("productInfo")}>Seuraava</button>

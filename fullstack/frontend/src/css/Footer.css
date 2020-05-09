@@ -1,0 +1,41 @@
+
+
+.footer {
+
+    position: relative;
+    bottom:0;
+    width: 100%;
+    background-color: #504f4f;
+    display: flex;
+    justify-content:space-evenly;
+    padding:10%;
+    padding-top:5%;
+}
+
+.footerInfoContainer {
+    color: #ffffffa2;
+    height: 50px;
+   
+}
+
+.footerInfoContainer > p {
+    margin-top: -20px;
+}
+
+.happenings p:hover {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.footerInfoContainer > h5 {
+margin-bottom:40px;
+}
+
+.moreInfo p:hover {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.adminbody, .cartbody, .loginbody {
+    margin-bottom:100vh;
+}

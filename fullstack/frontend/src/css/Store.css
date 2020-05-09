@@ -1,3 +1,8 @@
+#summaryInfoContainer h4 {
+    text-decoration: none;
+    font-size: 20px;
+}
+
 .productRow:hover {
     background: lightcyan;
     cursor: -webkit-grab;
@@ -60,11 +65,22 @@
 .userInfo {
     background-size: contain;
     background-image: url("../img/userInfo.png");
+  
 }
+
+.disabled {
+    pointer-events: none;
+ }
 
 .deliveryInfo {
     background-size: cover;
     background-image: url("../img/deliveryIcon.png");
+}
+
+.transActionEndButton {
+    margin-top:-50px;
+    margin-right:10px;
+    float:right;
 }
 
 .paymentInfo {
@@ -81,6 +97,19 @@
     outline: none;
 }
 
+
+
+.informativeTextElement {
+    margin-top:-20px;
+    font-size: 15px;
+}
+
+
+.totalHTML {
+    width: 100%;
+    text-align: right;
+    padding-right: 30px;
+}
 
 
 .shoppingCartNavButton:hover {
@@ -117,6 +146,25 @@ width:100%;
     
 }
 
+
+.summaryInformativeTitle {
+    margin-bottom:50px;
+}
+
+
+.itemSummaryContainer {
+    border: 1px solid black;
+    border-radius:20px;
+    width: inherit;
+   
+    background-color: rgba(39, 39, 38, 0.096);
+    margin:20px;
+    padding-left:20px;
+}
+
+.userInfoSummaryContainer {
+    padding-left:20px;
+}
 
 .deliveryInfoButton {
     margin-top:10px;
@@ -162,9 +210,7 @@ margin-bottom:20px;
     float:right;
 }
 
-#phonenumberLabel {
-    margin-top: 20px;
-}
+
 
 #userInfoContainer input {
     margin-top:-8px;
