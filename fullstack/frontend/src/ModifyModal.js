@@ -39,25 +39,12 @@ export default class ModifyProductModal extends Component {
             return(
                 <span>
                 <Button onClick={this.toggle}>Muokkaa</Button>
-                <div style={{
-                    background: "rgba(255, 255, 255, 0.9)", 
-                    zIndex: "10",
-                    display: "inline-block",
-                    position: "fixed",
-                    top: "0",
-                    left: "0",
-                    bottom: "0",
-                    right: "0",
-                    width: "70%",
-                    height: "100%",
-                    margin: "auto",
-                    borderRadius: "25px"
-                    }}>
+                <div className="modalPosition">
                 <Container className="border pad">
                     <Row>
                         <Col>
-                            <Button className="btn btn-danger" style={{float: "right"}} onClick={this.toggle}>Sulje</Button>
-                            <h1 style={{paddingBottom: "10%"}}>Muokkaa tuotetta</h1>
+                            <Button className="btn btn-danger floatRight" onClick={this.toggle}>Sulje</Button>
+                            <h1>Muokkaa tuotetta</h1>
                             <p>Id: {this.modifiedItem.id}</p>
                         </Col>
                     </Row>
@@ -72,7 +59,7 @@ export default class ModifyProductModal extends Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="description">Selite</label>
-                                <input type="text" onChange={this.whenFormChanges} 
+                                <textarea onChange={this.whenFormChanges} rows="6"
                                 defaultValue={this.modifiedItem.description}
                                 name="description" className="form-control" id="description" placeholder=""/>
                             </div>

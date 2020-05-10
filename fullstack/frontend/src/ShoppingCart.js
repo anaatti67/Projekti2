@@ -577,8 +577,6 @@ class App extends Component {
     let cart = this.state.shoppingcart
     let found = cart.find(product => product.id === id)
     found.qty++
-    let qty = this.state.cartQty
-    qty++
     this.handleCartQtyChanges(this.state.cartQty + 1, cart)
   }
 
