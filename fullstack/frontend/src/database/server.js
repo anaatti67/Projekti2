@@ -203,6 +203,30 @@ app.use('/deleteReview',(req, res) => {
     }
 });
 
+// Removes products from stock
+app.use('/removeProductsFromStock',(req, res) => {
+    console.log(req.body)
+	let productId = req.body.id
+	let removeQty = req.body.qty
+    if(productId !== undefined) {
+        let sqlStatement = 'UPDATE Products SET Stock = (Stock - ' + mysql.escape(removeQty) + ' ) WHERE id = ' + mysql.escape(productId);
+        console.log(sqlStatement);
+        connection.query(sqlStatement, (err, results) => {
+            if(err) {
+                return res.send(err);
+            } else {
+				console.log('Succesfully removed qty')
+                results.message = "Removed products with id: " + productId
+                results.insertId = productId
+                return res.send(results);
+            }
+        }); 
+    } else {
+        console.log("Remove failed")
+        return null
+    }
+});
+
 app.listen(process.env.PORT, () => {
     console.log('Server running on port 8080');
 });
