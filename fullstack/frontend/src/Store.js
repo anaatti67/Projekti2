@@ -67,6 +67,7 @@ class Store extends Component {
       }
 
     buy(product) {
+        console.log(product)
         let length = this.state.cart.length
         let newItem = false;
         let tmpObj = this.state.cart
@@ -80,7 +81,6 @@ class Store extends Component {
           }
         }
         if (!newItem || tmpObj.length === 0) {
-          console.log('is a new item')
           product.qty = 1
           tmpObj.push(product)
         }
@@ -141,7 +141,8 @@ class Store extends Component {
                                 price: product.Price}
                         this.buy(tmp)}}>
                         Lisää ostoskoriin
-                    </button> <ProductModal show={product.modal} obj={product} buy={this.buy.bind(this)} />
+                    </button> 
+                    <ProductModal show={product.modal} obj={product} buy={this.buy.bind(this)} imgSrc={this.listOfImages[product.id - 1]} />
                 </td>
             </tr>
         )

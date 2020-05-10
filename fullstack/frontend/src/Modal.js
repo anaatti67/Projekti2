@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { Button, Container, Row, Col } from 'react-bootstrap'
 import './css/Modal.css'
+import e404 from './img/productLogos/404/404.svg'
 
 export default class ProductModal extends Component {
     constructor(props) {
         super(props)
         this.state = {show: props.show}
+        this.imgSrc = props.imgSrc
         this.toggle = this.toggle.bind(this)
         this.obj = this.props.obj
         this.addToCart = this.props.buy
@@ -17,35 +19,23 @@ export default class ProductModal extends Component {
     render() {
         if (this.state.show === true ) {
             return(
-                <span>
-<Button onClick={this.toggle}>Tuotetiedot</Button>
-                    <div style={{
-                background: "rgba(255, 255, 255, 0.9)", 
-                zIndex: "10",
-                display: "inline-block",
-                position: "fixed",
-                top: "0",
-                left: "0",
-                bottom: "0",
-                right: "0",
-                width: "70%",
-                height: "70%",
-                margin: "auto",
-                borderRadius: "25px"
-                }}>
+                <div>
+                <Button variant="info" onClick={this.toggle}>Tuotetiedot</Button>
+                <div className="modalPosition">
                 <Container className="border pad">
                     <Row>
                         <Col>
                             
-                            <Button className="btn btn-danger" style={{float: "right"}}onClick={this.toggle}>Sulje</Button>
-                            <h1 style={{paddingBottom: "10%"}}>{this.obj.Name}</h1>
+                            <Button className="btn btn-danger floatRight" onClick={this.toggle}>Sulje</Button>
+                            <h1>{this.obj.Name}</h1>
                             <p>Kategoria: {this.obj.Category}</p>
                         </Col>
                     </Row>
                     <Row className="border">
-                        <Col><img className="modalImg" src={process.env.PUBLIC_URL + this.obj.pic} alt="" 
-                            onError={(e)=>{e.target.src=process.env.PUBLIC_URL + './img/404_not_found.svg'}}>
-                        </img></Col>
+                        <Col>
+                        {this.imgSrc === undefined ? <img alt='' src={e404} width="50px" className="modalImg" />
+                        : <img alt='' src={this.imgSrc} className="modalImg" /> }
+                        </Col>
                         <Col>
                         <h4>Tuoteselostus</h4>
                         <p>{this.obj.Description}</p>
@@ -57,24 +47,22 @@ export default class ProductModal extends Component {
                         <Col><h5>Jäljellä varastossa: {this.obj.Stock}</h5></Col>
                         <Col>
                             <p className="price">{this.obj.Price} €</p>
-                            <Button variant="info" onClick={() => this.addToCart(this.obj)}>Lisää ostoskoriin</Button>
+                            <Button variant="info" onClick={() => {
+                                let tmp = {id: this.obj.id,
+                                    name: this.obj.Name, 
+                                    price: this.obj.Price}
+                                this.addToCart(tmp)
+                                }}>Lisää ostoskoriin</Button>
                         </Col>
                     </Row>
                 </Container>
-                    
-                                        
-                        
-                    
-                        
-                    
-                    
                 </div>
-                </span>
+                </div>
                 
             
         )
         } else {
-            return <Button  variant="info" onClick={this.toggle}>Tuotetiedot</Button>
+            return <Button variant="info" onClick={this.toggle}>Tuotetiedot</Button>
         }
         
         

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import cartImg from '../img/cart.png'
 import './cartlistener.css'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 export class CartListener extends Component {
     constructor(props) {
@@ -58,9 +58,10 @@ export class CartListener extends Component {
         this.handleCartQtyChanges(totalQty, this.state.shoppingCart)
         return (
             <div className="cartlistenerBody">
-                <img alt="Shopping Cart" src={cartImg} className="imgStyle" onClick={() => this.toggle()} />
+                <img alt="Shopping Cart" src={cartImg} className="cartImgStyle" onClick={() => this.toggle()} />
+                <div className="cartQty">{totalQty}</div>
                 {this.state.show ? 
-                <div className="style">
+                <div className="cartStyle">
                     <button type="button" className="btn btn-danger floatRight" onClick={() => this.toggle()}>X</button>
                     <h5>Ostoskori</h5>
                     <table className="tableStyle">

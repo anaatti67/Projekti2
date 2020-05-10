@@ -125,7 +125,7 @@ export default class ReviewModal extends Component {
         let reviews = <Container><Row><Col>Ei vielä arvosteluita</Col></Row></Container>
         if (this.state.reviews.length > 0) {
             reviews = this.state.reviews.map((review) => 
-            <Container key={review.ReviewId} style={{background: 'darkslategrey', color: 'white', margin: '3em 0em', padding: '1em', borderRadius: '25px'}}>
+            <Container key={review.ReviewId} className="reviewModalList">
                 <Row>
                     <Col>
                         <span style={{float: 'right'}}>
@@ -170,26 +170,27 @@ export default class ReviewModal extends Component {
                                     defaultValue={this.newReview.txt} name="reviewTxt" 
                                     className="form-control" id="reviewTxt" placeholder="Kirjoita arvostelu tähän..."/>
                             </div>
-            
-                            <div className="form-check form-check-inline">
+                            
+                            <h5>Pisteet</h5>
+                            <div className="form-check">
                                 <input onChange={this.whenFormChanges} className="form-check-input" type="radio" name="rating" id="rating5" value="5" defaultChecked={true} />
-                                <label className="form-check-label" htmlFor="rating5">5</label>
+                                <label className="form-check-label" htmlFor="rating5"><Stars stars="5" /></label>
                             </div>
-                            <div className="form-check form-check-inline">
+                            <div className="form-check">
                                 <input onChange={this.whenFormChanges} className="form-check-input" type="radio" name="rating" id="rating4" value="4" />
-                                <label className="form-check-label" htmlFor="rating4">4</label>
+                                <label className="form-check-label" htmlFor="rating4"><Stars stars="4" /></label>
                             </div>
-                            <div className="form-check form-check-inline">
+                            <div className="form-check">
                                 <input onChange={this.whenFormChanges} className="form-check-input" type="radio" name="rating" id="rating3" value="3" />
-                                <label className="form-check-label" htmlFor="rating3">3</label>
+                                <label className="form-check-label" htmlFor="rating3"><Stars stars="3" /></label>
                             </div>
-                            <div className="form-check form-check-inline">
+                            <div className="form-check">
                                 <input onChange={this.whenFormChanges} className="form-check-input" type="radio" name="rating" id="rating2" value="2" />
-                                <label className="form-check-label" htmlFor="rating2">2</label>
+                                <label className="form-check-label" htmlFor="rating2"><Stars stars="2" /></label>
                             </div>
-                            <div className="form-check form-check-inline">
+                            <div className="form-check">
                                 <input onChange={this.whenFormChanges} className="form-check-input" type="radio" name="rating" id="rating1" value="1" />
-                                <label className="form-check-label" htmlFor="rating1">1</label>
+                                <label className="form-check-label" htmlFor="rating1"><Stars stars="1" /></label>
                             </div>
                             <br/>
                             <button type="button" className="btn btn-success" onClick={() => this.sendReview()}>Lähetä</button>
@@ -199,29 +200,15 @@ export default class ReviewModal extends Component {
                 </Row>
             )
         }
-        const style = {
-            background: "rgba(255, 255, 255, 0.9)", 
-            zIndex: "10",
-            display: "inline-block",
-            position: "fixed",
-            top: "0",
-            left: "0",
-            bottom: "0",
-            right: "0",
-            width: "70%",
-            height: "100%",
-            margin: "auto",
-            borderRadius: "25px"
-            }
         if (this.state.show === true ) {
             return(
                 <span>
                 <Button>Näytä arvostelut</Button>
-                <div style={style}>
+                <div className="modalPosition">
                 <Container className="border pad overflow">
                     <Row>
                         <Col>
-                            <Button className="btn btn-danger" style={{float: "right"}} onClick={this.toggle}>X</Button>
+                            <Button className="btn btn-danger floatRight" onClick={this.toggle}>X</Button>
                             <h1>{this.obj.id} - {this.obj.Name} <Stars stars={this.obj.Rating} /></h1>
                             {addReview}
                             <hr/>
