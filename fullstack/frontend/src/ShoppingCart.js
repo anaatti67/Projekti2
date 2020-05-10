@@ -272,7 +272,7 @@ function checkForm() {
   let accepted = false
   let email1 = document.getElementById("email1")
   let email2 = document.getElementById("email2")
-
+  var phoneField = document.getElementById("phone")
   console.log(inputs)
   for (let i = 0; i < inputs.length; i++) {
   if(inputs[i].value === "") {
@@ -290,11 +290,7 @@ function checkForm() {
     alert("insert valid email address")
     return
   }
-  var phoneField = document.getElementById("phone")
-  if(isNaN(phoneField.value)) {
-    alert("Phonenumber is invalid")
-    return
-  }
+  
  }
 
   accepted = true
@@ -500,10 +496,51 @@ function setActiveElement(tabName) {
         }
       }
       if(shoppingCartElements[i].id === "userInfoContainer") {
+        checkIfLoggedIn()
         userInfoButton.classList.remove("display-none")
       }
     } 
   }
+}
+
+function checkIfLoggedIn() {
+  if(localStorage.user) {
+    let user = JSON.parse(localStorage.user)
+    let forms = document.querySelectorAll(".formInput")
+    console.log(user)
+    setUserValues(user, forms)
+  } else {
+    console.log("Kirjautunutta käyttäjää ei löytynyt")
+  }
+
+}
+
+function setUserValues(user, forms) {
+  for (let i = 0; i < forms.length; i++) {
+   console.log(forms[i].id)
+   if(forms[i].id === "email1") {
+    forms[i].value = user.email
+    forms[i+1].value = user.email
+   }
+   if(forms[i].id === "address") {
+    forms[i].value = user.street
+   }
+   if(forms[i].id === "postaddress") {
+    forms[i].value = user.postal
+  }
+  if(forms[i].id === "fname") {
+    forms[i].value = user.firstname
+  }
+  if(forms[i].id === "sname") {
+    forms[i].value = user.lastname
+  }
+  if(forms[i].id === "phone") {
+    forms[i].value = user.phone
+  }
+
+    
+  }
+  console.log(forms)
 }
 
 function disableShoppingcartNavBar() {
