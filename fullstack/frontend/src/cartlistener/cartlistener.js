@@ -9,13 +9,17 @@ export class CartListener extends Component {
         this.handleCartQtyChanges = props.handleCartQtyChanges
         this.clearCart = props.clearCart
         this.toggle = this.toggle.bind(this)
-        this.state = {show: props.show, shoppingCart: props.cart, cartQty: props.cartQty }
+        this.state = {show: props.show, shoppingCart: props.cart, cartQty: props.cartQty, products: [] }
     }
     static getDerivedStateFromProps(props,state) {
         if (props.cartQty !== state.cartQty) {
             return { shoppingCart: props.cart, cartQty: props.cartQty }
         }
         return null
+    }
+    componentDidMount() {
+        fetch('https://ktvo.herokuapp.com/store').then(r => r.json()).then((products) => {
+          this.setState({ products: products })})
     }
     toggle() {
         this.setState({show: !this.state.show})
@@ -35,6 +39,15 @@ export class CartListener extends Component {
         this.setState({shoppingCart: products})
         localStorage.setItem("shoppingCart", JSON.stringify(products));
     }
+    checkStock(id, cartQty) {
+        console.log(id + ', ' + cartQty)
+        for (let item of this.state.products) {
+            if(item.id === id && item.Stock <= cartQty) {
+                return false
+            }
+        }
+        return true
+    }
     render() {
         let items = this.state.shoppingCart.map((product) => 
             <tr key={product.id}>
@@ -42,7 +55,9 @@ export class CartListener extends Component {
                 <td>{product.qty}</td>
                 <td className="txtAlignRight">{product.price}</td>
                 <td>
+                    {this.checkStock(product.id, product.qty) ?
                     <button type="button" className="btn btn-secondary valueAdjust" onClick={() => this.changeValue(product, 1)}>+</button>
+                    : ''}
                 </td>
                 <td>
                     <button type="button" className="btn btn-secondary valueAdjust" onClick={() => this.changeValue(product, -1)}>-</button>

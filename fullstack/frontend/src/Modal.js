@@ -9,8 +9,9 @@ export default class ProductModal extends Component {
         this.state = {show: props.show}
         this.imgSrc = props.imgSrc
         this.toggle = this.toggle.bind(this)
-        this.obj = this.props.obj
-        this.addToCart = this.props.buy
+        this.obj = props.obj
+        this.addToCart = props.buy
+        this.checkStock = props.checkStock
     }
     toggle() {
         let toggle = this.state.show
@@ -47,12 +48,15 @@ export default class ProductModal extends Component {
                         <Col><h5>Jäljellä varastossa: {this.obj.Stock}</h5></Col>
                         <Col>
                             <p className="price">{this.obj.Price} €</p>
+                            {this.checkStock(this.obj.id, this.obj.Stock) ? 
                             <Button variant="info" onClick={() => {
                                 let tmp = {id: this.obj.id,
                                     name: this.obj.Name, 
                                     price: this.obj.Price}
                                 this.addToCart(tmp)
                                 }}>Lisää ostoskoriin</Button>
+                            :
+                            <p>Et voi tilata enempää kuin varastossa on tuotetta</p>}
                         </Col>
                     </Row>
                 </Container>

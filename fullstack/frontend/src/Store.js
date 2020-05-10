@@ -102,6 +102,25 @@ class Store extends Component {
             this.setState({filtered: false})
         }
     }
+    getStockColor(stockAmount) {
+        if (stockAmount <= 0) {
+            return {color: 'red'}
+        } else if (stockAmount < 10) {
+            return {color: 'orange'}
+        } else if (stockAmount >= 10) {
+            return {color: 'green'}
+        }
+    }
+    checkStock(id, stockQty) {
+        for (let item of this.state.cart) {
+            if(item.id === id) {
+                if (item.qty >= stockQty) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
     render() {
         // Product filtering - showCategory default is 'all'
         // and it can be changed with buttons
@@ -132,9 +151,10 @@ class Store extends Component {
                 </td>
                 <td>{product.Name}</td>
                 <td>{product.Price} €</td>
-                <td>{product.Stock} kpl</td>
+                <td><span style={this.getStockColor(product.Stock)}>{product.Stock}</span> kpl</td>
                 <td><ReviewModal obj={product} /></td>
                 <td>
+                    {this.checkStock(product.id, product.Stock) ? 
                     <button type="button" className="btn btn-primary" onClick={() => {
                         let tmp = {id: product.id,
                                 name: product.Name, 
@@ -142,7 +162,11 @@ class Store extends Component {
                         this.buy(tmp)}}>
                         Lisää ostoskoriin
                     </button> 
-                    <ProductModal show={product.modal} obj={product} buy={this.buy.bind(this)} imgSrc={this.listOfImages[product.id - 1]} />
+                    : <p>Et voi tilata enempää kuin varastossa on tuotetta</p>}
+                    
+                    <ProductModal show={product.modal} obj={product} 
+                        buy={this.buy.bind(this)} imgSrc={this.listOfImages[product.id - 1]} 
+                        checkStock={this.checkStock.bind(this)} />
                 </td>
             </tr>
         )

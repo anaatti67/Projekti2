@@ -11,7 +11,8 @@ const ShoppingCart = (props) => {
     totalSumString = "kokonaishinta: " + totalSum + " €"
     
   }
- let cart = props.data
+  let cart = props.data
+  console.log(cart)
   setShoppingCartChoices(cart, totalSum)
   let tab = cart.map((item) => 
               <tr key={item.id} id={item.id}>
@@ -19,12 +20,15 @@ const ShoppingCart = (props) => {
                   <td>{item.price} €</td>
                   <td>{item.qty}</td>
                   <td>
-                    
+                    {props.checkStock(item.id, item.qty) ?
                     <button type="button" className="btn btn-primary" onClick={() => { 
                         props.add(item.id)
                         }}>
                         Lisää
-                    </button> <button type="button" className="btn btn-primary" onClick={() => { 
+                    </button> 
+                    :
+                    ''}
+                    <button type="button" className="btn btn-primary" onClick={() => { 
                         props.remove(item.id)}}>
                         Poista
                     </button>
@@ -160,7 +164,7 @@ const ShoppingCart = (props) => {
               <div id="userSummaryContainer">
              
                 </div>
-                <button className="btn btn-primary transActionEndButton" onClick={() => endTransaction()}>Siirry maksamaan</button>
+                <button className="btn btn-primary transActionEndButton" onClick={() => endTransaction(cart)}>Siirry maksamaan</button>
                 </div>
           </div>
           <div id="tilausvahvistus" className="display-none">Testi</div>
@@ -168,8 +172,25 @@ const ShoppingCart = (props) => {
         )
 }
 
-function endTransaction() {
+function endTransaction(cart) {
   sendEmail()
+  removeProductsFromStock(cart)
+}
+
+// Added by Ilmari, removes products from database after succesful order
+function removeProductsFromStock(cart) {
+  const url = 'https://ktvo.herokuapp.com/removeProductsFromStock'
+  for (let item of cart) {
+    let body = { id: item.id, qty: item.qty }
+    let configuration = {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(body)
+    }
+    fetch(url, configuration).then(r => r.json()).then((response) => {
+        console.log(response);
+    }) 
+  }
 }
 
 function sendEmail() {
@@ -548,7 +569,7 @@ function disableShoppingcartNavBar() {
   }
 }
 
-// HERE STARTS THE SHOPPING CART
+// HERE STARTS THE SHOPPING CART COMPONENT
 
 class App extends Component {
   constructor(props) {
@@ -557,7 +578,7 @@ class App extends Component {
     this.clearCart = props.clearCart
     this.add = this.add.bind(this)
     this.remove = this.remove.bind(this)
-    this.state = {shoppingcart: props.cart, cartQty: props.cartQty}
+    this.state = {shoppingcart: props.cart, cartQty: props.cartQty, products: []}
   }
 
   // Checks if props are changed
@@ -571,7 +592,10 @@ class App extends Component {
       return null
     }
   }
-
+  componentDidMount() {
+    fetch('https://ktvo.herokuapp.com/store').then(r => r.json()).then((products) => {
+      this.setState({ products: products })})
+  }
   // Adds a product to shopping cart
   add(id) {
     let cart = this.state.shoppingcart
@@ -594,12 +618,21 @@ class App extends Component {
     }
     this.handleCartQtyChanges(this.state.cartQty - 1, cart)
   }
+  checkStock(id, cartQty) {
+    console.log(id + ', ' + cartQty)
+    for (let item of this.state.products) {
+        if(item.id === id && item.Stock <= cartQty) {
+            return false
+        }
+    }
+    return true
+  }
   render() {
     return (
       <div>
         <div className="container cartbody">
           <h1 className="mt-5">Ostoskori</h1>
-          <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} />
+          <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} checkStock={this.checkStock.bind(this)} />
           <button id="emptyCartButton" type="button" className="btn btn-primary emptyCartButtons" onClick={() => {
             if(window.confirm('Really clear the shopping cart?')) {
               this.clearCart()
