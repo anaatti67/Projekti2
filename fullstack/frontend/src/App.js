@@ -84,7 +84,7 @@ class App extends Component {
           reference.on('value', (snapshot) => {
             const tmpObj = snapshot.val()
             localStorage.setItem("user", JSON.stringify(tmpObj))
-            console.log(tmpObj);
+            //console.log(tmpObj);
             if (tmpObj.admin) {
               console.log('Olen admin')
               this.setState({ admin: true })
