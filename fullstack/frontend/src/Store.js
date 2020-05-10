@@ -10,9 +10,11 @@ import e404 from './img/productLogos/404/404.svg'
 class Store extends Component {
     constructor(props) {
         super(props)
-        this.cart = {shoppingcart: []}
+        this.handleCartQtyChanges = props.handleCartQtyChanges
         this.listOfImages = []
         this.state = {
+            cart: props.cart,
+            cartQty: props.cartQty,
             products: [], 
             modal: false, 
             showCategory: 'all',
@@ -22,17 +24,20 @@ class Store extends Component {
         }
         this.url = 'https://ktvo.herokuapp.com/store'
     }
+
+    // Image directory checking starts here
     importAll(r) {
         return r.keys().map(r);
     }
     readFiles() {
         this.listOfImages = this.importAll(require.context('./img/productLogos/', false, /\.(png|jpe?g|svg)$/));
     }
+    // Image directory checking ends here
+
+
     componentDidMount() {
         this.readFiles()
-        this.cartInit()
         let filter = this.props.location.state.filterString
-        
         fetch(this.url).then(r => r.json()).then((products) => {
             this.setState({ products: products, filterString: filter, productsHaveLoaded: true });
             if (filter.length > 1) {
@@ -44,6 +49,9 @@ class Store extends Component {
     }
     
     static getDerivedStateFromProps(props, state) {
+        if (props.cartQty !== state.cartQty) {
+            return { cartQty: props.cartQty, cart: props.cart }
+        }
         let newFilter = props.location.state.filterString
         if (newFilter !== state.lastRow) {
           return {
@@ -57,28 +65,11 @@ class Store extends Component {
         // Return null to indicate no change to state.
         return null;
       }
-    
-    cartInit() {
-        if ("shoppingCart" in localStorage) {
-            let retrievedData = localStorage.getItem("shoppingCart");
-            if (retrievedData === 'undefined') {
-                localStorage.setItem("shoppingCart", JSON.stringify(this.cart.shoppingcart));
-            } else {
-                var dataToArray = JSON.parse(retrievedData);
 
-                if (dataToArray != null) {
-                    for (let x = 0; x < dataToArray.length; x++) {
-                    this.cart.shoppingcart.push(dataToArray[x])
-                    }
-                }
-            }
-        }
-      }
     buy(product) {
-        let length = this.cart.shoppingcart.length
-        
+        let length = this.state.cart.length
         let newItem = false;
-        let tmpObj = this.cart.shoppingcart
+        let tmpObj = this.state.cart
 
         console.log(tmpObj);
         for (let x = 0; x < length; x++) {
@@ -93,11 +84,8 @@ class Store extends Component {
           product.qty = 1
           tmpObj.push(product)
         }
-        //console.log(tmpObj)
-        this.setState({shoppingcart: tmpObj})
-        localStorage.setItem("shoppingCart", JSON.stringify(tmpObj));
-        console.log(localStorage.getItem("shoppingCart"))
-        console.log(this.cart.shoppingcart)
+
+        this.handleCartQtyChanges(this.state.cartQty + 1, tmpObj)
     }
     rowClicked(product) {
         console.log(product)
@@ -107,20 +95,14 @@ class Store extends Component {
         this.setState({showCategory: category})
     }
     searchFilter(filterString) {
-        // this.setState({showCategory: 'all'})
         if (filterString.length > 1) {
             this.setState({filtered: true, filterString: filterString})
 
         } else {
             this.setState({filtered: false})
         }
-       
     }
     render() {
-        for (let product of this.state.products) {
-            product.pic = '/img/' + product.id + '.png'
-        }
-        
         // Product filtering - showCategory default is 'all'
         // and it can be changed with buttons
         let filteredProducts = this.state.products
@@ -140,11 +122,11 @@ class Store extends Component {
             })
         }
 
-        // If image not found, loads a 404 image
         let items = filteredProducts.map((product) =>
             <tr className="productRow" key={product.id} onClick={() => this.rowClicked(product)}>
                 <td>{product.id}</td>
                 <td>
+                    {/* If image not found, loads a 404 image */}
                     {this.listOfImages[product.id - 1] === undefined ? <img alt='' src={e404} width="50px" />
                         : <img alt='' src={this.listOfImages[product.id - 1]} width="50px" /> }
                 </td>

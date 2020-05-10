@@ -18,17 +18,48 @@ class App extends Component {
         cartQty: 0, cart: [], loggedIn: false, admin: false
       }
       this.handleCartQtyChanges = this.handleCartQtyChanges.bind(this)
+      this.clearCart = this.clearCart.bind(this)
       this.authListener = this.authListener.bind(this)
     }
+
+    // Handles shopping cart changes of child components
     handleCartQtyChanges(qty, cart) {
-      //console.log(qty)
+      console.log('App.js qty: ' + qty + ", Given qty: " + qty)
       if (this.state.cartQty !== qty) {
         this.setState({cartQty: qty, cart: cart})
+        localStorage.setItem("shoppingCart", JSON.stringify(this.state.cart));
       }
+    }
+
+    // Handles clear shopping cart calls of child components
+    clearCart() {
+      console.log('Clearing cart')
+      localStorage.removeItem("shoppingCart")
+      this.setState({ cart: [], cartQty: 0 })
     }
 
     componentDidMount() {
       this.authListener()
+      if ("shoppingCart" in localStorage) {
+        let retrievedData = localStorage.getItem("shoppingCart");
+  
+        if (retrievedData === 'undefined') {
+          localStorage.setItem("shoppingCart", JSON.stringify(this.state.cart));
+        } else {
+          var dataToArray = JSON.parse(retrievedData);
+          if (dataToArray != null) {
+            let tmpCart = []
+            for (let x = 0; x < dataToArray.length; x++) {
+              tmpCart.push(dataToArray[x])
+            }
+            let qty = 0
+            for (let item of tmpCart) {
+              qty += item.qty
+            }
+            this.setState({ cart: tmpCart, cartQty: qty })
+          }
+        }
+      } 
     }
 
     signOut() {
@@ -47,20 +78,9 @@ class App extends Component {
 
     authListener() {
       fire.auth().onAuthStateChanged((user) => {
-        //console.log(user)
         if (user) {
           this.setState({ loggedIn: true, user: user })
-
-          /*
-          if (user.admin) {
-            this.setState({ admin: true })
-          } else {
-            this.setState({ admin: false })
-          }
-          */
-
           var reference = fire.database().ref('users/' + user.uid);
-
           reference.on('value', (snapshot) => {
             const tmpObj = snapshot.val()
             localStorage.setItem("user", JSON.stringify(tmpObj))
@@ -75,8 +95,6 @@ class App extends Component {
               this.setState({ admin: false })
             }
           });
-
-          //console.log(this.state)
         } else {
           this.setState({ loggedIn: false, user: null, admin: false })
         }
@@ -87,14 +105,15 @@ class App extends Component {
         return (<div>
                   <BrowserRouter basename='/~c8ityrkk/ktvo/'>
                   <div>
-                      <Navi handleCartQtyChanges={this.handleCartQtyChanges} 
-                          loggedIn={this.state.loggedIn} admin={this.state.admin}
-                          signout={this.signOut.bind(this)}/>
+                      <Navi handleCartQtyChanges={this.handleCartQtyChanges}
+                          loggedIn={this.state.loggedIn} admin={this.state.admin} clearCart={this.clearCart.bind(this)}
+                          signout={this.signOut.bind(this)} cart={this.state.cart} cartQty={this.state.cartQty} />
                       <Route exact path="/" component={LandingPage} />
-                      <Route exact path="/store" component={Store} />
+                      <Route exact path="/store" render={ (props) => <Store {...props}
+                          cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
                       <Route exact path="/admin" component={Admin} />
-                      <Route exact path="/cart" render={ (props) => <ShoppingCart {...props} 
-                          cartQty={this.state.cartQty} cart={this.state.cart} /> } />
+                      <Route exact path="/cart" render={ (props) => <ShoppingCart {...props} clearCart={this.clearCart.bind(this)}
+                          cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
                       <Route exact path="/login" component={Login} />
                       <Route exact path="/signup" component={SignUp} />
                       <Footer/>

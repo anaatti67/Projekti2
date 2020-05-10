@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import './css/Footer.css'
 
 const ShoppingCart = (props) => {
-  
-  
-
   let totalSum = 0
   var totalSumString
   //console.log(props)
@@ -519,14 +516,15 @@ function disableShoppingcartNavBar() {
 class App extends Component {
   constructor(props) {
     super(props)
+    this.handleCartQtyChanges = props.handleCartQtyChanges
+    this.clearCart = props.clearCart
     this.add = this.add.bind(this)
     this.remove = this.remove.bind(this)
-    this.state = {shoppingcart: [], cartQty: props.cartQty}
-    this.cartInit()
+    this.state = {shoppingcart: props.cart, cartQty: props.cartQty}
   }
+
+  // Checks if props are changed
   static getDerivedStateFromProps(props, state) {
-    console.log(props)
-    console.log(state)
     if (props.cartQty !== state.cartQty) {
       return {
         cartQty: props.cartQty,
@@ -536,73 +534,30 @@ class App extends Component {
       return null
     }
   }
-  cartInit() {
-    if ("shoppingCart" in localStorage) {
-      let retrievedData = localStorage.getItem("shoppingCart");
 
-      if (retrievedData === 'undefined') {
-        localStorage.setItem("shoppingCart", JSON.stringify(this.state.shoppingcart));
-      } else {
-        var dataToArray = JSON.parse(retrievedData);
-        if (dataToArray != null) {
-          for (let x = 0; x < dataToArray.length; x++) {
-            this.state.shoppingcart.push(dataToArray[x])
-            
-          }
-          //console.log(this.state.shoppingcart)
-        }
-      }
-    } 
-  }
+  // Adds a product to shopping cart
   add(id) {
     let cart = this.state.shoppingcart
     let found = cart.find(product => product.id === id)
-    found.qty += 1
-    this.setState({shoppingcart: cart})
-    this.updateCartOverallQuantity(1)
+    found.qty++
+    let qty = this.state.cartQty
+    qty++
+    this.handleCartQtyChanges(this.state.cartQty + 1, cart)
   }
+
+  // Removes a product from shopping cart
   remove(id) {
     let cart = this.state.shoppingcart
     let found = cart.find(product => product.id === id)
-    //console.log(found.name)
-    this.removeEmpty(cart,found.name)
-    if (found.qty >= 1) {
-     
-      found.qty -= 1
-     if(found.qty === 0) {
-       //console.log(found.id)
-    
-     }
-      //console.log(found.qty)
-      this.updateCartOverallQuantity(-1)
-      
-    }
-    this.setState({shoppingcart: cart})
-  }
+    found.qty--
 
-  removeEmpty(cart,name) {
-   for (let i = 0; i < cart.length; i++) {
-     if(cart[i].name === name && cart[i].qty-1 === 0) {
-        let id = cart.indexOf(cart[i])
-        cart.splice(id,1)
-     }
-   }
-  }
-
-  updateCartOverallQuantity(amount) {
-    if ("shoppingCartOverallQuantity" in localStorage) {
-      let retrievedData = localStorage.getItem("shoppingCartOverallQuantity");
-      //console.log(retrievedData)
-      if (retrievedData === null) {
-        localStorage.setItem("shoppingCartOverallQuantity", JSON.stringify(0));
-      } else {
-        var data = JSON.parse(retrievedData);
-        data += amount
-        localStorage.setItem("shoppingCartOverallQuantity", JSON.stringify(data));
-      }
-    } else {
-      localStorage.setItem("shoppingCartOverallQuantity", JSON.stringify(0));
+    // Remove product from shopping cart if quantity <= 0
+    if (found.qty <= 0) {
+      cart = cart.filter(item => 
+        item.id !== found.id
+      )
     }
+    this.handleCartQtyChanges(this.state.cartQty - 1, cart)
   }
   render() {
     return (
@@ -612,9 +567,7 @@ class App extends Component {
           <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} />
           <button id="emptyCartButton" type="button" className="btn btn-primary emptyCartButtons" onClick={() => {
             if(window.confirm('Really clear the shopping cart?')) {
-              localStorage.removeItem("shoppingCart")
-              localStorage.removeItem("shoppingCartOverallQuantity")
-              this.setState({shoppingcart: []})
+              this.clearCart()
               disableShoppingcartNavBar()
             }
             }}>Tyhjennä ostoskori</button>
