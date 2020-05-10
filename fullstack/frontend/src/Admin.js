@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import ModifyProductModal from './ModifyModal';
-import './css/Footer.css'
+import Loader from 'react-loader-spinner'
+
 
 class Admin extends Component {
     constructor(props) {
         super(props)
         this.add = this.add.bind(this)
         this.whenFormChanges = this.whenFormChanges.bind(this)
-        this.state = { showProductAdd: false, showProductModify: false, products: [], addInfo: '' }
+        this.state = { showProductAdd: false, showProductModify: false, products: [], addInfo: '', productsHaveLoaded: false }
         this.item = { name: '', description: '', price: '', stock: '', category: ''}
         
     }
     componentDidMount() {
         fetch('https://ktvo.herokuapp.com/store').then(r => r.json()).then((products) => {
             console.log(products)
-            this.setState({ products: products });
+            this.setState({ products: products, productsHaveLoaded: true });
         })
     }
     add() {
@@ -174,7 +175,8 @@ class Admin extends Component {
                 {this.state.showProductModify ?
                 <div>
                     <button type="button" className="btn btn-secondary" onClick={() => this.setState({showProductModify: false})}>Piilota</button>
-                    <table class="table">
+                    {this.state.productsHaveLoaded ? 
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th>Id</th>
@@ -191,6 +193,14 @@ class Admin extends Component {
                             {items}
                         </tbody>
                     </table>
+                    : 
+                    <Loader
+                    type="Grid"
+                    color="#00BFFF"
+                    height={100}
+                    width={100}
+                    style={{textAlign: 'center'}}
+                    />}
                 </div> 
                 : <div><button id="" type="button" className="btn btn-primary" onClick={() => this.setState({showProductModify: true})}>Muokkaa tuotteita</button></div>}
             </div>

@@ -1,26 +1,24 @@
 import React, { Component } from 'react'
 import cartImg from '../img/cart.png'
+import './cartlistener.css'
+import { NavLink, Link } from 'react-router-dom'
 
 export class CartListener extends Component {
     constructor(props) {
         super(props)
         this.handleCartQtyChanges = props.handleCartQtyChanges
+        this.clearCart = props.clearCart
         this.toggle = this.toggle.bind(this)
-        this.state = {show: props.show, shoppingCart: []}
+        this.state = {show: props.show, shoppingCart: props.cart, cartQty: props.cartQty }
     }
-    
-    toggle() {
-        console.log('toggle')
-        this.update()
-        this.setState({show: !this.state.show})
-    }
-    update() {
-        let retrievedData = ''
-        if ("shoppingCart" in localStorage) {
-            retrievedData = localStorage.getItem("shoppingCart")
-            this.setState({shoppingCart: JSON.parse(retrievedData)})
+    static getDerivedStateFromProps(props,state) {
+        if (props.cartQty !== state.cartQty) {
+            return { shoppingCart: props.cart, cartQty: props.cartQty }
         }
-        console.log(retrievedData)
+        return null
+    }
+    toggle() {
+        this.setState({show: !this.state.show})
     }
     changeValue(product, value) {
         let products = this.state.shoppingCart
@@ -38,28 +36,16 @@ export class CartListener extends Component {
         localStorage.setItem("shoppingCart", JSON.stringify(products));
     }
     render() {
-        let imgStyle = {
-            width: '50px',
-            marginRight: '1em'
-        }
-        let style = {
-            position: 'fixed',
-            zIndex: "10",
-            display: "inline-block",
-            top: "25%",
-            right: '25%',
-            background: 'black',
-            color: 'white',
-            padding: '1em'
-        }
         let items = this.state.shoppingCart.map((product) => 
             <tr key={product.id}>
                 <td>{product.name}</td>
                 <td>{product.qty}</td>
-                <td style={{textAlign: 'right'}}>{product.price}</td>
+                <td className="txtAlignRight">{product.price}</td>
                 <td>
-                    <button type="button" className="btn btn-secondary" onClick={() => this.changeValue(product, 1)}>+</button>
-                    <button type="button" className="btn btn-secondary" onClick={() => this.changeValue(product, -1)}>-</button>
+                    <button type="button" className="btn btn-secondary valueAdjust" onClick={() => this.changeValue(product, 1)}>+</button>
+                </td>
+                <td>
+                    <button type="button" className="btn btn-secondary valueAdjust" onClick={() => this.changeValue(product, -1)}>-</button>
                 </td>
             </tr>
         )
@@ -71,30 +57,43 @@ export class CartListener extends Component {
         }
         this.handleCartQtyChanges(totalQty, this.state.shoppingCart)
         return (
-            <div>
-                <img alt="Shopping Cart" src={cartImg} style={imgStyle}  onClick={() => this.toggle()} />
+            <div className="cartlistenerBody">
+                <img alt="Shopping Cart" src={cartImg} className="imgStyle" onClick={() => this.toggle()} />
                 {this.state.show ? 
-                <div style={style}>
-                    <button type="button" className="btn btn-danger" style={{float: 'right'}} onClick={() => this.toggle()}>X</button>
+                <div className="style">
+                    <button type="button" className="btn btn-danger floatRight" onClick={() => this.toggle()}>X</button>
                     <h5>Ostoskori</h5>
-                    <table style={{marginTop: '3em'}}>
+                    <table className="tableStyle">
                         <thead>
                             <tr>
                                 <th>Nimi</th>
                                 <th>Määrä</th>
-                                <th style={{textAlign: 'right'}}>á</th>
-                                <th></th>
+                                <th className="txtAlignRight">á</th>
+                                <th colSpan="2"></th>
                             </tr>
                         </thead>
                         <tbody>
                             {items}
-                            <tr></tr>
+                            <tr><td colSpan="5"><hr/></td></tr>
                             <tr>
                                 <td>
                                    Yhteensä: 
                                 </td>
                                 <td>{totalQty}</td>
-                                <td style={{textAlign: 'right'}}>{totalPrice}</td>
+                                <td className="txtAlignRight">{totalPrice}</td>
+                            </tr>
+                            <tr><td colSpan="5"><hr/></td></tr>
+                            <tr>
+                                <td colSpan="5">
+                                    <button id="emptyCartButton" type="button" className="btn btn-danger" onClick={() => {
+                                            if(window.confirm('Really clear the shopping cart?')) {                       
+                                                this.clearCart()
+                                            }
+                                        }}>                        
+                                        Tyhjennä ostoskori
+                                    </button>
+                                    <NavLink to="/cart"><button type="button" className="btn btn-success floatRight">Tilaamaan</button></NavLink>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

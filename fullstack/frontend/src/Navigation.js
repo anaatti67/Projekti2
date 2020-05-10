@@ -6,15 +6,18 @@ import { CartListener } from './cartlistener/cartlistener'
 
 
 export class Navi extends Component {
-
     constructor(props) {
         super(props)
         this.signout = props.signout
         this.handleCartQtyChanges = props.handleCartQtyChanges
-        this.state = { loggedIn: props.loggedIn, admin: props.admin }
+        this.clearCart = props.clearCart
+        this.state = { loggedIn: props.loggedIn, admin: props.admin, cart: props.cart, cartQty: props.cartQty }
         this.changeSearchValue = this.changeSearchValue.bind(this)
     }
     static getDerivedStateFromProps(props, state) {
+        if (props.cartQty !== state.cartQty) {
+            return { cartQty: props.cartQty, cart: props.cart }
+        }
         if (props.loggedIn !== state.loggedIn || props.admin !== state.admin ) {
             let localstoragedata = JSON.parse(localStorage.getItem("user"))
             if (localstoragedata !== null && localstoragedata.admin) {
@@ -27,7 +30,8 @@ export class Navi extends Component {
                 }
             }
             
-        }
+        } 
+        
         return null
     }
     componentDidMount() {
@@ -58,7 +62,8 @@ export class Navi extends Component {
             <NavLink className="nav-item nav-link" to="/cart">Ostoskori</NavLink>
 
           </Nav>
-          <CartListener handleCartQtyChanges={this.handleCartQtyChanges.bind(this)} />
+          <CartListener handleCartQtyChanges={this.handleCartQtyChanges.bind(this)} cart={this.state.cart} 
+                cartQty={this.state.cartQty} clearCart={this.clearCart} />
           <Form inline onSubmit={e => { e.preventDefault(); }}>
             <FormControl type="text" placeholder="Hae" className="mr-sm-2" 
                 onChange={this.changeSearchValue} />
