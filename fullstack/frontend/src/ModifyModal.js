@@ -37,13 +37,13 @@ export default class ModifyProductModal extends Component {
     render() {
         if (this.state.show === true ) {
             return(
-                <span>
+                <span className="modalBody">
                 <Button onClick={this.toggle}>Muokkaa</Button>
                 <div className="modalPosition">
                 <Container className="border pad">
                     <Row>
                         <Col>
-                            <Button className="btn btn-danger floatRight" onClick={this.toggle}>Sulje</Button>
+                            <Button className="btn btn-danger floatRight" onClick={this.toggle}>X</Button>
                             <h1>Muokkaa tuotetta</h1>
                             <p>Id: {this.modifiedItem.id}</p>
                         </Col>
@@ -52,7 +52,7 @@ export default class ModifyProductModal extends Component {
                         <Col>
                         <form id="modifyForm">
                             <div className="form-group">
-                                <label htmlFor="name">Tuotteen nimi</label>
+                                <label htmlFor="pname">Tuotteen nimi</label>
                                 <input type="text" onChange={this.whenFormChanges} 
                                     defaultValue={this.modifiedItem.name} name="name" 
                                     className="form-control" id="name" placeholder="iMac Pro"/>
@@ -97,7 +97,7 @@ export default class ModifyProductModal extends Component {
                 </span>
             )
         } else {
-            return <Button  variant="info" onClick={this.toggle}>Muokkaa</Button>
+            return <Button size="sm" variant="info" onClick={this.toggle}>Muokkaa</Button>
         }
     }
 }

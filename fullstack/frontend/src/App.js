@@ -102,24 +102,24 @@ class App extends Component {
     }
 
     render() {
-        return (<div>
-                  <BrowserRouter basename='/~c8ityrkk/ktvo/'>
-                  <div>
-                      <Navi handleCartQtyChanges={this.handleCartQtyChanges}
-                          loggedIn={this.state.loggedIn} admin={this.state.admin} clearCart={this.clearCart.bind(this)}
-                          signout={this.signOut.bind(this)} cart={this.state.cart} cartQty={this.state.cartQty} />
-                      <Route exact path="/" component={LandingPage} />
-                      <Route exact path="/store" render={ (props) => <Store {...props}
-                          cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
-                      <Route exact path="/admin" component={Admin} />
-                      <Route exact path="/cart" render={ (props) => <ShoppingCart {...props} clearCart={this.clearCart.bind(this)}
-                          cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
-                      <Route exact path="/login" component={Login} />
-                      <Route exact path="/signup" component={SignUp} />
-                      <Footer/>
-                    </div>
-                  </BrowserRouter>
-                </div>
+        return (
+            <BrowserRouter basename='/~c8ityrkk/ktvo/'>
+            
+                <Navi handleCartQtyChanges={this.handleCartQtyChanges}
+                    loggedIn={this.state.loggedIn} admin={this.state.admin} clearCart={this.clearCart.bind(this)}
+                    signout={this.signOut.bind(this)} cart={this.state.cart} cartQty={this.state.cartQty} />
+                <Route exact path="/" component={LandingPage} />
+                <Route exact path="/store" render={ (props) => <Store {...props}
+                    cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
+                <Route exact path="/admin" component={Admin} />
+                <Route exact path="/cart" render={ (props) => <ShoppingCart {...props} clearCart={this.clearCart.bind(this)}
+                    cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/signup" component={SignUp} />
+                <Footer/>
+              
+            </BrowserRouter>
+                
         )}
 
     

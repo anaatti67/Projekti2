@@ -1,43 +1,35 @@
-.modalPosition {
-    position:absolute;
-    background: rgba(0, 50, 0, 0.9);
-    color: white;
+
+.modalBody {
+    
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
 
     z-index: 10;
+    overflow-y: scroll;
+    height: 100%;
+}
+.modalPosition {
+    border: 5px solid black;
+    
+    position: relative;
+    width: 100%;
+
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+    
     border-radius: 25px;
     cursor: default;
-
-    top: 10%;
-    left:10%;
-    right: 10%;
-    min-height:10%;
-}
-.cartQty {
-    background: rgba(250,0,0,0.8);
-    padding: 0.1em 0.5em;
-    border-radius: 100%;
-    color: white;
-    position: absolute;
-    bottom: -30%;
-    right: 0%;
-    font-weight: bold;
-}
-.border {
-    border: 0px solid black;
-    padding: 1em 2em;
 }
 .modalImg {
     float: left; 
     padding: 5%;
-    height: 200px;
+    width: 100%;
 }
 .price {
     color: red;
     font-size: 2em;
-    
-}
-.pad {
-    padding: 2em;
 }
 .center {
     text-align: center;
@@ -53,7 +45,6 @@ h4 {
 
 #categoryList {
     background-color: #fff;
-    border: 1px solid #ced4da;
     border-radius: .25rem;
     display: block;
     width:15%;
@@ -61,12 +52,16 @@ h4 {
 
 .fakelink {
     color: blue;
+    font-size: x-small;
 }
 .fakelink:hover {
     color: darkblue;
     text-decoration: underline;
+    cursor: pointer;
 }
-
+.closeButton {
+    max-width: 40px;
+}
 .floatRight {
     float: right;
 }
@@ -77,3 +72,23 @@ h4 {
     padding: 1em; 
     border-radius: 25px;
 }
+.descriptionTxt {
+    text-align: left;
+}
+.addButton {
+    margin-bottom: 2em;
+}
+.alignLeft {
+    text-align: left;
+}
+.modifyTable {
+    width: 100%;
+    margin-top: 1em;
+    font-size: small;
+}
+.modifyTable thead {background: #CCC;}
+.modifyTable thead tr th:first-child { text-align: right; padding-right: 0.5em;  }
+.modifyTable tbody tr:nth-child(even) {background: #CCC}
+.modifyTable tbody tr:nth-child(odd) {background: #FFF}
+.modifyTable tbody tr:hover {background: lightblue;}
+.modifyTable tbody tr td:first-child {font-weight: bold; text-align: right; padding-right: 0.5em;}
