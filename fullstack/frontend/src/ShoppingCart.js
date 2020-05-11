@@ -407,7 +407,7 @@ function setUserInfo(choices, element) {
 function setPostAddress(choices,element) {
   let postAddress = document.createElement("p")
   postAddress.classList.add("informativeTextElement")
-  postAddress.innerHTML = "<b>" + "Postiosoite: " + "</b>" + choices.userInfo.post_address
+  postAddress.innerHTML = "<b>Postiosoite: </b>" + choices.userInfo.post_address
   console.log(postAddress)
   element.appendChild(postAddress)
 }
@@ -415,7 +415,7 @@ function setPostAddress(choices,element) {
 function setAddress(choices,element) {
   let address = document.createElement("p")
   address.classList.add("informativeTextElement")
-  address.innerHTML = "<b>" + "Katuosoite: " + "</b>" + choices.userInfo.address
+  address.innerHTML = "<b>Katuosoite: </b>" + choices.userInfo.address
   console.log(address)
   element.appendChild(address)
 }
@@ -423,35 +423,35 @@ function setAddress(choices,element) {
 function setPayment(choices, element) {
   let payment = document.createElement("p")
   payment.classList.add("informativeTextElement")
-  payment.innerHTML = "<b>" + "Maksutapa: " + "</b>" + choices.payment_method
+  payment.innerHTML = "<b>Maksutapa: </b>" + choices.payment_method
   element.appendChild(payment)
 }
 
 function setDelivery(choices, element) {
   let delivery = document.createElement("p")
   delivery.classList.add("informativeTextElement")
-  delivery.innerHTML = "<b>" + "Toimitus: " + "</b>"  + choices.delivery_method
+  delivery.innerHTML = "<b>Toimitus: </b>"  + choices.delivery_method
   element.appendChild(delivery)
 }
 
 function setEmail(choices, element) {
   let email = document.createElement("p")
   email.classList.add("informativeTextElement")
-  email.innerHTML = "<b>" + "S-posti: " + "</b>" + choices.userInfo.s_post
+  email.innerHTML = "<b>S-posti: </b>" + choices.userInfo.s_post
   element.appendChild(email)
 }
 
 function setsName(choices, element) {
   let sname = document.createElement("p")
   sname.classList.add("informativeTextElement")
-  sname.innerHTML = "<b>" + "Sukunimi: " + "</b>" + choices.userInfo.s_name
+  sname.innerHTML = "<b>Sukunimi: </b>" + choices.userInfo.s_name
   element.appendChild(sname)
 }
 
 function setFname(choices, element) {
   let fname = document.createElement("p")
   fname.classList.add("informativeTextElement")
-  fname.innerHTML = "<b>" + "Etunimi: " + "</b>" + choices.userInfo.f_name
+  fname.innerHTML = "<b>Etunimi: </b>" + choices.userInfo.f_name
   element.appendChild(fname)
 }
 

@@ -43,52 +43,60 @@ export class Navi extends Component {
 
     render() {
         return (
-        <Navbar  bg="light" expand="md">
-        <Navbar.Brand>
-            <NavLink className="nav-item nav-link" to="/">KTVO</NavLink>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar bg="light" expand="lg">
+            <Navbar.Brand>
+                <NavLink className="nav-item nav-link" to="/">KTVO</NavLink>
+            </Navbar.Brand>
+            
+            
+            
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="mr-auto">
-          
-            <NavLink className="nav-item nav-link" to={{
-                pathname: "/store",
-                state: {
-                    filterString: ''
-                }}}>Kauppa</NavLink>
+            <Nav className="mr-auto">
+                <NavLink className="nav-item nav-link" to={{
+                    pathname: "/store",
+                    state: {
+                        filterString: ''
+                    }}}>Kauppa</NavLink>
 
-            {this.state.admin ? <NavLink className="nav-item nav-link" to="/admin">Admin</NavLink> : ''}
+                {this.state.admin ? <NavLink className="nav-item nav-link" to="/admin">Admin</NavLink> : ''}
 
-            <NavLink className="nav-item nav-link" to="/cart">Ostoskori</NavLink>
+                <NavLink className="nav-item nav-link" to="/cart">Ostoskori</NavLink>
 
-          </Nav>
-          <CartListener handleCartQtyChanges={this.handleCartQtyChanges.bind(this)} cart={this.state.cart} 
-                cartQty={this.state.cartQty} clearCart={this.clearCart} />
-          <Form inline onSubmit={e => { e.preventDefault(); }}>
-            <FormControl type="text" placeholder="Hae" className="mr-sm-2" 
-                onChange={this.changeSearchValue} />
+            </Nav>
+            <Nav>
+                
+            </Nav>
+            <Nav className="flex-column">
+                {this.state.loggedIn ? 
+                        <Button variant="secondary" style={{marginRight: '1em'}}onClick={() => this.signout()}>Kirjaudu ulos</Button>
+                    :
+                    <div>
+                        <NavLink className="nav-item nav-link signinregister" to="/login">Kirjaudu sisään</NavLink>
+                        <NavLink className="nav-item nav-link signinregister" to="/signup">Rekisteröidy</NavLink>
+                    </div>
+                }
+            </Nav>
+            
+            <Form inline onSubmit={e => { e.preventDefault(); }}>
+                <FormControl type="text" placeholder="Hae" className="mr-sm-2" 
+                    onChange={this.changeSearchValue}/>
                 <Link to={{
                     pathname: "/store",
                     state: {
                         filterString: this.state.searchString
                     }
                     }}>
-                    <Button variant="outline-success" type="submit">Haku</Button>
+                    <Button variant="outline-success" style={{display: 'none'}} type="submit">Haku</Button>
                 </Link>
-            <Nav className="flex-column">
-            {this.state.loggedIn ? 
-                    <Button onClick={() => this.signout()}>Kirjaudu ulos</Button>
-                :
-                <div>
-                    <NavLink className="nav-item nav-link signinregister" to="/login">Kirjaudu sisään</NavLink>
-                    <NavLink className="nav-item nav-link signinregister" to="/signup">Rekisteröidy</NavLink>
-                </div>
-            }
-              
-            </Nav>
-          </Form>
+                
+            </Form>
+            
         </Navbar.Collapse>
-      </Navbar>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <CartListener handleCartQtyChanges={this.handleCartQtyChanges.bind(this)} cart={this.state.cart} 
+                        cartQty={this.state.cartQty} clearCart={this.clearCart} />
+        
+        </Navbar>
         )
     }
 }
