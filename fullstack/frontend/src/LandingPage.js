@@ -20,8 +20,8 @@ function ControlledCarousel() {
             alt="First slide"
           />
           <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            <h3>Meiltä edullisia käytettyjä läppäreitä</h3>
+            <p>Kaikkien myytävien tietokoneiden kunto on varmistettu</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -32,8 +32,8 @@ function ControlledCarousel() {
           />
   
           <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h3>Meiltä myös kyniä ja vihkoja edulliseen hintaan</h3>
+            <p>Kuulakärkikyniä, lyijykyniä, vihkoja ja kalentereita</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -44,9 +44,9 @@ function ControlledCarousel() {
           />
   
           <Carousel.Caption>
-            <h3>Third slide label</h3>
+            <h3>Onko kysyttävää? Ota yhteyttä</h3>
             <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+              
             </p>
           </Carousel.Caption>
         </Carousel.Item>
@@ -60,20 +60,11 @@ class LandingPage extends Component {
             <div>
             <h2>Tervetuloa Käytetyn tavaran verkkokauppaan opiskelijoille</h2>
             <hr/>
-            <h4>Otsikko</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Aenean et malesuada est, vel finibus felis. 
-                Fusce sit amet velit arcu. Morbi suscipit leo eu justo sagittis, 
-                sed maximus ipsum suscipit. In ante ex, ornare et maximus et, 
-                sollicitudin eget dui. Fusce eget tellus risus. 
-                Suspendisse placerat ipsum justo, ut suscipit quam gravida in. 
-                Donec nec gravida purus. Praesent interdum ultrices sapien non faucibus. 
-                Sed hendrerit nibh vel gravida aliquet. Phasellus rutrum lorem mauris, 
-                sed blandit nisl euismod id. Fusce cursus, justo eget ultricies porta, 
-                ante ante ornare nulla, eu blandit tortor arcu eget ex. 
-                Duis at pulvinar tellus. Mauris mattis fringilla lacus, ac 
-                convallis lacus tincidunt imperdiet. Aliquam erat volutpat. 
-                Phasellus et augue libero. Praesent molestie sapien et convallis egestas.
+            <h4>Tietoa meistä</h4>
+            <p>Olemme aloittaneet toimintamme vuonna 2020 kolmen henkilön voimin. Idea käytettyjen opiskelija tavaroiden verkkokaupasta lähti siitä, kun kaikki kolme kaadoimme kahvit läppäriemme päälle,
+              ja tarvitsimme kiireesti uudet tilalle. Verkkoa selatessamme tajusimme, että ideaa käytetyille opiskelijatarvikkeillehan ei vielä ollut, joten me päätimme sellaisen luoda.
+              Tästä saikin alkunsa verkkokauppa, jossa ajatellaan vähävaraisia opiskelijoita, joiden rahat eivät välttämättä riitä uusien tarvikkeiden ostamiseen. Samalla loimme eräänlaisen foorumin myös niille,
+              jotka haluavat luopua vanhoista tarvikkeistaan ja laittaa hyvän kiertämään. Kysyntämme on ollut suurta ja olemme saaneet paljon kiitosta uniikista ideasta, joka helpottaa monen elämää.
             </p>
             <hr/>
             <ControlledCarousel />
