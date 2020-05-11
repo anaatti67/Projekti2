@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './css/Footer.css'
+
 
 const ShoppingCart = (props) => {
   let totalSum = 0
@@ -16,19 +16,19 @@ const ShoppingCart = (props) => {
   setShoppingCartChoices(cart, totalSum)
   let tab = cart.map((item) => 
               <tr key={item.id} id={item.id}>
-                  <td>{item.name}</td>
+                  <td className="mobileStyleName">{item.name}</td>
                   <td>{item.price} €</td>
                   <td>{item.qty}</td>
                   <td>
                     {props.checkStock(item.id, item.qty) ?
-                    <button type="button" className="btn btn-primary" onClick={() => { 
+                    <button type="button" className="btn btn-primary addBtn" onClick={() => { 
                         props.add(item.id)
                         }}>
                         Lisää
                     </button> 
                     :
                     ''}
-                    <button type="button" className="btn btn-primary" onClick={() => { 
+                    <button  type="button" className="btn btn-primary removeBtn" onClick={() => { 
                         props.remove(item.id)}}>
                         Poista
                     </button>
@@ -37,7 +37,7 @@ const ShoppingCart = (props) => {
               </tr>)
             
   return (
-        <div>
+        <div className="theShoppingCart">
           <div className="shoppingCartNavBar">
            <button id="productInfo" className="shoppingCartNavButton productInfo activeTab disabled" onClick={() => activeTab("productInfo")}></button>
            <div className="connectionLine"></div>
@@ -52,7 +52,7 @@ const ShoppingCart = (props) => {
           <div id="productInfoContainer" className="shoppingCartElement">
           <table className="table">
             <thead>
-              <tr>
+              <tr className="shoppingcartMobileTitles">
                 <th>Nimi</th>
                 <th>Yksikköhinta</th>
                 <th>Määrä</th>
@@ -63,7 +63,7 @@ const ShoppingCart = (props) => {
               {tab}
               <tr>
                 <td></td>
-                <td>{totalSumString}</td>
+                <td className="mobileStyleTotalPrice">{totalSumString}</td>
                 <td></td>
                 <td></td>
               </tr>

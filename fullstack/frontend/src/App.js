@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ShoppingCart from './ShoppingCart'
 import Admin from './Admin'
 import { Route, BrowserRouter } from 'react-router-dom'
@@ -9,7 +9,7 @@ import fire from 'firebase'
 import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
-import { Footer } from './Footer'
+
 
 class App extends Component {
     constructor(props) {
@@ -111,15 +111,18 @@ class App extends Component {
                       <Route exact path="/" component={LandingPage} />
                       <Route exact path="/store" render={ (props) => <Store {...props}
                           cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
+                        
                       <Route exact path="/admin" component={Admin} />
                       <Route exact path="/cart" render={ (props) => <ShoppingCart {...props} clearCart={this.clearCart.bind(this)}
                           cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
                       <Route exact path="/login" component={Login} />
                       <Route exact path="/signup" component={SignUp} />
-                      <Footer/>
                     </div>
+                  
                   </BrowserRouter>
+                 
                 </div>
+               
         )}
 
     
