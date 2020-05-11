@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ShoppingCart from './ShoppingCart'
 import Admin from './Admin'
 import { Route, BrowserRouter } from 'react-router-dom'
@@ -9,7 +9,7 @@ import fire from 'firebase'
 import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
-import { Footer } from './Footer'
+
 
 class App extends Component {
     constructor(props) {
@@ -119,7 +119,7 @@ class App extends Component {
                 <Footer/>
               
             </BrowserRouter>
-                
+
         )}
 
     
