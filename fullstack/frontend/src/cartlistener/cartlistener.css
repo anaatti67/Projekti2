@@ -1,0 +1,48 @@
+.cartlistenerBody {
+    position: relative;
+    width: 10%;
+}
+.cartStyle {
+    position: absolute;
+    z-index: 12;
+    display: inline-block;
+    top: 100%;
+    right: 0%;
+    margin: auto;
+
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 1em;
+    width: 100%;
+    min-width: 400px;
+
+    font-size: smaller;
+}
+.cartQty {
+    background: rgba(250,0,0,0.8);
+    padding: 0.1em 0.5em;
+    border-radius: 100%;
+    color: white;
+    position: absolute;
+    bottom: -30%;
+    right: 0%;
+    font-weight: bold;
+}
+.cartImgStyle {
+    width: 50px;
+    margin-right: 1em;
+    float: right;
+}
+.floatRight {
+    float: right;
+}
+.tableStyle {
+    width: 100%;
+    margin-top: 3em;
+}
+.txtAlignRight {
+    text-align: right;
+}
+.valueAdjust {
+    margin: 0em 0.5em;
+}

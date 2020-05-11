@@ -1,76 +1,78 @@
 import React, { Component } from 'react';
 import './css/Store.css'
 import ProductModal from './Modal'
-import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Col, Container, Row, Button } from 'react-bootstrap';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner'
 import ReviewModal from './ReviewModal'
+import e404 from './img/productLogos/404/404.svg'
+import { Footer } from './Footer'
 
 class Store extends Component {
     constructor(props) {
         super(props)
-        this.cart = {shoppingcart: []}
-
+       
+        this.handleCartQtyChanges = props.handleCartQtyChanges
+        this.listOfImages = []
         this.state = {
+            cart: props.cart,
+            cartQty: props.cartQty,
             products: [], 
             modal: false, 
             showCategory: 'all',
             filtered: false,
             filterString: '',
-            productsHaveLoaded: false
+            productsHaveLoaded: false,
+            oldFilter: ''
         }
         this.url = 'https://ktvo.herokuapp.com/store'
     }
+
+    // Image directory checking starts here
+    importAll(r) {
+        return r.keys().map(r);
+    }
+    readFiles() {
+        this.listOfImages = this.importAll(require.context('./img/productLogos/', false, /\.(png|jpe?g|svg)$/));
+    }
+    // Image directory checking ends here
+
+
     componentDidMount() {
-        this.cartInit()
+        this.readFiles()
+        console.log('mount')
         let filter = this.props.location.state.filterString
-        
         fetch(this.url).then(r => r.json()).then((products) => {
             this.setState({ products: products, filterString: filter, productsHaveLoaded: true });
-            if (filter.length > 1) {
-                this.setState({filtered: true, filterInputValue: filter})
-            } else {
-                this.setState({filterInputValue: 'Suodata...'})
-            }
         })
+       
     }
     
     static getDerivedStateFromProps(props, state) {
-        let newFilter = props.location.state.filterString
-        if (newFilter !== state.lastRow) {
-          return {
-            filtered: true,
-            filterInputValue: newFilter,
-            filterString: newFilter
-          };
-        } else {
-            this.setState({filterInputValue: 'Suodata...'})
+        if (props.cartQty !== state.cartQty) {
+            return { cartQty: props.cartQty, cart: props.cart }
         }
+        let newFilter = props.location.state.filterString
+        if (newFilter !== state.oldFilter) {
+            console.log('yeah')
+            if (newFilter !== state.filterString) {
+                return {
+                    oldFilter: newFilter,
+                    filtered: true,
+                    filterString: newFilter
+                };
+            }
+        }
+        
         // Return null to indicate no change to state.
         return null;
       }
-    
-    cartInit() {
-        if ("shoppingCart" in localStorage) {
-            let retrievedData = localStorage.getItem("shoppingCart");
-            if (retrievedData === 'undefined') {
-                localStorage.setItem("shoppingCart", JSON.stringify(this.cart.shoppingcart));
-            } else {
-                var dataToArray = JSON.parse(retrievedData);
 
-                if (dataToArray != null) {
-                    for (let x = 0; x < dataToArray.length; x++) {
-                    this.cart.shoppingcart.push(dataToArray[x])
-                    }
-                }
-            }
-        }
-      }
     buy(product) {
-        let length = this.cart.shoppingcart.length
-        
+        console.log(product)
+        let length = this.state.cart.length
         let newItem = false;
-        let tmpObj = this.cart.shoppingcart
+        let tmpObj = this.state.cart
 
         console.log(tmpObj);
         for (let x = 0; x < length; x++) {
@@ -81,38 +83,68 @@ class Store extends Component {
           }
         }
         if (!newItem || tmpObj.length === 0) {
-          console.log('is a new item')
           product.qty = 1
           tmpObj.push(product)
         }
-        //console.log(tmpObj)
-        this.setState({shoppingcart: tmpObj})
-        localStorage.setItem("shoppingCart", JSON.stringify(tmpObj));
-        console.log(localStorage.getItem("shoppingCart"))
-        console.log(this.cart.shoppingcart)
+
+        this.handleCartQtyChanges(this.state.cartQty + 1, tmpObj)
     }
     rowClicked(product) {
         console.log(product)
         product.modal = !product.modal
     }
     setFilterCategory(category) {
-        this.setState({showCategory: category})
+        this.setState({showCategory: category, filterString: ''})
     }
-    searchFilter(filterString) {
-        // this.setState({showCategory: 'all'})
-        if (filterString.length > 1) {
-            this.setState({filtered: true, filterString: filterString})
-
+    searchFilter(newFilterString) {
+        this.setState({filtered: true, filterString: newFilterString})
+        if (newFilterString.length > 1) {
+            console.log(newFilterString)
+            this.setState({filtered: true, filterString: newFilterString})
+            console.log(newFilterString + ', ' + this.state.filterString)
         } else {
             this.setState({filtered: false})
         }
-       
+    }
+    getStock(stockAmount) {
+        let color
+        if (stockAmount <= 0) {
+            color = 'red'
+        } else if (stockAmount < 10) {
+            color = 'orange'
+        } else if (stockAmount >= 10) {
+            color = 'green'
+        }
+        let emptyDiv = {
+            borderRadius: '25px',
+            background: color,
+            padding: '0',
+            margin: '0',
+            marginTop: '2px',
+            minWidth: '25px',
+            maxWidth: '25px',
+            height: '25px',
+            marginLeft: '25%'
+        }
+        return (<div style={{display: 'inline-block'}}>
+                        <div style={emptyDiv} ></div>
+                        <div className="stockAmount">Varastossa<br/> {stockAmount} kpl</div>
+                </div>)
+    }
+    checkStock(id, stockQty) {
+        if (stockQty <= 0) {
+            return false
+        }
+        for (let item of this.state.cart) {
+            if(item.id === id) {
+                if (item.qty >= stockQty) {
+                    return false
+                }
+            }
+        }
+        return true
     }
     render() {
-        for (let product of this.state.products) {
-            product.pic = '/img/' + product.id + '.png'
-        }
-        
         // Product filtering - showCategory default is 'all'
         // and it can be changed with buttons
         let filteredProducts = this.state.products
@@ -122,6 +154,7 @@ class Store extends Component {
             )
         }
         if (this.state.filtered) {
+            console.log(this.state.filterString)
             let filter = this.state.filterString.toLowerCase()
             filteredProducts = filteredProducts.filter((product) => {
                 if (product.Name.toLowerCase().includes(filter)) {
@@ -131,69 +164,60 @@ class Store extends Component {
                 }
             })
         }
-        /* TESTING RATINGS
-        for (let product of filteredProducts) {
-            if (product.Rating === null) {
-                product.Rating = 0;
-            }
-        }
-        */
-
-        // If image not found, loads a 404 image
         let items = filteredProducts.map((product) =>
-            <tr className="productRow" key={product.id} onClick={() => this.rowClicked(product)}>
-                <td>{product.id}</td>
-                <td><img height="35px" src={process.env.PUBLIC_URL + product.pic} alt="" 
-                        onError={(e)=>{e.target.src=process.env.PUBLIC_URL + '/img/404_not_found.svg'}}>
-                    </img>
-                </td>
-                <td>{product.Name}</td>
-                <td>{product.Price} €</td>
-                <td>{product.Stock} kpl</td>
-                <td><ReviewModal obj={product} /></td>
-                <td>
-                    <button type="button" className="btn btn-primary" onClick={() => {
-                        let tmp = {id: product.id,
-                                name: product.Name, 
-                                price: product.Price}
-                        this.buy(tmp)}}>
-                        Lisää ostoskoriin
-                    </button> <ProductModal show={product.modal} obj={product} buy={this.buy.bind(this)} />
-                </td>
-            </tr>
+            <Col md={3} xs={6} key={product.id}> 
+            <Container className="productBox">
+                <Row>
+                    <Col>{/* If image not found, loads a 404 image */}
+                        {this.listOfImages[product.id - 1] === undefined ? <img alt='' src={e404} className="productBoxImg" />
+                            : <img alt='' src={this.listOfImages[product.id - 1]} className="productBoxImg" /> }
+                    </Col>
+                </Row>
+                <Row><Col className="productBoxName">{product.Name}</Col></Row>
+                <Row><Col className="productBoxPrice">{product.Price} €</Col></Row>
+                <Row>
+                    <Col><ProductModal show={product.modal} obj={product} 
+                            buy={this.buy.bind(this)} imgSrc={this.listOfImages[product.id - 1]} 
+                            checkStock={this.checkStock.bind(this)} /></Col>
+                    
+                </Row>
+                
+                <Row>
+                    <Col md={6}>{this.getStock(product.Stock)}</Col>
+                    <Col md={6}><ReviewModal obj={product} /></Col>
+                </Row>
+                <Row>
+                    <Col>{this.checkStock(product.id, product.Stock) ? 
+                        <Button size="sm" variant="success" onClick={() => {
+                            let tmp = {id: product.id,
+                                    name: product.Name, 
+                                    price: product.Price}
+                            this.buy(tmp)}}>
+                            Lisää ostoskoriin
+                        </Button> 
+                        : <p className="outOfBounds">Tuote on loppunut varastosta.</p>}</Col>
+                </Row>
+            </Container>
+            </Col>
         )
         return (
-            <div className="container">
-                
-                <h1 className="mt-5">Käytettyjen tavaroiden opiskelijaverkkokauppa</h1>                
+            <div className="container testBorder">
+                <h1 className="mt-5">Kauppa</h1>                
                 <div className="customContainer">   
-                    <input placeholder={this.state.filterInputValue} onChange={(event) => this.searchFilter(event.target.value)} />             
-                    <ToggleButtonGroup type="radio" name="options" defaultValue={1}>
-                        <ToggleButton value={1} variant="success" onClick={() => this.setFilterCategory('all')}>Kaikki</ToggleButton>
-                        <ToggleButton value={2} variant="info" onClick={() => this.setFilterCategory('Kirjat')}>Kirjat</ToggleButton>
-                        <ToggleButton value={3} variant="info" onClick={() => this.setFilterCategory('Tietokoneet')}>Tietokoneet</ToggleButton>
-                        <ToggleButton value={4} variant="info" onClick={() => this.setFilterCategory('Toimistotarvikkeet')}>Toimistotarvikkeet</ToggleButton>
-                        <ToggleButton value={5} variant="info" onClick={() => this.setFilterCategory('Äänentoisto')}>Äänentoisto</ToggleButton>
-                    </ToggleButtonGroup>
+                    <input className="suodata" placeholder="Suodata..." onChange={(event) => this.searchFilter(event.target.value)} /><br/>           
+                    <Button size="sm" ariant="success" onClick={() => this.setFilterCategory('all')}>Kaikki</Button>{' '}
+                    <Button size="sm" variant="info" onClick={() => this.setFilterCategory('Kirjat')}>Kirjat</Button>{' '}
+                    <Button size="sm" variant="info" onClick={() => this.setFilterCategory('Tietokoneet')}>Tietokoneet</Button>{' '}
+                    <Button size="sm" variant="info" onClick={() => this.setFilterCategory('Toimistotarvikkeet')}>Toimisto</Button>{' '}
+                    <Button size="sm" variant="info" onClick={() => this.setFilterCategory('Äänentoisto')}>Ääni</Button>
                 </div>
                 <h5>Tuotteet</h5>
                 {this.state.productsHaveLoaded ? 
-                <table className="table">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Pic</th>
-                        <th scope="col">Nimi</th>
-                        <th scope="col">Hinta</th>
-                        <th scope="col">Varastossa</th>
-                        <th scope="col">Arvostelu</th>
-                        <th scope="col">Toiminto</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Container>
+                    <Row>
                         {items}
-                    </tbody>
-                </table>
+                    </Row>
+                </Container>
                 :
                 <Loader
                     type="Grid"
@@ -201,10 +225,13 @@ class Store extends Component {
                     height={100}
                     width={100}
                     style={{textAlign: 'center'}}
+                    
                 />
+               
                 }
+              
             </div>
-        )
+        ) 
     }
 }
 

@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import ModifyProductModal from './ModifyModal';
-import './css/Footer.css'
+import Loader from 'react-loader-spinner'
+import { Button } from 'react-bootstrap';
+
 
 class Admin extends Component {
     constructor(props) {
         super(props)
         this.add = this.add.bind(this)
         this.whenFormChanges = this.whenFormChanges.bind(this)
-        this.state = { showProductAdd: false, showProductModify: false, products: [], addInfo: '' }
+        this.state = { showProductAdd: false, showProductModify: false, products: [], addInfo: '', productsHaveLoaded: false }
         this.item = { name: '', description: '', price: '', stock: '', category: ''}
         
     }
     componentDidMount() {
         fetch('https://ktvo.herokuapp.com/store').then(r => r.json()).then((products) => {
             console.log(products)
-            this.setState({ products: products });
+            this.setState({ products: products, productsHaveLoaded: true });
         })
     }
     add() {
@@ -112,20 +114,27 @@ class Admin extends Component {
 
         }) 
     }
+    getStockColor(amount) {
+        if (amount <= 0) {
+            return { background: 'rgba(255,200,200)', textAlign: 'center'}
+        } else if (amount <= 10) {
+            return { background: 'rgba(255,255,224)', textAlign: 'center'}
+        } else {
+            return { background: 'rgba(200,255,200)', textAlign: 'center'}
+        }
+    }
     render() {
         let items = this.state.products.map((product) =>
             <tr className="productRow" key={product.id} onClick={() => this.rowClicked(product)}>
                 <td>{product.id}</td>
                 <td>{product.Name}</td>
                 <td>{product.Price}</td>
-                <td>{product.Stock}</td>
-                <td><span style={{display: 'inline-block', height: '2em', overflow: 'hidden'}}>{product.Description}</span></td>
-                <td>{product.Category}</td>
+                <td style={this.getStockColor(product.Stock)}>{product.Stock}</td>
                 <td><ModifyProductModal show={product.modal} obj={product} modify={this.modify.bind(this)} /></td>
-                <td><button type="button" className="btn btn-danger" 
+                <td><Button size="sm" variant="danger"
                         onClick={() => { 
                             if(window.confirm('Really delete ' + product.Name + '?')) this.deleteProduct(product) }}>
-                        Poista</button></td>
+                        Poista</Button></td>
             </tr>
         )
         return (
@@ -174,15 +183,14 @@ class Admin extends Component {
                 {this.state.showProductModify ?
                 <div>
                     <button type="button" className="btn btn-secondary" onClick={() => this.setState({showProductModify: false})}>Piilota</button>
-                    <table class="table">
+                    {this.state.productsHaveLoaded ? 
+                    <table className="modifyTable">
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Nimi</th>
                                 <th>Hinta</th>
                                 <th>Varasto</th>
-                                <th>Selite</th>
-                                <th>Kategoria</th>
                                 <th>Muokkaa</th>
                                 <th>Tuhoa</th>
                             </tr>
@@ -191,6 +199,14 @@ class Admin extends Component {
                             {items}
                         </tbody>
                     </table>
+                    : 
+                    <Loader
+                    type="Grid"
+                    color="#00BFFF"
+                    height={100}
+                    width={100}
+                    style={{textAlign: 'center'}}
+                    />}
                 </div> 
                 : <div><button id="" type="button" className="btn btn-primary" onClick={() => this.setState({showProductModify: true})}>Muokkaa tuotteita</button></div>}
             </div>

@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import { Button, Container, Row, Col } from 'react-bootstrap'
 import './css/Modal.css'
+import e404 from './img/productLogos/404/404.svg'
 
 export default class ProductModal extends Component {
     constructor(props) {
         super(props)
         this.state = {show: props.show}
+        this.imgSrc = props.imgSrc
         this.toggle = this.toggle.bind(this)
-        this.obj = this.props.obj
-        this.addToCart = this.props.buy
+        this.obj = props.obj
+        this.addToCart = props.buy
+        this.checkStock = props.checkStock
     }
     toggle() {
         let toggle = this.state.show
@@ -17,64 +20,54 @@ export default class ProductModal extends Component {
     render() {
         if (this.state.show === true ) {
             return(
-                <span>
-<Button onClick={this.toggle}>Tuotetiedot</Button>
-                    <div style={{
-                background: "rgba(255, 255, 255, 0.9)", 
-                zIndex: "10",
-                display: "inline-block",
-                position: "fixed",
-                top: "0",
-                left: "0",
-                bottom: "0",
-                right: "0",
-                width: "70%",
-                height: "70%",
-                margin: "auto",
-                borderRadius: "25px"
-                }}>
-                <Container className="border pad">
+                <div className="modalBody">
+                {this.state.show ?
+                <div className="modalPosition">
+                <Container>
                     <Row>
                         <Col>
                             
-                            <Button className="btn btn-danger" style={{float: "right"}}onClick={this.toggle}>Sulje</Button>
-                            <h1 style={{paddingBottom: "10%"}}>{this.obj.Name}</h1>
+                            <Button variant="danger" className="floatRight closeButton" onClick={this.toggle}>X</Button>
+                            <h1>{this.obj.Name}</h1>
                             <p>Kategoria: {this.obj.Category}</p>
                         </Col>
                     </Row>
-                    <Row className="border">
-                        <Col><img className="modalImg" src={process.env.PUBLIC_URL + this.obj.pic} alt="" 
-                            onError={(e)=>{e.target.src=process.env.PUBLIC_URL + './img/404_not_found.svg'}}>
-                        </img></Col>
-                        <Col>
+                    <Row>
+                        <Col lg={6} xs={12}>
+                        {this.imgSrc === undefined ? <img alt='' src={e404} width="50px" className="modalImg" />
+                        : <img alt='' src={this.imgSrc} className="modalImg" /> }
+                        </Col>
+                        <Col lg={6} xs={12}>
                         <h4>Tuoteselostus</h4>
-                        <p>{this.obj.Description}</p>
+                        <p className="descriptionTxt">{this.obj.Description}</p>
+                        <p className="price">{this.obj.Price} €</p>
                         </Col>
                         
                         
                     </Row>
-                    <Row className="border">
+                    <Row>
                         <Col><h5>Jäljellä varastossa: {this.obj.Stock}</h5></Col>
                         <Col>
-                            <p className="price">{this.obj.Price} €</p>
-                            <Button variant="info" onClick={() => this.addToCart(this.obj)}>Lisää ostoskoriin</Button>
+                            {this.checkStock(this.obj.id, this.obj.Stock) ? 
+                            <Button variant="success" className="addButton"  onClick={() => {
+                                let tmp = {id: this.obj.id,
+                                    name: this.obj.Name, 
+                                    price: this.obj.Price}
+                                this.addToCart(tmp)
+                                }}>Lisää ostoskoriin</Button>
+                            :
+                            <p>Tuote on loppunut varastosta.</p>}
                         </Col>
                     </Row>
                 </Container>
-                    
-                                        
-                        
-                    
-                        
-                    
-                    
                 </div>
-                </span>
+                : <Button variant="info" onClick={this.toggle}>Tuotetiedot</Button>}
+                </div>
                 
             
         )
         } else {
-            return <Button  variant="info" onClick={this.toggle}>Tuotetiedot</Button>
+            return <Button variant="info" size="sm" onClick={this.toggle}>Tuotetiedot</Button>
         }
         
         

@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import './css/Footer.css'
+
 
 const ShoppingCart = (props) => {
-  
-  
-
   let totalSum = 0
   var totalSumString
   //console.log(props)
@@ -14,20 +11,24 @@ const ShoppingCart = (props) => {
     totalSumString = "kokonaishinta: " + totalSum + " €"
     
   }
- let cart = props.data
+  let cart = props.data
+  console.log(cart)
   setShoppingCartChoices(cart, totalSum)
   let tab = cart.map((item) => 
               <tr key={item.id} id={item.id}>
-                  <td>{item.name}</td>
+                  <td className="mobileStyleName">{item.name}</td>
                   <td>{item.price} €</td>
                   <td>{item.qty}</td>
                   <td>
-                    
-                    <button type="button" className="btn btn-primary" onClick={() => { 
+                    {props.checkStock(item.id, item.qty) ?
+                    <button type="button" className="btn btn-primary addBtn" onClick={() => { 
                         props.add(item.id)
                         }}>
                         Lisää
-                    </button> <button type="button" className="btn btn-primary" onClick={() => { 
+                    </button> 
+                    :
+                    ''}
+                    <button  type="button" className="btn btn-primary removeBtn" onClick={() => { 
                         props.remove(item.id)}}>
                         Poista
                     </button>
@@ -36,7 +37,7 @@ const ShoppingCart = (props) => {
               </tr>)
             
   return (
-        <div>
+        <div className="theShoppingCart">
           <div className="shoppingCartNavBar">
            <button id="productInfo" className="shoppingCartNavButton productInfo activeTab disabled" onClick={() => activeTab("productInfo")}></button>
            <div className="connectionLine"></div>
@@ -51,7 +52,7 @@ const ShoppingCart = (props) => {
           <div id="productInfoContainer" className="shoppingCartElement">
           <table className="table">
             <thead>
-              <tr>
+              <tr className="shoppingcartMobileTitles">
                 <th>Nimi</th>
                 <th>Yksikköhinta</th>
                 <th>Määrä</th>
@@ -62,7 +63,7 @@ const ShoppingCart = (props) => {
               {tab}
               <tr>
                 <td></td>
-                <td>{totalSumString}</td>
+                <td className="mobileStyleTotalPrice">{totalSumString}</td>
                 <td></td>
                 <td></td>
               </tr>
@@ -163,7 +164,7 @@ const ShoppingCart = (props) => {
               <div id="userSummaryContainer">
              
                 </div>
-                <button className="btn btn-primary transActionEndButton" onClick={() => endTransaction()}>Siirry maksamaan</button>
+                <button className="btn btn-primary transActionEndButton" onClick={() => endTransaction(cart)}>Siirry maksamaan</button>
                 </div>
           </div>
           <div id="tilausvahvistus" className="display-none">Testi</div>
@@ -171,8 +172,25 @@ const ShoppingCart = (props) => {
         )
 }
 
-function endTransaction() {
+function endTransaction(cart) {
   sendEmail()
+  removeProductsFromStock(cart)
+}
+
+// Added by Ilmari, removes products from database after succesful order
+function removeProductsFromStock(cart) {
+  const url = 'https://ktvo.herokuapp.com/removeProductsFromStock'
+  for (let item of cart) {
+    let body = { id: item.id, qty: item.qty }
+    let configuration = {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(body)
+    }
+    fetch(url, configuration).then(r => r.json()).then((response) => {
+        console.log(response);
+    }) 
+  }
 }
 
 function sendEmail() {
@@ -272,7 +290,7 @@ function checkForm() {
   let accepted = false
   let email1 = document.getElementById("email1")
   let email2 = document.getElementById("email2")
-
+  var phoneField = document.getElementById("phone")
   console.log(inputs)
   for (let i = 0; i < inputs.length; i++) {
   if(inputs[i].value === "") {
@@ -290,11 +308,7 @@ function checkForm() {
     alert("insert valid email address")
     return
   }
-  var phoneField = document.getElementById("phone")
-  if(isNaN(phoneField.value)) {
-    alert("Phonenumber is invalid")
-    return
-  }
+  
  }
 
   accepted = true
@@ -393,7 +407,7 @@ function setUserInfo(choices, element) {
 function setPostAddress(choices,element) {
   let postAddress = document.createElement("p")
   postAddress.classList.add("informativeTextElement")
-  postAddress.innerHTML = "<b>" + "Postiosoite: " + "</b>" + choices.userInfo.post_address
+  postAddress.innerHTML = "<b>Postiosoite: </b>" + choices.userInfo.post_address
   console.log(postAddress)
   element.appendChild(postAddress)
 }
@@ -401,7 +415,7 @@ function setPostAddress(choices,element) {
 function setAddress(choices,element) {
   let address = document.createElement("p")
   address.classList.add("informativeTextElement")
-  address.innerHTML = "<b>" + "Katuosoite: " + "</b>" + choices.userInfo.address
+  address.innerHTML = "<b>Katuosoite: </b>" + choices.userInfo.address
   console.log(address)
   element.appendChild(address)
 }
@@ -409,35 +423,35 @@ function setAddress(choices,element) {
 function setPayment(choices, element) {
   let payment = document.createElement("p")
   payment.classList.add("informativeTextElement")
-  payment.innerHTML = "<b>" + "Maksutapa: " + "</b>" + choices.payment_method
+  payment.innerHTML = "<b>Maksutapa: </b>" + choices.payment_method
   element.appendChild(payment)
 }
 
 function setDelivery(choices, element) {
   let delivery = document.createElement("p")
   delivery.classList.add("informativeTextElement")
-  delivery.innerHTML = "<b>" + "Toimitus: " + "</b>"  + choices.delivery_method
+  delivery.innerHTML = "<b>Toimitus: </b>"  + choices.delivery_method
   element.appendChild(delivery)
 }
 
 function setEmail(choices, element) {
   let email = document.createElement("p")
   email.classList.add("informativeTextElement")
-  email.innerHTML = "<b>" + "S-posti: " + "</b>" + choices.userInfo.s_post
+  email.innerHTML = "<b>S-posti: </b>" + choices.userInfo.s_post
   element.appendChild(email)
 }
 
 function setsName(choices, element) {
   let sname = document.createElement("p")
   sname.classList.add("informativeTextElement")
-  sname.innerHTML = "<b>" + "Sukunimi: " + "</b>" + choices.userInfo.s_name
+  sname.innerHTML = "<b>Sukunimi: </b>" + choices.userInfo.s_name
   element.appendChild(sname)
 }
 
 function setFname(choices, element) {
   let fname = document.createElement("p")
   fname.classList.add("informativeTextElement")
-  fname.innerHTML = "<b>" + "Etunimi: " + "</b>" + choices.userInfo.f_name
+  fname.innerHTML = "<b>Etunimi: </b>" + choices.userInfo.f_name
   element.appendChild(fname)
 }
 
@@ -500,10 +514,51 @@ function setActiveElement(tabName) {
         }
       }
       if(shoppingCartElements[i].id === "userInfoContainer") {
+        checkIfLoggedIn()
         userInfoButton.classList.remove("display-none")
       }
     } 
   }
+}
+
+function checkIfLoggedIn() {
+  if(localStorage.user) {
+    let user = JSON.parse(localStorage.user)
+    let forms = document.querySelectorAll(".formInput")
+    console.log(user)
+    setUserValues(user, forms)
+  } else {
+    console.log("Kirjautunutta käyttäjää ei löytynyt")
+  }
+
+}
+
+function setUserValues(user, forms) {
+  for (let i = 0; i < forms.length; i++) {
+   console.log(forms[i].id)
+   if(forms[i].id === "email1") {
+    forms[i].value = user.email
+    forms[i+1].value = user.email
+   }
+   if(forms[i].id === "address") {
+    forms[i].value = user.street
+   }
+   if(forms[i].id === "postaddress") {
+    forms[i].value = user.postal
+  }
+  if(forms[i].id === "fname") {
+    forms[i].value = user.firstname
+  }
+  if(forms[i].id === "sname") {
+    forms[i].value = user.lastname
+  }
+  if(forms[i].id === "phone") {
+    forms[i].value = user.phone
+  }
+
+    
+  }
+  console.log(forms)
 }
 
 function disableShoppingcartNavBar() {
@@ -514,19 +569,20 @@ function disableShoppingcartNavBar() {
   }
 }
 
-// HERE STARTS THE SHOPPING CART
+// HERE STARTS THE SHOPPING CART COMPONENT
 
 class App extends Component {
   constructor(props) {
     super(props)
+    this.handleCartQtyChanges = props.handleCartQtyChanges
+    this.clearCart = props.clearCart
     this.add = this.add.bind(this)
     this.remove = this.remove.bind(this)
-    this.state = {shoppingcart: [], cartQty: props.cartQty}
-    this.cartInit()
+    this.state = {shoppingcart: props.cart, cartQty: props.cartQty, products: []}
   }
+
+  // Checks if props are changed
   static getDerivedStateFromProps(props, state) {
-    console.log(props)
-    console.log(state)
     if (props.cartQty !== state.cartQty) {
       return {
         cartQty: props.cartQty,
@@ -536,85 +592,50 @@ class App extends Component {
       return null
     }
   }
-  cartInit() {
-    if ("shoppingCart" in localStorage) {
-      let retrievedData = localStorage.getItem("shoppingCart");
-
-      if (retrievedData === 'undefined') {
-        localStorage.setItem("shoppingCart", JSON.stringify(this.state.shoppingcart));
-      } else {
-        var dataToArray = JSON.parse(retrievedData);
-        if (dataToArray != null) {
-          for (let x = 0; x < dataToArray.length; x++) {
-            this.state.shoppingcart.push(dataToArray[x])
-            
-          }
-          //console.log(this.state.shoppingcart)
-        }
-      }
-    } 
+  componentDidMount() {
+    fetch('https://ktvo.herokuapp.com/store').then(r => r.json()).then((products) => {
+      this.setState({ products: products })})
   }
+  // Adds a product to shopping cart
   add(id) {
     let cart = this.state.shoppingcart
     let found = cart.find(product => product.id === id)
-    found.qty += 1
-    this.setState({shoppingcart: cart})
-    this.updateCartOverallQuantity(1)
+    found.qty++
+    this.handleCartQtyChanges(this.state.cartQty + 1, cart)
   }
+
+  // Removes a product from shopping cart
   remove(id) {
     let cart = this.state.shoppingcart
     let found = cart.find(product => product.id === id)
-    //console.log(found.name)
-    this.removeEmpty(cart,found.name)
-    if (found.qty >= 1) {
-     
-      found.qty -= 1
-     if(found.qty === 0) {
-       //console.log(found.id)
-    
-     }
-      //console.log(found.qty)
-      this.updateCartOverallQuantity(-1)
-      
-    }
-    this.setState({shoppingcart: cart})
-  }
+    found.qty--
 
-  removeEmpty(cart,name) {
-   for (let i = 0; i < cart.length; i++) {
-     if(cart[i].name === name && cart[i].qty-1 === 0) {
-        let id = cart.indexOf(cart[i])
-        cart.splice(id,1)
-     }
-   }
-  }
-
-  updateCartOverallQuantity(amount) {
-    if ("shoppingCartOverallQuantity" in localStorage) {
-      let retrievedData = localStorage.getItem("shoppingCartOverallQuantity");
-      //console.log(retrievedData)
-      if (retrievedData === null) {
-        localStorage.setItem("shoppingCartOverallQuantity", JSON.stringify(0));
-      } else {
-        var data = JSON.parse(retrievedData);
-        data += amount
-        localStorage.setItem("shoppingCartOverallQuantity", JSON.stringify(data));
-      }
-    } else {
-      localStorage.setItem("shoppingCartOverallQuantity", JSON.stringify(0));
+    // Remove product from shopping cart if quantity <= 0
+    if (found.qty <= 0) {
+      cart = cart.filter(item => 
+        item.id !== found.id
+      )
     }
+    this.handleCartQtyChanges(this.state.cartQty - 1, cart)
+  }
+  checkStock(id, cartQty) {
+    console.log(id + ', ' + cartQty)
+    for (let item of this.state.products) {
+        if(item.id === id && item.Stock <= cartQty) {
+            return false
+        }
+    }
+    return true
   }
   render() {
     return (
       <div>
         <div className="container cartbody">
           <h1 className="mt-5">Ostoskori</h1>
-          <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} />
+          <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} checkStock={this.checkStock.bind(this)} />
           <button id="emptyCartButton" type="button" className="btn btn-primary emptyCartButtons" onClick={() => {
             if(window.confirm('Really clear the shopping cart?')) {
-              localStorage.removeItem("shoppingCart")
-              localStorage.removeItem("shoppingCartOverallQuantity")
-              this.setState({shoppingcart: []})
+              this.clearCart()
               disableShoppingcartNavBar()
             }
             }}>Tyhjennä ostoskori</button>

@@ -6,13 +6,15 @@
 .productRow:hover {
     background: lightcyan;
     cursor: -webkit-grab;
+    
 }
 .filterButton {
     margin: 0em 0.5em;
 }
 .customContainer {
-    margin: 1em 0em;
+    margin: 0;
     text-align: center; 
+    overflow: hidden;
 }
 
 .productStock {
@@ -44,6 +46,8 @@
     justify-content: space-evenly;
     margin-bottom:10px;
 }
+
+
 
 .nextButton {
     float:right;
@@ -115,6 +119,8 @@
 .shoppingCartNavButton:hover {
     filter: invert(0.2);
 }
+
+
 
 .connectionLine {
     width: inherit;
@@ -376,16 +382,137 @@ margin-bottom:20px;
     display: none !important;
 }
 
+.theShoppingCart button {
+    margin-left:10px;
+ }
+
+
+ @media only screen and (max-width: 900px) {
+     .removeBtn, .addBtn, .emptyCartButtons {
+        transform: scale(0.8);
+     }
+    
+  }
 
 @media only screen and (max-width: 800px) {
     #halfForm1, #halfForm2 {
-     
       float:none;
     }
+
+    .connectionLine {
+        display:none;
+    }
+
     #passwordInput2 {
         margin-bottom:20px;
+    }
+   
+
+    .shoppingCartNavBar {
+        transform: scale(0.8);
+    }
+
+    
+ 
+     .paymentOptionButton {
+        background-size: contain;
+        margin-left:0;
+        width: 2.2em;
+        height:2.2em;
+     }
+
+     #paymentInfoContainer {
+         max-width: 80vw;
+     }
+
+     .optionBank, .optionCard {
+         padding-right:10px;
+     }
+
+    
+  }
+
+
+  @media only screen and (max-width: 550px) {
+    .theShoppingCart > * {
+    font-size: 0.7em;
+      
+    }
+
+    #paymentInfoContainer {
+        max-width: 92vw;
+        margin-left:-10px;
+    }
+
+    .theShoppingCart button, .emptyCartButtons {
+       transform: scale(0.7);
+    }
+
+    .paymentInfoButton {
+        margin-top:100px;
+    }
+
+    .transActionEndButton {
+        margin-top:20px;
     }
     
   }
 
+  @media only screen and (max-width: 365px) {
+    .removeBtn, .addBtn, .emptyCartButtons {
+        margin-left:-20px;
+     }
+
+    
+
+  
+     .shoppingcartMobileTitles > * {
+         font-size: 0.8em;
+     }
+  }
+
+.storeTable {
+    width: 100%;
+    max-width: 100px;
+}
+
+.productBox {
+    margin: 1em 0em;
+    border-radius: 10px;
+    padding: 1em;
+    border: 3px solid lightblue;
+    text-align: center;
+}
+.productBoxImg {
+    height: auto;
+    max-width: 100%;
+    
+}
+.productBox button {
+    width: 100%;
+    margin-top: 1em;
+}
+.stockAmount {
+    font-size: xx-small;
+}
+.productBoxName {
+    font-size: smaller;
+    font-weight: bold;
+}
+.productBoxPrice {
+    font-weight: bold;
+    color:red;
+}
+.container {
+    width: 100%;
+}
+.suodata {
+    border-radius: 5px;
+    padding: 0.5em 1em;
+    margin-bottom: 1em;
+}
+.outOfBounds {
+    color: red;
+    font-size: smaller;
+}
 
