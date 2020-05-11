@@ -6,10 +6,12 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner'
 import ReviewModal from './ReviewModal'
 import e404 from './img/productLogos/404/404.svg'
+import { Footer } from './Footer'
 
 class Store extends Component {
     constructor(props) {
         super(props)
+       
         this.handleCartQtyChanges = props.handleCartQtyChanges
         this.listOfImages = []
         this.state = {
@@ -46,6 +48,7 @@ class Store extends Component {
                 this.setState({filterInputValue: 'Suodata...'})
             }
         })
+       
     }
     
     static getDerivedStateFromProps(props, state) {
@@ -172,6 +175,7 @@ class Store extends Component {
         )
         return (
             <div className="container">
+               
                 <h1 className="mt-5">Käytettyjen tavaroiden verkkokauppa opiskelijoille</h1>                
                 <div className="customContainer">   
                     <input placeholder={this.state.filterInputValue} onChange={(event) => this.searchFilter(event.target.value)} />             
@@ -182,6 +186,7 @@ class Store extends Component {
                         <ToggleButton value={4} variant="info" onClick={() => this.setFilterCategory('Toimistotarvikkeet')}>Toimistotarvikkeet</ToggleButton>
                         <ToggleButton value={5} variant="info" onClick={() => this.setFilterCategory('Äänentoisto')}>Äänentoisto</ToggleButton>
                     </ToggleButtonGroup>
+                    
                 </div>
                 <h5>Tuotteet</h5>
                 {this.state.productsHaveLoaded ? 
@@ -196,11 +201,13 @@ class Store extends Component {
                         <th scope="col">Arvostelu</th>
                         <th scope="col">Toiminto</th>
                         </tr>
+                        
                     </thead>
                     <tbody>
                         {items}
                     </tbody>
                 </table>
+                
                 :
                 <Loader
                     type="Grid"
@@ -208,10 +215,13 @@ class Store extends Component {
                     height={100}
                     width={100}
                     style={{textAlign: 'center'}}
+                    
                 />
+               
                 }
+              
             </div>
-        )
+        ) 
     }
 }
 
