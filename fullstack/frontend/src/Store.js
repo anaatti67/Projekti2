@@ -6,10 +6,12 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner'
 import ReviewModal from './ReviewModal'
 import e404 from './img/productLogos/404/404.svg'
+import { Footer } from './Footer'
 
 class Store extends Component {
     constructor(props) {
         super(props)
+       
         this.handleCartQtyChanges = props.handleCartQtyChanges
         this.listOfImages = []
         this.state = {
@@ -42,6 +44,7 @@ class Store extends Component {
         fetch(this.url).then(r => r.json()).then((products) => {
             this.setState({ products: products, filterString: filter, productsHaveLoaded: true });
         })
+       
     }
     
     static getDerivedStateFromProps(props, state) {
@@ -220,10 +223,13 @@ class Store extends Component {
                     height={100}
                     width={100}
                     style={{textAlign: 'center'}}
+                    
                 />
+               
                 }
+              
             </div>
-        )
+        ) 
     }
 }
 
