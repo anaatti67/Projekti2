@@ -17,6 +17,10 @@
     overflow: hidden;
 }
 
+.cartbody {
+    min-height: 100vh;
+}
+
 .productStock {
     text-align: right;
 }
@@ -47,6 +51,10 @@
     margin-bottom:10px;
 }
 
+
+  .paymentInfoButton {
+      float:right;
+  }
 
 
 .nextButton {
@@ -364,7 +372,7 @@ margin-bottom:20px;
 }
 
 .paymentInfoButton {
-    float:right;
+    
     margin-top:85px;
 
 }
@@ -384,6 +392,10 @@ margin-bottom:20px;
 
 .theShoppingCart button {
     margin-left:10px;
+ }
+
+ .emptyCartButtons, .userInfoButton, .deliveryInfoButton, .paymentOptionButton {
+     margin-bottom:20px;
  }
 
 
@@ -448,28 +460,13 @@ margin-bottom:20px;
        transform: scale(0.7);
     }
 
-    .paymentInfoButton {
-        margin-top:100px;
-    }
-
+  
     .transActionEndButton {
         margin-top:20px;
     }
     
   }
 
-  @media only screen and (max-width: 365px) {
-    .removeBtn, .addBtn, .emptyCartButtons {
-        margin-left:-20px;
-     }
-
-    
-
-  
-     .shoppingcartMobileTitles > * {
-         font-size: 0.8em;
-     }
-  }
 
 .storeTable {
     width: 100%;
@@ -516,3 +513,13 @@ margin-bottom:20px;
     font-size: smaller;
 }
 
+
+@media only screen and (max-width: 365px) {
+    .removeBtn, .addBtn, .emptyCartButtons {
+        margin-left:-20px;
+     }
+
+     .shoppingcartMobileTitles > * {
+         font-size: 0.8em;
+     }
+  }

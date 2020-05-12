@@ -60,7 +60,7 @@ class SignIn extends Component {
   
   render() {
     return (
-      <div className="col-md-6">
+      <div className="col-md-6 signbody">
         <form>
           <div className="form-group">
             <label htmlFor="emailinput">Sähköpostiosoite</label>

@@ -9,8 +9,8 @@ import fire from 'firebase'
 import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
-import {Footer} from './Footer'
-
+import { Footer } from './Footer'
+import './css/Footer.css'
 
 class App extends Component {
     constructor(props) {
@@ -117,8 +117,7 @@ class App extends Component {
                     cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/signup" component={SignUp} />
-                <Footer/>
-              
+              <Footer/>
             </BrowserRouter>
 
         )}

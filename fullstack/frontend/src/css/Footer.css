@@ -7,12 +7,17 @@
     position: relative;
     bottom:0;
     left:0;
-    
+
     background-color: #504f4f;
     display: flex;
+ 
     justify-content:space-evenly;
     padding:10%;
     padding-top:5%;
+}
+
+.loginbody {
+    margin-bottom: 100vh;
 }
 
 .footerInfoContainer {
