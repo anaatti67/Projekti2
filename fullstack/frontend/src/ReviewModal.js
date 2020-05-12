@@ -42,10 +42,7 @@ export default class ReviewModal extends Component {
     }
     toggle() {
         if ("user" in localStorage) {
-            console.log('user found in localstorage')
-
             let retrievedData = JSON.parse(localStorage.getItem("user"))
-            console.log(retrievedData)
 
             this.newReview = { 
                 ProductId: this.obj.id, 
@@ -91,7 +88,6 @@ export default class ReviewModal extends Component {
         console.log(this.newReview)
     }
     sendReview() {
-        console.log(this.newReview)
         const configuration = {
             method: 'post',
             headers: {'content-type': 'application/json'},
