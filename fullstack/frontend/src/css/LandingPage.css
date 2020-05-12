@@ -19,3 +19,6 @@ h2 {
 h4 {
     padding:20px;
 }
+.myCarouselItem {
+    max-height: 500px;
+}

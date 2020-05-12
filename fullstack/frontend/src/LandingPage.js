@@ -14,7 +14,7 @@ function ControlledCarousel() {
   
     return (
       <Carousel activeIndex={index} onSelect={handleSelect} className="myCarousel">
-        <Carousel.Item>
+        <Carousel.Item className="myCarouselItem">
           <img
             className="d-block w-100"
             src={pic1}
@@ -25,7 +25,7 @@ function ControlledCarousel() {
             <p className="carousel">Kaikkien myytävien tietokoneiden kunto on varmistettu</p>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item>
+        <Carousel.Item className="myCarouselItem">
           <img
             className="d-block w-100"
             src={pic2}
@@ -37,7 +37,7 @@ function ControlledCarousel() {
             <p className="carousel">Kuulakärkikyniä, lyijykyniä, vihkoja ja kalentereita</p>
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item>
+        <Carousel.Item className="myCarouselItem">
           <img
             className="d-block w-100"
             src={pic3}
