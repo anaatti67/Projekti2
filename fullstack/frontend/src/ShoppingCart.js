@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 
 const ShoppingCart = (props) => {
+
+ 
+
   let totalSum = 0
   var totalSumString
   
@@ -162,17 +165,36 @@ const ShoppingCart = (props) => {
               <div id="userSummaryContainer">
              
                 </div>
-                <button className="btn btn-primary transActionEndButton" onClick={() => endTransaction(cart)}>Siirry maksamaan</button>
+                <button className="btn btn-primary transActionEndButton" onClick={() => endTransaction(cart, props)}>Siirry maksamaan</button>
                 </div>
+          </div>
+          <div id="thankYouScreen" className="shoppingCartElement display-none">
+              <div className="itemSummaryContainer">
+                <h3 className="summaryInformativeTitle">Kiitos Tilauksestasi!</h3>
+              </div>
           </div>
           <div id="tilausvahvistus" className="display-none">Testi</div>
         </div>
         )
+
+   
+
 }
 
-function endTransaction(cart) {
-  sendEmail()
+function endTransaction(cart, props) {
+  props.clearCart()
+  displayThankYouScreen()
   removeProductsFromStock(cart)
+}
+
+function displayThankYouScreen() {
+  document.getElementById("summaryInfoContainer").classList.add("display-none")
+  let navButtons = document.querySelectorAll(".shoppingCartNavButton")
+  for (let i = 0; i < navButtons.length; i++) {
+    navButtons[i].classList.add("disabled")
+  }
+  let screen = document.getElementById("thankYouScreen")
+  screen.classList.remove("display-none")
 }
 
 // Added by Ilmari, removes products from database after succesful order
@@ -186,21 +208,11 @@ function removeProductsFromStock(cart) {
       body: JSON.stringify(body)
     }
     fetch(url, configuration).then(r => r.json()).then((response) => {
-        console.log(response);
+        console.log(response)
     }) 
   }
 }
 
-function sendEmail() {
-  console.log("Email sent")
-  var link = "mailto:" + currentShoppingCartChoices.userInfo.s_post
-  + "?cc=''" // CC
-  + "&subject=" + escape("Tilausvahvistus (opiskelijoiden verkkokauppa)") //otsikko
-  + "&body=" + escape(document.getElementById('tilausvahvistus').innerHTML) //viesti
-;
-
-window.location.href = link;
-}
 
 var currentShoppingCartChoices
 function setShoppingCartChoices(shoppingcart, totalSum) {
@@ -233,7 +245,7 @@ function selectedPayment(e) {
 }
 
 function checkHandler(e) {
-  resetOtherCheckBoxes(e.target);
+  resetOtherCheckBoxes(e.target)
 }
 
 function toNextTab(tabName) {
@@ -517,6 +529,8 @@ function setActiveElement(tabName) {
       }
     } 
   }
+
+  
 }
 
 function checkIfLoggedIn() {
@@ -559,13 +573,6 @@ function setUserValues(user, forms) {
   console.log(forms)
 }
 
-function disableShoppingcartNavBar() {
-  let elements = document.querySelectorAll(".shoppingCartNavButton")
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].classList.add("disabled")
-    
-  }
-}
 
 // HERE STARTS THE SHOPPING CART COMPONENT
 
@@ -629,11 +636,10 @@ class App extends Component {
       <div>
         <div className="container cartbody">
           <h1 className="mt-5">Ostoskori</h1>
-          <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} checkStock={this.checkStock.bind(this)} />
+          <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} checkStock={this.checkStock.bind(this)} clearCart={this.clearCart.bind(this)} />
           <button id="emptyCartButton" type="button" className="btn btn-danger emptyCartButtons" onClick={() => {
             if(window.confirm('Really clear the shopping cart?')) {
               this.clearCart()
-              disableShoppingcartNavBar()
             }
             }}>Tyhjennä ostoskori</button>
             <button className="btn btn-primary emptyCartButtons nextButton" onClick={() => toNextTab("productInfo")}>Seuraava</button>
