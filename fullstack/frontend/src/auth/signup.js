@@ -30,6 +30,8 @@ class SignIn extends Component {
     if (this.state.password === this.state.confirmpassword && this.state.password.length > 5) {
         console.log('ok')
         this.signup(e)
+      this.props.history.push("/");
+
     } else {
         console.log('nope')
         this.setState({validationInfo: 'Salasanat eivät täsmää tai ovat liian lyhyitä'})
