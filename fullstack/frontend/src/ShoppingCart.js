@@ -22,14 +22,14 @@ const ShoppingCart = (props) => {
                   <td>{item.qty}</td>
                   <td>
                     {props.checkStock(item.id, item.qty) ?
-                    <button type="button" className="btn btn-primary addBtn" onClick={() => { 
+                    <button type="button" className="btn btn-success addBtn" onClick={() => { 
                         props.add(item.id)
                         }}>
                         Lisää
                     </button> 
                     :
                     ''}
-                    <button  type="button" className="btn btn-primary removeBtn" onClick={() => { 
+                    <button  type="button" className="btn btn-warning removeBtn" onClick={() => { 
                         props.remove(item.id)}}>
                         Poista
                     </button>
@@ -637,7 +637,7 @@ class App extends Component {
         <div className="container cartbody">
           <h1 className="mt-5">Ostoskori</h1>
           <ShoppingCart data={this.state.shoppingcart} add={this.add} remove={this.remove} checkStock={this.checkStock.bind(this)} clearCart={this.clearCart.bind(this)} />
-          <button id="emptyCartButton" type="button" className="btn btn-primary emptyCartButtons" onClick={() => {
+          <button id="emptyCartButton" type="button" className="btn btn-danger emptyCartButtons" onClick={() => {
             if(window.confirm('Really clear the shopping cart?')) {
               this.clearCart()
             }

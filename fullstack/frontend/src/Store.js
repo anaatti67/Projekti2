@@ -88,7 +88,6 @@ class Store extends Component {
         this.handleCartQtyChanges(this.state.cartQty + 1, tmpObj)
     }
     rowClicked(product) {
-        console.log(product)
         product.modal = !product.modal
     }
     setFilterCategory(category) {
@@ -97,9 +96,7 @@ class Store extends Component {
     searchFilter(newFilterString) {
         this.setState({filtered: true, filterString: newFilterString})
         if (newFilterString.length > 1) {
-            console.log(newFilterString)
             this.setState({filtered: true, filterString: newFilterString})
-            console.log(newFilterString + ', ' + this.state.filterString)
         } else {
             this.setState({filtered: false})
         }
@@ -152,7 +149,6 @@ class Store extends Component {
             )
         }
         if (this.state.filtered) {
-            console.log(this.state.filterString)
             let filter = this.state.filterString.toLowerCase()
             filteredProducts = filteredProducts.filter((product) => {
                 if (product.Name.toLowerCase().includes(filter)) {
@@ -162,7 +158,9 @@ class Store extends Component {
                 }
             })
         }
-        let items = filteredProducts.map((product) =>
+        let items
+        if (filteredProducts[0] !== undefined) {
+            items = filteredProducts.map((product) =>
             <Col md={3} xs={6} key={product.id}> 
             <Container className="productBox">
                 <Row>
@@ -197,7 +195,9 @@ class Store extends Component {
                 </Row>
             </Container>
             </Col>
-        )
+        )} else {
+            items = <Col><p>Ei löytynyt suodatusta vastaavia tuotteita.</p></Col>
+        }
         return (
             <div className="container testBorder">
                 <h1 className="mt-5">Kauppa</h1>                
