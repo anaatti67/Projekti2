@@ -9,6 +9,7 @@ import fire from 'firebase'
 import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
+import {Footer} from './Footer'
 
 
 class App extends Component {
