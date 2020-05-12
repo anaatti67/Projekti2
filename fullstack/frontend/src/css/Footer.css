@@ -16,6 +16,10 @@
     padding-top:5%;
 }
 
+.loginbody {
+    margin-bottom: 100vh;
+}
+
 .footerInfoContainer {
     color: #ffffffa2;
     height: 50px;
