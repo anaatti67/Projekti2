@@ -6,7 +6,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Loader from 'react-loader-spinner'
 import ReviewModal from './ReviewModal'
 import e404 from './img/productLogos/404/404.svg'
-import { Footer } from './Footer'
+
 
 class Store extends Component {
     constructor(props) {

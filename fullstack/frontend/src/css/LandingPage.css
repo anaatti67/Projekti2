@@ -1,0 +1,21 @@
+h3.carousel {
+    color: rgb(238, 237, 237);
+    text-shadow: #000 1px 1px 1px;
+}
+
+p.carousel {
+    color: rgb(238, 237, 237);
+    text-shadow: #000 1px 1px 1px;
+}
+
+p.intro {
+    padding: 20px;
+}
+
+h2 {
+    padding: 20px;
+}
+
+h4 {
+    padding:20px;
+}

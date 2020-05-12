@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ModifyProductModal from './ModifyModal';
 import Loader from 'react-loader-spinner'
 import { Button } from 'react-bootstrap';
-
+import './css/Admin.css'
 
 class Admin extends Component {
     constructor(props) {

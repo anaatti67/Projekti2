@@ -3,7 +3,6 @@ import pic1 from './img/pic1.jpg'
 import pic2 from './img/pic2.jpg'
 import pic3 from './img/pic3.jpg'
 import Carousel from 'react-bootstrap/Carousel'
-import { Container, Row, Col } from 'react-bootstrap'
 
 function ControlledCarousel() {
     const [index, setIndex] = React.useState(0);
@@ -21,8 +20,8 @@ function ControlledCarousel() {
             alt="First slide"
           />
           <Carousel.Caption>
-            <h3>Meiltä edullisia käytettyjä läppäreitä</h3>
-            <p>Kaikkien myytävien tietokoneiden kunto on varmistettu</p>
+            <h3 class="carousel">Meiltä edullisia käytettyjä läppäreitä</h3>
+            <p class="carousel">Kaikkien myytävien tietokoneiden kunto on varmistettu</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -33,8 +32,8 @@ function ControlledCarousel() {
           />
   
           <Carousel.Caption>
-            <h3>Meiltä myös kyniä ja vihkoja edulliseen hintaan</h3>
-            <p>Kuulakärkikyniä, lyijykyniä, vihkoja ja kalentereita</p>
+            <h3 class="carousel">Meiltä myös kyniä ja vihkoja edulliseen hintaan</h3>
+            <p class="carousel">Kuulakärkikyniä, lyijykyniä, vihkoja ja kalentereita</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -45,10 +44,7 @@ function ControlledCarousel() {
           />
   
           <Carousel.Caption>
-            <h3>Onko kysyttävää? Ota yhteyttä</h3>
-            <p>
-              
-            </p>
+            <h3 class="carousel">Onko kysyttävää? Ota yhteyttä</h3>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
@@ -61,28 +57,16 @@ class LandingPage extends Component {
     render() {
         return (
             <div>
-            <Container>
-              <Row>
-                <Col>
-                  <h2>Tervetuloa Käytetyn tavaran verkkokauppaan opiskelijoille</h2>
-                  <hr/>
-                  <h4>Tietoa meistä</h4>
-                  <p>Olemme aloittaneet toimintamme vuonna 2020 kolmen henkilön voimin. Idea käytettyjen opiskelija tavaroiden verkkokaupasta lähti siitä, kun kaikki kolme kaadoimme kahvit läppäriemme päälle,
-                    ja tarvitsimme kiireesti uudet tilalle. Verkkoa selatessamme tajusimme, että ideaa käytetyille opiskelijatarvikkeillehan ei vielä ollut, joten me päätimme sellaisen luoda.
-                    Tästä saikin alkunsa verkkokauppa, jossa ajatellaan vähävaraisia opiskelijoita, joiden rahat eivät välttämättä riitä uusien tarvikkeiden ostamiseen. Samalla loimme eräänlaisen foorumin myös niille,
-                    jotka haluavat luopua vanhoista tarvikkeistaan ja laittaa hyvän kiertämään. Kysyntämme on ollut suurta ja olemme saaneet paljon kiitosta uniikista ideasta, joka helpottaa monen elämää.
-                  </p>
-                  <hr/>
-                </Col>
-              </Row>
-            </Container>
-            <Container>
-              <Row>
-                <Col>
-                  <ControlledCarousel />
-                </Col>
-              </Row>
-            </Container>
+            <h2 class="header">Tervetuloa Käytetyn tavaran verkkokauppaan opiskelijoille</h2>
+            <hr/>
+            <h4 class="about">Tietoa meistä</h4>
+            <p class="intro">Olemme aloittaneet toimintamme vuonna 2020 kolmen henkilön voimin. Idea käytettyjen opiskelija tavaroiden verkkokaupasta lähti siitä, kun kaikki kolme kaadoimme kahvit läppäriemme päälle,
+              ja tarvitsimme kiireesti uudet tilalle. Verkkoa selatessamme tajusimme, että ideaa käytetyille opiskelijatarvikkeillehan ei vielä ollut, joten me päätimme sellaisen luoda.
+              Tästä saikin alkunsa verkkokauppa, jossa ajatellaan vähävaraisia opiskelijoita, joiden rahat eivät välttämättä riitä uusien tarvikkeiden ostamiseen. Samalla loimme eräänlaisen foorumin myös niille,
+              jotka haluavat luopua vanhoista tarvikkeistaan ja laittaa hyvän kiertämään. Kysyntämme on ollut suurta ja olemme saaneet paljon kiitosta uniikista ideasta, joka helpottaa monen elämää.
+            </p>
+            <hr/>
+            <ControlledCarousel />
             </div>
         )
     }

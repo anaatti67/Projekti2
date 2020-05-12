@@ -113,8 +113,7 @@ class App extends Component {
                     cartQty={this.state.cartQty} cart={this.state.cart} handleCartQtyChanges={this.handleCartQtyChanges} /> } />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/signup" component={SignUp} />
-                <Footer/>
-              
+              <Footer/>
             </BrowserRouter>
 
         )}
