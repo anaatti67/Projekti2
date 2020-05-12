@@ -3,7 +3,7 @@ import pic1 from './img/pic1.jpg'
 import pic2 from './img/pic2.jpg'
 import pic3 from './img/pic3.jpg'
 import Carousel from 'react-bootstrap/Carousel'
-import { Footer } from './Footer'
+
 
 function ControlledCarousel() {
     const [index, setIndex] = React.useState(0);
@@ -71,7 +71,7 @@ class LandingPage extends Component {
             </p>
             <hr/>
             <ControlledCarousel />
-            <Footer/>
+           
             </div>
         )
     }
