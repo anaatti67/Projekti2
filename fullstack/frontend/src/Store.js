@@ -40,7 +40,6 @@ class Store extends Component {
 
     componentDidMount() {
         this.readFiles()
-        console.log('mount')
         let filter = this.props.location.state.filterString
         fetch(this.url).then(r => r.json()).then((products) => {
             this.setState({ products: products, filterString: filter, productsHaveLoaded: true });
@@ -54,7 +53,6 @@ class Store extends Component {
         }
         let newFilter = props.location.state.filterString
         if (newFilter !== state.oldFilter) {
-            console.log('yeah')
             if (newFilter !== state.filterString) {
                 return {
                     oldFilter: newFilter,

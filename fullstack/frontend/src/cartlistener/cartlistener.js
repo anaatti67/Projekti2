@@ -40,7 +40,6 @@ export class CartListener extends Component {
         localStorage.setItem("shoppingCart", JSON.stringify(products));
     }
     checkStock(id, cartQty) {
-        console.log(id + ', ' + cartQty)
         for (let item of this.state.products) {
             if(item.id === id && item.Stock <= cartQty) {
                 return false

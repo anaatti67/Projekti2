@@ -10,7 +10,7 @@ import LandingPage from './LandingPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navi } from './Navigation'
 import { Footer } from './Footer'
-import './css/Footer.css'
+
 
 class App extends Component {
     constructor(props) {
@@ -25,7 +25,6 @@ class App extends Component {
 
     // Handles shopping cart changes of child components
     handleCartQtyChanges(qty, cart) {
-      console.log('App.js qty: ' + qty + ", Given qty: " + qty)
       if (this.state.cartQty !== qty) {
         this.setState({cartQty: qty, cart: cart})
         localStorage.setItem("shoppingCart", JSON.stringify(this.state.cart));
@@ -85,14 +84,11 @@ class App extends Component {
           reference.on('value', (snapshot) => {
             const tmpObj = snapshot.val()
             localStorage.setItem("user", JSON.stringify(tmpObj))
-            //console.log(tmpObj);
             if (tmpObj.admin) {
-              console.log('Olen admin')
               this.setState({ admin: true })
               localStorage.setItem('admin', tmpObj.admin = true)
             } else {
               localStorage.setItem('admin', tmpObj.admin = false)
-              console.log('En ole admin')
               this.setState({ admin: false })
             }
           });
