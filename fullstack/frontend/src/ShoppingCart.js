@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 const ShoppingCart = (props) => {
   let totalSum = 0
   var totalSumString
-  //console.log(props)
   
   for (let i = 0; i < props.data.length; i++) {
     totalSum += (props.data[i].price * props.data[i].qty)
@@ -12,7 +11,6 @@ const ShoppingCart = (props) => {
     
   }
   let cart = props.data
-  console.log(cart)
   setShoppingCartChoices(cart, totalSum)
   let tab = cart.map((item) => 
               <tr key={item.id} id={item.id}>
@@ -619,7 +617,6 @@ class App extends Component {
     this.handleCartQtyChanges(this.state.cartQty - 1, cart)
   }
   checkStock(id, cartQty) {
-    console.log(id + ', ' + cartQty)
     for (let item of this.state.products) {
         if(item.id === id && item.Stock <= cartQty) {
             return false
